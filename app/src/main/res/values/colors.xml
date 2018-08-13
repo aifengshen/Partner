@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="color_bg_gray">#F0F0F0</color>
+    <color name="spinner_bg">#333244</color>
+    <color name="white_text_color">#FFFFFF</color>
+    <color name="gray_color">#4b4b58</color>
+
+    <color name="color_login">#01A2F3</color>
+    <color name="color_green">#0BE020</color>
 </resources>
