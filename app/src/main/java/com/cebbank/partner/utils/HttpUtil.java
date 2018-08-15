@@ -63,7 +63,7 @@ public class HttpUtil {
                                 @Override
                                 public void run() {
                                     LogUtils.e("eeee:", e.toString() + "");
-                                    ToastUtils.showShortToast("网络超时");
+                                    ToastUtils.showShortToast("连接服务器超时");
                                     customDialog.dismiss();
                                     if (httpCallbackListener != null) {
                                         httpCallbackListener.onError(e);
