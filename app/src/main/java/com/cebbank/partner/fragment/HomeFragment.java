@@ -12,18 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cebbank.partner.MainActivity;
 import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.HomeFragmentAdapter;
 import com.cebbank.partner.bean.HomeFragmentBean;
 import com.cebbank.partner.ui.WelcomeActivity;
-import com.cebbank.partner.utils.Utils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -56,7 +51,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home, container, false);
-
         initView();
         initData();
         setClickListener();
@@ -70,62 +64,32 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
         swipeLayout = view.findViewById(R.id.swipe_container);
         swipeLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
         edittextClientName = view.findViewById(R.id.edittextClientName);
-        mAdapter = new HomeFragmentAdapter(R.layout.adapter_recyclerview_fragment_home, data);
+        data = new ArrayList<>();
+        mAdapter = new HomeFragmentAdapter(data);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
 //        mAdapter.setPreLoadNumber(3);
 //        mAdapter.setLoadMoreView(new CustomLoadMoreView());
-
         recyclerView.setAdapter(mAdapter);
 
         View view = getLayoutInflater().inflate(R.layout.headerview, (ViewGroup) recyclerView.getParent(), false);
         mAdapter.addHeaderView(view);
-        mDemoSlider = (SliderLayout) view.findViewById(R.id.slider);
-
-
+        mDemoSlider = view.findViewById(R.id.slider);
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mDemoSlider.setCustomAnimation(new DescriptionAnimation());
         mDemoSlider.setDuration(4000);
         mDemoSlider.addOnPageChangeListener(this);
 
-//        edittextClientName.setFilters(new InputFilter[]{
-//
-//                new InputFilter() {
-//                    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart,
-//                                               int dend) {
-//                        for (int i = start; i < end; i++) {
-//                            if (!Character.isLetterOrDigit(source.charAt(i)) && !Character.toString(source.charAt(i)).equals("_") && !Character.toString(source.charAt(i)).equals("-")) {
-//                                return "";
-//                            }
-//                        }
-//                        return null;
-//                    }
-//                }
-//        });
-//        edittextClientName.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                if (!edittextClientName.isFocusable()) {
-//                    edittextClientName.setFocusable(true);
-//                    edittextClientName.setFocusableInTouchMode(true);
-//                    edittextClientName.requestFocus();
-////                    //打开软键盘
-////                    Utils.openInputKeyBoard(getActivity());
-//
-//
-//                }
-//            }
-//        });
     }
 
     private void initData() {
-        data = new ArrayList<>();
-        for (int i = 0; i < 60; i++) {
-            HomeFragmentBean homeFragmentBean = new HomeFragmentBean();
+
+        for (int i = 1; i < 5; i++) {
+            HomeFragmentBean homeFragmentBean = new HomeFragmentBean(i);
             homeFragmentBean.setName(i + "哈哈哈");
             data.add(homeFragmentBean);
         }
+        mAdapter.notifyDataSetChanged();
         HashMap<String, String> url_maps = new HashMap<String, String>();
         url_maps.put("Hannibal", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534440083067&di=a04d46600bd5cfa3cf5b09f39de42f23&imgtype=0&src=http%3A%2F%2Fp16.qhimg.com%2Fbdr%2F__%2Fd%2F_open360%2Fbeauty0311%2F16.jpg");
         url_maps.put("Big Bang Theory", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534440083067&di=e63cfc6a75ce3857d0d4eff60586bc01&imgtype=0&src=http%3A%2F%2Fimg.ph.126.net%2FijQNs4q86Q2fn5UI7ezxuQ%3D%3D%2F733523789408400623.jpg");

@@ -1,12 +1,8 @@
 package com.cebbank.partner.adapter;
 
-import android.content.Intent;
-import android.view.View;
-import android.widget.TextView;
-
 import com.cebbank.partner.R;
 import com.cebbank.partner.bean.HomeFragmentBean;
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 
@@ -18,20 +14,33 @@ import java.util.List;
  * @Author Pjw
  * @date 2018/7/31 18:06
  */
-public class HomeFragmentAdapter extends BaseQuickAdapter<HomeFragmentBean, BaseViewHolder> {
+public class HomeFragmentAdapter extends BaseMultiItemQuickAdapter<HomeFragmentBean, BaseViewHolder> {
 
-    public HomeFragmentAdapter(int layoutResId, List<HomeFragmentBean> data) {
-        super(layoutResId, data);
+
+    public HomeFragmentAdapter(List data) {
+        super(data);
+        addItemType(HomeFragmentBean.ImageText, R.layout.fragment_home_image_text);
+        addItemType(HomeFragmentBean.BigImage, R.layout.fragment_home_big_image);
+        addItemType(HomeFragmentBean.ThreeImage, R.layout.fragment_home_three_image);
+        addItemType(HomeFragmentBean.Video, R.layout.fragment_home_video);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, HomeFragmentBean item) {
-        ((TextView) helper.getView(R.id.tvName)).setText(item.getName());
-        helper.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        switch (helper.getItemViewType()) {
+//            case HomeFragmentBean.ImageText:
+//                helper.setImageUrl(R.id.tv, item.getContent());
+//                ((TextView) helper.getView(R.id.tvName)).setText(item.getName());
+//                break;
+//            case HomeFragmentBean.BigImage:
+//                helper.setImageUrl(R.id.iv, item.getContent());
+//                break;
+//            case HomeFragmentBean.ThreeImage:
+//                helper.setImageUrl(R.id.iv, item.getContent());
+//                break;
+//            case HomeFragmentBean.Video:
+//                helper.setImageUrl(R.id.iv, item.getContent());
+//                break;
+        }
     }
 }

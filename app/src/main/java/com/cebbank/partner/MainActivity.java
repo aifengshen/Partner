@@ -8,12 +8,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.cebbank.partner.fragment.HomeFragment;
 import com.cebbank.partner.fragment.MineFragment;
 import com.cebbank.partner.fragment.ThreeFragment;
-import com.cebbank.partner.fragment.TwoFragment;
+import com.cebbank.partner.fragment.AttentionFragment;
 import com.cebbank.partner.utils.BottomNavigationViewHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new HomeFragment());
                     return true;
                 case R.id.navigation_dashboard:
-                    replaceFragment(new TwoFragment());
+                    replaceFragment(new AttentionFragment());
                     return true;
                 case R.id.navigation_three:
                     replaceFragment(new ThreeFragment());

@@ -1,11 +1,88 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+    <!--</style>-->
+
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light">
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:windowTranslucentStatus" tools:targetApi="21">true</item>
+
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <!-- Toolbar Theme / Apply white arrow -->
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
+
+        <!-- Material Theme -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/accent_color</item>
+
+        <item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor</item>
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
+
+    </style>
+
+    <style name="AppTheme.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <!-- White arrow -->
+        <item name="colorControlNormal">@android:color/white</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/drawerArrowColor</item>
+    </style>
+
+    <!-- TextView样式黑色 -->
+    <style name="textViewMicroBlack">
+        <item name="android:textSize">@dimen/micro</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+    <style name="textViewSmallBlack">
+        <item name="android:textSize">@dimen/samll</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="textViewMediumBlack">
+        <item name="android:textSize">@dimen/medium</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="textViewLargeBlack">
+        <item name="android:textSize">@dimen/large</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <!-- TextView样式浅灰色 -->
+    <style name="textViewMicroLightGray">
+        <item name="android:textSize">@dimen/micro</item>
+        <item name="android:textColor">#BFBFBF</item>
+    </style>
+    <style name="textViewSmallLightGray">
+        <item name="android:textSize">@dimen/samll</item>
+        <item name="android:textColor">#BFBFBF</item>
+    </style>
+
+    <style name="textViewMediumLightGray">
+        <item name="android:textSize">@dimen/medium</item>
+        <item name="android:textColor">#BFBFBF</item>
+    </style>
+
+    <style name="textViewLargeLightGray">
+        <item name="android:textSize">@dimen/large</item>
+        <item name="android:textColor">#BFBFBF</item>
     </style>
 
 </resources>
