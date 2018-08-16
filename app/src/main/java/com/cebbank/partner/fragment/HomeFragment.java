@@ -1,32 +1,39 @@
 package com.cebbank.partner.fragment;
 
-import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputFilter;
-import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cebbank.partner.MainActivity;
 import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.HomeFragmentAdapter;
 import com.cebbank.partner.bean.HomeFragmentBean;
+import com.cebbank.partner.ui.WelcomeActivity;
 import com.cebbank.partner.utils.Utils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.daimajia.slider.library.Tricks.ViewPagerEx;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,7 +42,7 @@ import java.util.List;
  * @Author Pjw
  * @date 2018/7/31 15:25
  */
-public class HomeFragment extends Fragment implements View.OnClickListener {
+public class HomeFragment extends Fragment implements View.OnClickListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     private View view;
     private RecyclerView recyclerView;
@@ -43,6 +50,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private HomeFragmentAdapter mAdapter;
     private List<HomeFragmentBean> data;
     private EditText edittextClientName;
+    private SliderLayout mDemoSlider;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,7 +59,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         initView();
         initData();
-        initAdapter();
         setClickListener();
         return view;
     }
@@ -63,6 +70,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         swipeLayout = view.findViewById(R.id.swipe_container);
         swipeLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
         edittextClientName = view.findViewById(R.id.edittextClientName);
+        mAdapter = new HomeFragmentAdapter(R.layout.adapter_recyclerview_fragment_home, data);
+        mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
+//        mAdapter.setPreLoadNumber(3);
+//        mAdapter.setLoadMoreView(new CustomLoadMoreView());
+
+        recyclerView.setAdapter(mAdapter);
+
+        View view = getLayoutInflater().inflate(R.layout.headerview, (ViewGroup) recyclerView.getParent(), false);
+        mAdapter.addHeaderView(view);
+        mDemoSlider = (SliderLayout) view.findViewById(R.id.slider);
+
+
+        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
+        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+        mDemoSlider.setDuration(4000);
+        mDemoSlider.addOnPageChangeListener(this);
 
 //        edittextClientName.setFilters(new InputFilter[]{
 //
@@ -102,24 +126,35 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             homeFragmentBean.setName(i + "哈哈哈");
             data.add(homeFragmentBean);
         }
+        HashMap<String, String> url_maps = new HashMap<String, String>();
+        url_maps.put("Hannibal", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534440083067&di=a04d46600bd5cfa3cf5b09f39de42f23&imgtype=0&src=http%3A%2F%2Fp16.qhimg.com%2Fbdr%2F__%2Fd%2F_open360%2Fbeauty0311%2F16.jpg");
+        url_maps.put("Big Bang Theory", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534440083067&di=e63cfc6a75ce3857d0d4eff60586bc01&imgtype=0&src=http%3A%2F%2Fimg.ph.126.net%2FijQNs4q86Q2fn5UI7ezxuQ%3D%3D%2F733523789408400623.jpg");
+        url_maps.put("House of Cards", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534440083067&di=83cf8d486adb35659ee5eb7038b85ac3&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F1%2F572afc324b7f1.jpg");
+        url_maps.put("Game of Thrones", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534440083067&di=ebcc5903ced82773e206a92806c23637&imgtype=0&src=http%3A%2F%2Fi8.download.fd.pchome.net%2Ft_600x1024%2Fg1%2FM00%2F07%2F18%2FoYYBAFNY5H2If_UQAA_d0sgFVhwAABfCAFKBJQAD93q339.jpg");
+
+        for (String name : url_maps.keySet()) {
+            TextSliderView textSliderView = new TextSliderView(getActivity());
+            // initialize a SliderLayout
+            textSliderView
+//                    .description(name)
+                    .image(url_maps.get(name))
+                    .setScaleType(BaseSliderView.ScaleType.Fit)
+                    .setOnSliderClickListener(this);
+
+            //add your extra information
+            textSliderView.bundle(new Bundle());
+            textSliderView.getBundle()
+                    .putString("extra", name);
+
+            mDemoSlider.addSlider(textSliderView);
+        }
     }
 
-    private void initAdapter() {
-        mAdapter = new HomeFragmentAdapter(R.layout.adapter_recyclerview_fragment_home, data);
-        mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
-//        mAdapter.setPreLoadNumber(3);
-//        mAdapter.setLoadMoreView(new CustomLoadMoreView());
 
-        recyclerView.setAdapter(mAdapter);
-
-        View view = getLayoutInflater().inflate(R.layout.aaa, (ViewGroup) recyclerView.getParent(), false);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "点击头布局", Toast.LENGTH_SHORT).show();
-            }
-        });
-        mAdapter.addHeaderView(view);
+    @Override
+    public void onSliderClick(BaseSliderView slider) {
+        startActivity(new Intent(getActivity(), WelcomeActivity.class));
+        Toast.makeText(getActivity(), slider.getBundle().get("extra") + "", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -146,16 +181,42 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 //            }
 //        });
 
-        view.findViewById(R.id.llbackground).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.closeInputKeyBoard(getActivity());
-            }
-        });
+//        view.findViewById(R.id.llbackground).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Utils.closeInputKeyBoard(getActivity());
+//            }
+//        });
     }
 
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        Log.e("Slider Demo", "Page Changed: " + position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mDemoSlider.startAutoCycle();
+    }
+
+    @Override
+    public void onStop() {
+        // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
+        mDemoSlider.stopAutoCycle();
+        super.onStop();
     }
 }
