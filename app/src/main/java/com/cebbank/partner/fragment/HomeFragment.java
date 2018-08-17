@@ -130,27 +130,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
                 swipeLayout.setRefreshing(false);
             }
         });
-//        view.findViewById(R.id.llbackground).setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                try {
-//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-//                            Context.INPUT_METHOD_SERVICE);
-//                    return imm.hideSoftInputFromWindow(
-//                            getActivity().getCurrentFocus().getWindowToken(), 0);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    return false;
-//                }
-//            }
-//        });
 
-//        view.findViewById(R.id.llbackground).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Utils.closeInputKeyBoard(getActivity());
-//            }
-//        });
     }
 
     @Override

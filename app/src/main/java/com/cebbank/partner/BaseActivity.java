@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cebbank.partner.utils.LogUtils;
 import com.orhanobut.logger.Logger;
 
 /**
@@ -76,6 +77,7 @@ public class BaseActivity extends AppCompatActivity {
         }
         // 这句很关键，注意是调用父类的方法
         super.setContentView(R.layout.activity_base);
+        Logger.t(TAG).e("当前页面");
         initToolbar();
     }
 

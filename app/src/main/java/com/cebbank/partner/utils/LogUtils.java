@@ -60,7 +60,7 @@ public class LogUtils {
 
     public static void e(String msg) {
         if (level <= ERROR) {
-            Log.e("测试测试", msg);
+            Log.e("Log打印：", msg);
         }
     }
 }
