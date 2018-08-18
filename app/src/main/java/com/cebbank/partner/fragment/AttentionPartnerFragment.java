@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import com.cebbank.partner.R;
 
+/**
+ *关注的合伙人
+ */
 public class AttentionPartnerFragment extends Fragment {
     public static final String ARG_OBJECT = "object";
 

@@ -6,5 +6,5 @@ public interface HttpCallbackListener {
 
     void onFinish(String response) throws JSONException;
 
-    void onError(Exception e);
+    void onFailure();
 }

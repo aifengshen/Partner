@@ -5,23 +5,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import com.cebbank.partner.R;
 
-/**
- * @ClassName: Omnipotent
- * @Description:
- * @Author Pjw
- * @date 2018/7/31 15:27
- */
-public class ThreeFragment extends Fragment {
+public class CreditScoreFragment extends Fragment {
 
     View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_three, container, false);
+        view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_credit_score, container, false);
         initView();
         initData();
         setClickListener();

@@ -7,8 +7,9 @@
     <color name="color_bg_gray">#F0F0F0</color>
     <color name="spinner_bg">#333244</color>
     <color name="white_text_color">#FFFFFF</color>
-    <color name="white_text_gray">#BFBFBF</color>
+    <color name="white_text_gray">#A4A4A4</color>
     <color name="white_text_black">#000000</color>
+    <color name="white_text_orange">#E3A917</color>
     <color name="gray_color">#4b4b58</color>
 
     <color name="color_login">#01A2F3</color>

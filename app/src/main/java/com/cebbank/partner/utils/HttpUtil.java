@@ -62,11 +62,11 @@ public class HttpUtil {
                             mActivity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    LogUtils.e("eeee:", e.toString() + "");
+                                    LogUtils.e("onFailure:", e.toString() + "");
                                     ToastUtils.showShortToast("连接服务器超时");
                                     customDialog.dismiss();
                                     if (httpCallbackListener != null) {
-                                        httpCallbackListener.onError(e);
+                                        httpCallbackListener.onFailure();
                                     }
                                 }
                             });
@@ -84,11 +84,20 @@ public class HttpUtil {
                                         JSONObject jsonObject = new JSONObject(responseData);
                                         LogUtils.e("返回的数据:", responseData);
                                         String code = jsonObject.optString("code");
+                                        String msg = jsonObject.optString("msg");
                                         if (code.equals(MyApplication.ErrorCodeTokenInvalid)) {
+                                            //token失效——>跳转到登陆页面
                                             Intent intent = new Intent(mActivity, LoginActivity.class);
                                             mActivity.startActivity(intent);
                                             mActivity.finish();
-                                        } else {
+                                        } else if (code.equals(MyApplication.ErrorCodeParameterException)) {
+                                            //参数异常——>吐司、UI刷新
+                                            ToastUtils.showShortToast(msg);
+                                            if (httpCallbackListener != null) {
+                                                httpCallbackListener.onFailure();
+                                            }
+                                        } else if (code.equals(MyApplication.SuccessCode)) {
+                                            //正常——>返回数据
                                             if (httpCallbackListener != null) {
                                                 httpCallbackListener.onFinish(responseData);
                                             }
@@ -128,7 +137,6 @@ public class HttpUtil {
      */
 
     public static void sendOkHttpRequestDetail(String address, final Map<String, String> paramsEntry, okhttp3.Callback callback) {
-        LogUtils.e("当前页面：", ActivityCollector.getCurrentActivity().getClass().getSimpleName() + "");
         LogUtils.e("接口路径：", UrlPath.IP + address);
         LogUtils.e("接口参数：", paramsEntry.toString());
         OkHttpClient client = new OkHttpClient.Builder().connectTimeout(15, TimeUnit.SECONDS).readTimeout(15, TimeUnit.SECONDS).

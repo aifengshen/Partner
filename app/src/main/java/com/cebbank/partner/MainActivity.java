@@ -9,9 +9,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.cebbank.partner.fragment.CreditScoreFragment;
 import com.cebbank.partner.fragment.HomeFragment;
 import com.cebbank.partner.fragment.MineFragment;
-import com.cebbank.partner.fragment.ThreeFragment;
+import com.cebbank.partner.fragment.MessageFragment;
 import com.cebbank.partner.fragment.AttentionFragment;
 import com.cebbank.partner.utils.BottomNavigationViewHelper;
 
@@ -26,13 +27,16 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     replaceFragment(new HomeFragment());
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_attention:
                     replaceFragment(new AttentionFragment());
                     return true;
-                case R.id.navigation_three:
-                    replaceFragment(new ThreeFragment());
+                case R.id.navigation_message:
+                    replaceFragment(new MessageFragment());
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_credit_score:
+                    replaceFragment(new CreditScoreFragment());
+                    return true;
+                case R.id.navigation_mine:
                     replaceFragment(new MineFragment());
                     return true;
             }
