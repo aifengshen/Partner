@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:background="@color/text_color_white"
     android:padding="10dp">
 
     <ImageView
@@ -17,8 +19,8 @@
         style="@style/textViewMediumBlack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/img"
         android:layout_alignTop="@id/img"
+        android:layout_toRightOf="@id/img"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊" />
@@ -38,8 +40,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/img"
-        android:layout_marginLeft="20dp"
         android:layout_alignParentRight="true"
+        android:layout_marginLeft="20dp"
         android:text="8月13日" />
 
 

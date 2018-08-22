@@ -11,6 +11,7 @@
     <color name="text_color_orange">#E3A917</color>
     <!--背景颜色-->
     <color name="color_bg_gray">#F0F0F0</color>
+    <color name="color_bg_purple">#6C158A</color>
     <!--toolbar文本颜色-->
     <color name="gray_color">#4b4b58</color>
 </resources>

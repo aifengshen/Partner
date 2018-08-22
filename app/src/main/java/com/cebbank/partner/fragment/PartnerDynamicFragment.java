@@ -3,7 +3,9 @@ package com.cebbank.partner.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -70,6 +72,10 @@ public class PartnerDynamicFragment extends Fragment {
 //        mAdapter.setPreLoadNumber(3);
         mAdapter.setLoadMoreView(new CustomLoadMoreView());
         recyclerView.setAdapter(mAdapter);
+//        //添加自定义分割线
+//        DividerItemDecoration divider = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+//        divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.custom_divider));
+//        recyclerView.addItemDecoration(divider);
     }
 
     private void initData() {

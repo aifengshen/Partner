@@ -48,4 +48,24 @@
         <item name="android:textColor">#BFBFBF</item>
     </style>
 
+    <!-- TextView样式白色 -->
+    <style name="textViewMicroWhite">
+        <item name="android:textSize">@dimen/micro</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+    <style name="textViewSmallWhite">
+        <item name="android:textSize">@dimen/samll</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="textViewMediumWhite">
+        <item name="android:textSize">@dimen/medium</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="textViewLargeWhite">
+        <item name="android:textSize">@dimen/large</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
 </resources>

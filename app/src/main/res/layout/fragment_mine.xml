@@ -63,6 +63,7 @@
                 android:paddingTop="10dp">
 
                 <TextView
+                    android:id="@+id/tvBecomePartner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -72,6 +73,7 @@
                     android:text="成为合伙人" />
 
                 <TextView
+                    android:id="@+id/tvPersonalData"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -81,6 +83,7 @@
                     android:text="个人数据" />
 
                 <TextView
+                    android:id="@+id/tvMyMaterial"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -97,6 +100,7 @@
                 android:paddingTop="10dp">
 
                 <TextView
+                    android:id="@+id/tvBindingCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -106,6 +110,7 @@
                     android:text="绑定银行卡" />
 
                 <TextView
+                    android:id="@+id/tvProgress_Audit"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -115,6 +120,7 @@
                     android:text="审核进度" />
 
                 <TextView
+                    android:id="@+id/tvFeedback"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -133,7 +139,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:id="@+id/tvHelpCenter"
+                android:id="@+id/rlHelpCenter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/text_color_white"
@@ -160,7 +166,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/tvOfficialTutorials"
+                android:id="@+id/rlOfficialTutorials"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
@@ -188,7 +194,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/tvContactUs"
+                android:id="@+id/rlContactUs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
@@ -216,7 +222,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/tvLogout"
+                android:id="@+id/rlLogout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
