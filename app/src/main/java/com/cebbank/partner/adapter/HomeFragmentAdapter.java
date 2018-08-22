@@ -1,7 +1,11 @@
 package com.cebbank.partner.adapter;
 
+import android.content.Intent;
+import android.view.View;
+
 import com.cebbank.partner.R;
 import com.cebbank.partner.bean.HomeFragmentBean;
+import com.cebbank.partner.ui.ContentActivity;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -28,10 +32,15 @@ public class HomeFragmentAdapter extends BaseMultiItemQuickAdapter<HomeFragmentB
     @Override
     protected void convert(BaseViewHolder helper, HomeFragmentBean item) {
         switch (helper.getItemViewType()) {
-//            case HomeFragmentBean.ImageText:
-//                helper.setImageUrl(R.id.tv, item.getContent());
-//                ((TextView) helper.getView(R.id.tvName)).setText(item.getName());
-//                break;
+            case HomeFragmentBean.ImageText:
+                helper.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mContext.startActivity(new Intent(mContext, ContentActivity.class));
+                    }
+                });
+
+                break;
 //            case HomeFragmentBean.BigImage:
 //                helper.setImageUrl(R.id.iv, item.getContent());
 //                break;
@@ -42,5 +51,6 @@ public class HomeFragmentAdapter extends BaseMultiItemQuickAdapter<HomeFragmentB
 //                helper.setImageUrl(R.id.iv, item.getContent());
 //                break;
         }
+
     }
 }

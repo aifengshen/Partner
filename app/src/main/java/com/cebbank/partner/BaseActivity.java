@@ -77,8 +77,10 @@ public class BaseActivity extends AppCompatActivity {
         }
         // 这句很关键，注意是调用父类的方法
         super.setContentView(R.layout.activity_base);
-        Logger.t(TAG).e("当前页面");
         initToolbar();
+//        initView();
+//        initData();
+//        setListener();
     }
 
     private void initToolbar() {
@@ -90,7 +92,6 @@ public class BaseActivity extends AppCompatActivity {
             // Enable the Up button
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         }
         back = (ImageView) findViewById(R.id.img_back);
         title = (TextView) findViewById(R.id.title);
@@ -129,4 +130,8 @@ public class BaseActivity extends AppCompatActivity {
         }
 
     }
+
+//    protected abstract void initView();
+//    protected abstract void initData();
+//    protected abstract void setListener();
 }

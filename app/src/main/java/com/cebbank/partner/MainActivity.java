@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.cebbank.partner.fragment.CreditScoreFragment;
+import com.cebbank.partner.fragment.PartnerFragment;
 import com.cebbank.partner.fragment.HomeFragment;
 import com.cebbank.partner.fragment.MineFragment;
 import com.cebbank.partner.fragment.MessageFragment;
@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_message:
                     replaceFragment(new MessageFragment());
                     return true;
-                case R.id.navigation_credit_score:
-                    replaceFragment(new CreditScoreFragment());
+                case R.id.navigation_partner:
+                    replaceFragment(new PartnerFragment());
                     return true;
                 case R.id.navigation_mine:
                     replaceFragment(new MineFragment());
@@ -55,10 +55,10 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationViewHelper.disableShiftMode(navigation);
     }
 
-    private void replaceFragment(Fragment fragment){
+    private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragment,fragment);
+        transaction.replace(R.id.fragment, fragment);
         transaction.commit();
     }
 

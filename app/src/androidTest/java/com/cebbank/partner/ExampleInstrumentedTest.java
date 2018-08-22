@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.cebbank.partner", appContext.getPackageName());
+        assertEquals("com.cebbank.tab_partner", appContext.getPackageName());
     }
 }

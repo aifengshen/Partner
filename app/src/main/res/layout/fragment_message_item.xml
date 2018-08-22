@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+    <ImageView
+        android:id="@+id/imgMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/message" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/textViewSmallBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imgMessage"
+        android:layout_toRightOf="@id/imgMessage"
+        android:text="系统通知" />
+
+    <TextView
+        android:id="@+id/tvContent"
+        style="@style/textViewMicroLightGray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/imgMessage"
+        android:layout_toRightOf="@id/imgMessage"
+        android:text="暂无任何系统通知" />
+
+</RelativeLayout>

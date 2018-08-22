@@ -4,8 +4,7 @@
     android:id="@+id/llbackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_text_color"
-    android:fitsSystemWindows="true"
+    android:background="@color/text_color_white"
     android:orientation="vertical">
 
     <android.support.design.widget.CoordinatorLayout
