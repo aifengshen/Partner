@@ -1,9 +1,11 @@
 package com.cebbank.partner.adapter;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.cebbank.partner.R;
 import com.cebbank.partner.bean.AttentionPartnerBean;
+import com.cebbank.partner.ui.PartnerActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -24,7 +26,8 @@ public class AttentionPartnerAdapter extends BaseQuickAdapter<AttentionPartnerBe
         helper.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(mContext, PartnerActivity.class);
+                mContext.startActivity(intent);
             }
         });
 

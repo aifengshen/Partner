@@ -2,6 +2,9 @@ package com.cebbank.partner.ui;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +13,14 @@ import android.widget.Toast;
 import com.cebbank.partner.BaseActivity;
 import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
+import com.cebbank.partner.adapter.MyViewPagerAdapter;
 import com.cebbank.partner.adapter.PersonalDataAdapter;
 import com.cebbank.partner.bean.PersonalDataBean;
+import com.cebbank.partner.fragment.AttentionPartnerFragment;
+import com.cebbank.partner.fragment.HomeFragment;
+import com.cebbank.partner.fragment.MessageFragment;
+import com.cebbank.partner.fragment.MyAcceptFragment;
+import com.cebbank.partner.fragment.PartnerDynamicFragment;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.utils.SharedPreferencesKey;
 import com.cebbank.partner.utils.UrlPath;
@@ -28,7 +37,11 @@ import java.util.Map;
 
 import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 
-public class PersonalDataActivity extends BaseActivity {
+public class PartnerActivity extends BaseActivity implements ViewPager.OnPageChangeListener{
+
+    private MyViewPagerAdapter mMyViewPagerAdapter;
+    private ViewPager mViewPager;
+    private TabLayout mTabLayout;
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -37,57 +50,67 @@ public class PersonalDataActivity extends BaseActivity {
     private static final int PAGE_SIZE = 10;
     private int mNextRequestPage = 1;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_data);
+        setContentView(R.layout.activity_partner);
         initView();
         initData();
         setListener();
     }
 
     private void initView(){
-        setTitle("个人数据");
+        setTitle("关注人");
         setBackBtn();
-        recyclerView = findViewById(R.id.recyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        mSwipeRefreshLayout = findViewById(R.id.swipe_container);
-        mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
-        data = new ArrayList<>();
-        mAdapter = new PersonalDataAdapter(R.layout.activity_personal_data_item, data);
-        mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
-//        mAdapter.setPreLoadNumber(3);
-        mAdapter.setLoadMoreView(new CustomLoadMoreView());
-        recyclerView.setAdapter(mAdapter);
 
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
-//        collapsingToolbarLayout.setTitle("哈哈哈哈");
+        List<Fragment> fragmentList = new ArrayList<>();
+        fragmentList.add(new HomeFragment());
+        fragmentList.add(new MessageFragment());
+        List<String> titleList = new ArrayList<>();
+        titleList.add("视频");
+        titleList.add("信用卡");
+        mMyViewPagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager(), fragmentList, titleList);
+        mViewPager = findViewById(R.id.pager);
+        mViewPager.setAdapter(mMyViewPagerAdapter);
+        mTabLayout = findViewById(R.id.tablayout);
+        mTabLayout.setupWithViewPager(mViewPager);
+
+//        recyclerView = findViewById(R.id.recyclerView);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+//        recyclerView.setLayoutManager(layoutManager);
+//        mSwipeRefreshLayout = findViewById(R.id.swipe_container);
+//        mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
+//        data = new ArrayList<>();
+//        mAdapter = new PersonalDataAdapter(R.layout.activity_personal_data_item, data);
+//        mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
+////        mAdapter.setPreLoadNumber(3);
+//        mAdapter.setLoadMoreView(new CustomLoadMoreView());
+//        recyclerView.setAdapter(mAdapter);
     }
 
     private void initData(){
-        for (int i = 0; i < 10; i++) {
-            PersonalDataBean partnerDynamicBean = new PersonalDataBean();
-            partnerDynamicBean.setTitle(i + "素材结算");
-            data.add(partnerDynamicBean);
-        }
-        mAdapter.notifyDataSetChanged();
+//        for (int i = 0; i < 10; i++) {
+//            PersonalDataBean partnerDynamicBean = new PersonalDataBean();
+//            partnerDynamicBean.setTitle(i + "素材结算");
+//            data.add(partnerDynamicBean);
+//        }
+//        mAdapter.notifyDataSetChanged();
     }
 
     private void setListener(){
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                request(true);
-            }
-        });
-        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                request(false);
-            }
-        });
+//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                request(true);
+//            }
+//        });
+//        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+//            @Override
+//            public void onLoadMoreRequested() {
+//                request(false);
+//            }
+//        });
     }
 
     private void request(final boolean isRefresh) {
@@ -157,5 +180,24 @@ public class PersonalDataActivity extends BaseActivity {
         } else {
             mAdapter.loadMoreComplete();
         }
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        //当viewpager滚动时，禁止scrollview触摸拦截
+        //从而使它不能接管并尝试垂直滚动
+        //必须为每个要重写的手势设置此标志
+        boolean isScrolling = state != ViewPager.SCROLL_STATE_IDLE;
+        recyclerView.requestDisallowInterceptTouchEvent(isScrolling);
     }
 }

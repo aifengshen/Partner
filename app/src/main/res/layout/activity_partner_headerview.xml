@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/text_color_white"
+    android:orientation="vertical"
+    app:layout_scrollFlags="scroll|enterAlways|snap">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/aaa" />
+
+        <TextView
+            style="@style/textViewMediumBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:text="张三"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/textViewSmallWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/corner_25_bg_orange_line_orange"
+            android:paddingBottom="2dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="2dp"
+            android:text="聊一聊" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right">
+
+            <TextView
+                style="@style/textViewSmallBlack"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/aaa" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <TextView
+        style="@style/textViewMicroLightGray"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="阿里啦啦啦啦啊啦啦啦啦阿里啦啦啦啦啊啦啦啦啦阿里啦啦啦啦啊啦啦啦啦阿里啦啦啦啦啊啦啦啦啦阿里啦啦啦啦啊啦啦啦啦" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:textStyle="bold">
+
+        <TextView
+            style="@style/textViewSmallBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:text="21粉丝"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/textViewSmallBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="49获赞"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>
