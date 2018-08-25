@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cebbank.partner.R;
+import com.cebbank.partner.ui.BecomePartnerActivity;
+import com.cebbank.partner.ui.MyApplyActivity;
 import com.cebbank.partner.ui.PersonalDataActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -96,13 +98,13 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 /**
                  * 成为合伙人
                  */
-
+                startActivity(new Intent(getActivity(), BecomePartnerActivity.class));
                 break;
             case R.id.tvPersonalData:
                 /**
                  * 个人数据
                  */
-                startActivity(new Intent(getActivity(),PersonalDataActivity.class));
+                startActivity(new Intent(getActivity(), PersonalDataActivity.class));
                 break;
             case R.id.tvMyMaterial:
                 /**
@@ -118,6 +120,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 /**
                  *审核进度
                  */
+                startActivity(new Intent(getActivity(), MyApplyActivity.class));
                 break;
             case R.id.tvFeedback:
                 /**

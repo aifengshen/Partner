@@ -37,7 +37,7 @@ import java.util.Map;
 
 import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 
-public class PartnerActivity extends BaseActivity implements ViewPager.OnPageChangeListener{
+public class PartnerActivity extends BaseActivity {
 
     private MyViewPagerAdapter mMyViewPagerAdapter;
     private ViewPager mViewPager;
@@ -60,57 +60,49 @@ public class PartnerActivity extends BaseActivity implements ViewPager.OnPageCha
         setListener();
     }
 
-    private void initView(){
+    private void initView() {
         setTitle("关注人");
         setBackBtn();
-
-        List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new HomeFragment());
-        fragmentList.add(new MessageFragment());
-        List<String> titleList = new ArrayList<>();
-        titleList.add("视频");
-        titleList.add("信用卡");
-        mMyViewPagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager(), fragmentList, titleList);
-        mViewPager = findViewById(R.id.pager);
-        mViewPager.setAdapter(mMyViewPagerAdapter);
         mTabLayout = findViewById(R.id.tablayout);
-        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.addTab(mTabLayout.newTab().setText("视频"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("信用卡"));
 
-//        recyclerView = findViewById(R.id.recyclerView);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
-//        mSwipeRefreshLayout = findViewById(R.id.swipe_container);
-//        mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
-//        data = new ArrayList<>();
-//        mAdapter = new PersonalDataAdapter(R.layout.activity_personal_data_item, data);
-//        mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
-////        mAdapter.setPreLoadNumber(3);
-//        mAdapter.setLoadMoreView(new CustomLoadMoreView());
-//        recyclerView.setAdapter(mAdapter);
+
+        recyclerView = findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        mSwipeRefreshLayout = findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
+        data = new ArrayList<>();
+        mAdapter = new PersonalDataAdapter(R.layout.activity_personal_data_item, data);
+        mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
+//        mAdapter.setPreLoadNumber(3);
+        mAdapter.setLoadMoreView(new CustomLoadMoreView());
+        recyclerView.setAdapter(mAdapter);
     }
 
-    private void initData(){
-//        for (int i = 0; i < 10; i++) {
-//            PersonalDataBean partnerDynamicBean = new PersonalDataBean();
-//            partnerDynamicBean.setTitle(i + "素材结算");
-//            data.add(partnerDynamicBean);
-//        }
-//        mAdapter.notifyDataSetChanged();
+    private void initData() {
+        for (int i = 0; i < 10; i++) {
+            PersonalDataBean partnerDynamicBean = new PersonalDataBean();
+            partnerDynamicBean.setTitle(i + "素材结算");
+            data.add(partnerDynamicBean);
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
-    private void setListener(){
-//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                request(true);
-//            }
-//        });
-//        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-//            @Override
-//            public void onLoadMoreRequested() {
-//                request(false);
-//            }
-//        });
+    private void setListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                request(true);
+            }
+        });
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                request(false);
+            }
+        });
     }
 
     private void request(final boolean isRefresh) {
@@ -182,22 +174,4 @@ public class PartnerActivity extends BaseActivity implements ViewPager.OnPageCha
         }
     }
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-        //当viewpager滚动时，禁止scrollview触摸拦截
-        //从而使它不能接管并尝试垂直滚动
-        //必须为每个要重写的手势设置此标志
-        boolean isScrolling = state != ViewPager.SCROLL_STATE_IDLE;
-        recyclerView.requestDisallowInterceptTouchEvent(isScrolling);
-    }
 }

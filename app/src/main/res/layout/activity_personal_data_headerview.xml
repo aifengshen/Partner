@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/color_bg_gray"
-    app:layout_scrollFlags="scroll|enterAlways|snap"
+    app:layout_scrollFlags="scroll|enterAlways"
     android:orientation="vertical">
 
     <RelativeLayout

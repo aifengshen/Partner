@@ -39,6 +39,10 @@
         <activity
             android:name=".ui.PartnerActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.MyApplyActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.BecomePartnerActivity"></activity>
     </application>
 
 </manifest>
