@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cebbank.partner.BaseFragment;
 import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.HomeFragmentAdapter;
 import com.cebbank.partner.bean.HomeFragmentBean;
@@ -37,7 +38,7 @@ import java.util.List;
  * @Author Pjw
  * @date 2018/7/31 15:25
  */
-public class HomeFragment extends Fragment implements View.OnClickListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+public class HomeFragment extends BaseFragment implements View.OnClickListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     private View view;
     private RecyclerView recyclerView;
@@ -104,7 +105,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
                     .image(url_maps.get(name))
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(this);
-
             //add your extra information
             textSliderView.bundle(new Bundle());
             textSliderView.getBundle()

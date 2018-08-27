@@ -26,7 +26,9 @@ import com.cebbank.partner.utils.UrlPath;
 import com.cebbank.partner.view.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -67,7 +69,7 @@ public class PartnerDynamicFragment extends Fragment {
         mSwipeRefreshLayout = view.findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
         data = new ArrayList<>();
-        mAdapter = new PartnerDynamicAdapter(R.layout.fragment_partner_dynamic_item, data);
+        mAdapter = new PartnerDynamicAdapter(data);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
 //        mAdapter.setPreLoadNumber(3);
         mAdapter.setLoadMoreView(new CustomLoadMoreView());
@@ -79,12 +81,7 @@ public class PartnerDynamicFragment extends Fragment {
     }
 
     private void initData() {
-        for (int i = 0; i < 10; i++) {
-            PartnerDynamicBean partnerDynamicBean = new PartnerDynamicBean();
-            partnerDynamicBean.setTitle(i + "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊");
-            data.add(partnerDynamicBean);
-        }
-        mAdapter.notifyDataSetChanged();
+        request(true);
     }
 
     private void setListener() {
@@ -107,33 +104,37 @@ public class PartnerDynamicFragment extends Fragment {
             mNextRequestPage = 1;
             mAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
         }
-        Map<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("username", "admin");
-        paramsMap.put("password", "11");
-        paramsMap.put("token", MyApplication.getValue(SharedPreferencesKey.Token));
-        paramsMap.put("current", String.valueOf(mNextRequestPage));
-        paramsMap.put("size", String.valueOf(PAGE_SIZE));
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("size", PAGE_SIZE);
+            jsonObject.put("current", mNextRequestPage);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONObject jo = new JSONObject();
+        try {
+            jo.put("token", "5503eb72fe764ac7843c810178763399");
+            jo.put("page", jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        sendOkHttpRequest(getActivity(), UrlPath.Login, paramsMap, null, new HttpCallbackListener() {
+        sendOkHttpRequest(getActivity(), UrlPath.IdolNews, jo, null, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
                 String code = jsonObject.optString("code");
-                String obj = jsonObject.optString("obj");
+                JSONObject jodata = jsonObject.getJSONObject("data");
                 if (isRefresh) {
                     mAdapter.setEnableLoadMore(true);
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
-
-//                    Gson gson = new Gson();
-//                    List<PartnerDynamicBean> partnerDynamicBeanList = gson.fromJson(obj, PartnerDynamicBean.class);
-                List<PartnerDynamicBean> dataList = new ArrayList<>();
-                for (int i = 0; i < 10; i++) {
-                    PartnerDynamicBean partnerDynamicBean = new PartnerDynamicBean();
-                    partnerDynamicBean.setTitle(i + "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊");
-                    dataList.add(partnerDynamicBean);
-                }
-                setData(isRefresh, dataList);
+                JSONArray jsonArray = jodata.getJSONArray("records");
+                Gson gson = new Gson();
+                List<PartnerDynamicBean> partnerDynamicBeanList =
+                        gson.fromJson(jsonArray.toString(), new TypeToken<List<PartnerDynamicBean>>() {
+                        }.getType());
+                setData(isRefresh, partnerDynamicBeanList);
                 mAdapter.notifyDataSetChanged();
 
             }

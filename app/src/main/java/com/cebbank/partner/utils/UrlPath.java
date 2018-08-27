@@ -2,7 +2,7 @@ package com.cebbank.partner.utils;
 
 public class UrlPath {
 
-    public static final String IP = "http://59.110.228.122:8080/cloudflow";
+    public static final String IP = "http://21ao868134.51mypc.cn/cebpartner";
 
 //    /**
 //     * 获取版本信息接口,版本更新接口
@@ -18,13 +18,13 @@ public class UrlPath {
      */
     public static final String AutoLogin = "/app/login/auto";
     /**
-     * 设备列表
+     * 合伙人动态
      */
-    public static final String EquipmentList = "/app/equipment/list";
+    public static final String IdolNews = "/app/attention/idolNews";
     /**
-     * 实时均值
+     * 上传图片
      */
-    public static final String RealTimeAverageDetail = "/app/realTimeAverage/detail";
+    public static final String Upload = "/file/upload";
     /**
      * 昨日均值
      */

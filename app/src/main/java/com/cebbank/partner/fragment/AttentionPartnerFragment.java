@@ -111,41 +111,41 @@ public class AttentionPartnerFragment extends Fragment {
         paramsMap.put("current", String.valueOf(mNextRequestPage));
         paramsMap.put("size", String.valueOf(PAGE_SIZE));
 
-        sendOkHttpRequest(getActivity(), UrlPath.Login, paramsMap, null, new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) throws JSONException {
-                JSONObject jsonObject = new JSONObject(response);
-                String code = jsonObject.optString("code");
-                String obj = jsonObject.optString("obj");
-                if (isRefresh) {
-                    mAdapter.setEnableLoadMore(true);
-                    mSwipeRefreshLayout.setRefreshing(false);
-                }
-
-//                    Gson gson = new Gson();
-//                    List<PartnerDynamicBean> partnerDynamicBeanList = gson.fromJson(obj, PartnerDynamicBean.class);
-                List<AttentionPartnerBean> dataList = new ArrayList<>();
-                for (int i = 0; i < 10; i++) {
-                    AttentionPartnerBean attentionPartnerBean = new AttentionPartnerBean();
-                    attentionPartnerBean.setTitle(i + "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊");
-                    dataList.add(attentionPartnerBean);
-                }
-                setData(isRefresh, dataList);
-                mAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure() {
-                if (isRefresh) {
-                    mAdapter.setEnableLoadMore(true);
-                    mSwipeRefreshLayout.setRefreshing(false);
-                } else {
-                    mAdapter.loadMoreFail();
-                }
-
-            }
-        });
+//        sendOkHttpRequest(getActivity(), UrlPath.Login, paramsMap, null, new HttpCallbackListener() {
+//            @Override
+//            public void onFinish(String response) throws JSONException {
+//                JSONObject jsonObject = new JSONObject(response);
+//                String code = jsonObject.optString("code");
+//                String obj = jsonObject.optString("obj");
+//                if (isRefresh) {
+//                    mAdapter.setEnableLoadMore(true);
+//                    mSwipeRefreshLayout.setRefreshing(false);
+//                }
+//
+////                    Gson gson = new Gson();
+////                    List<PartnerDynamicBean> partnerDynamicBeanList = gson.fromJson(obj, PartnerDynamicBean.class);
+//                List<AttentionPartnerBean> dataList = new ArrayList<>();
+//                for (int i = 0; i < 10; i++) {
+//                    AttentionPartnerBean attentionPartnerBean = new AttentionPartnerBean();
+//                    attentionPartnerBean.setTitle(i + "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊");
+//                    dataList.add(attentionPartnerBean);
+//                }
+//                setData(isRefresh, dataList);
+//                mAdapter.notifyDataSetChanged();
+//
+//            }
+//
+//            @Override
+//            public void onFailure() {
+//                if (isRefresh) {
+//                    mAdapter.setEnableLoadMore(true);
+//                    mSwipeRefreshLayout.setRefreshing(false);
+//                } else {
+//                    mAdapter.loadMoreFail();
+//                }
+//
+//            }
+//        });
     }
 
 

@@ -19,7 +19,7 @@ public class MyApplication extends Application {
     public static final String ErrorCodeLoginFailure = "4000";//登录失败
     public static final String ErrorCodeTokenInvalid = "4001";//token无效
     public static final String ErrorCodeParameterException = "4002";//参数异常
-    public static final String SuccessCode = "200";//成功
+    public static final String SuccessCode = "2000";//成功
 
 
 

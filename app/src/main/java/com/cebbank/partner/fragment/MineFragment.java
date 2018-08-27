@@ -2,6 +2,7 @@ package com.cebbank.partner.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayout;
 import android.view.LayoutInflater;
@@ -12,11 +13,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cebbank.partner.R;
+import com.cebbank.partner.bean.PartnerDynamicBean;
+import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.ui.BecomePartnerActivity;
 import com.cebbank.partner.ui.MyApplyActivity;
 import com.cebbank.partner.ui.PersonalDataActivity;
+import com.cebbank.partner.utils.UrlPath;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
+import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequestUpLoad;
 
 /**
  * @ClassName: Omnipotent
@@ -61,6 +76,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setClickListener() {
+        profile_image.setOnClickListener(this);
         tvUserName.setOnClickListener(this);
         tvEditProfile.setOnClickListener(this);
         tvBecomePartner.setOnClickListener(this);
@@ -82,6 +98,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 /**
                  * 头像
                  */
+                upload(Environment.getExternalStorageDirectory().getAbsolutePath()+"/aaa.jpg");
                 break;
             case R.id.tvUserName:
                 /**
@@ -149,5 +166,32 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 break;
 
         }
+    }
+
+    private void upload(String path){
+
+        sendOkHttpRequestUpLoad(getActivity(), UrlPath.Upload, null, path, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+                String code = jsonObject.optString("code");
+                String obj = jsonObject.optString("obj");
+//                    Gson gson = new Gson();
+//                    List<PartnerDynamicBean> partnerDynamicBeanList = gson.fromJson(obj, PartnerDynamicBean.class);
+//                List<PartnerDynamicBean> dataList = new ArrayList<>();
+//                for (int i = 0; i < 10; i++) {
+//                    PartnerDynamicBean partnerDynamicBean = new PartnerDynamicBean();
+//                    partnerDynamicBean.setTitle(i + "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊");
+//                    dataList.add(partnerDynamicBean);
+//                }
+
+            }
+
+            @Override
+            public void onFailure() {
+
+
+            }
+        });
     }
 }
