@@ -38,7 +38,7 @@ import java.util.List;
  * @Author Pjw
  * @date 2018/7/31 15:25
  */
-public class HomeFragment extends BaseFragment implements View.OnClickListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+public class HomeFragment extends Fragment implements View.OnClickListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     private View view;
     private RecyclerView recyclerView;

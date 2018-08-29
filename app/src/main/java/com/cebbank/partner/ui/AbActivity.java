@@ -1,26 +1,26 @@
-package com.cebbank.partner;
+package com.cebbank.partner.ui;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.cebbank.partner.R;
 import com.cebbank.partner.utils.LogUtils;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
-/**
- * @ClassName: Partner
- * @Description:
- * @Author Pjw
- * @date 2018/8/26 16:03
- */
-public class BaseFragment extends Fragment implements AMapLocationListener {
+public class AbActivity extends CheckPermissionsActivity implements AMapLocationListener {
 
     //声明mlocationClient对象
     public AMapLocationClient mlocationClient;
@@ -29,11 +29,12 @@ public class BaseFragment extends Fragment implements AMapLocationListener {
     public StringBuffer Latitude = new StringBuffer(256);
     public StringBuffer Longitude = new StringBuffer(256);
 
-
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mlocationClient = new AMapLocationClient(getActivity());
+        setContentView(R.layout.activity_ab);
+        LogUtils.e("我操",sHA1(this));
+        mlocationClient = new AMapLocationClient(this);
         //初始化定位参数
         mLocationOption = new AMapLocationClientOption();
         //设置定位监听
@@ -78,4 +79,29 @@ public class BaseFragment extends Fragment implements AMapLocationListener {
         }
     }
 
+    public static String sHA1(Context context) {
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(
+                    context.getPackageName(), PackageManager.GET_SIGNATURES);
+            byte[] cert = info.signatures[0].toByteArray();
+            MessageDigest md = MessageDigest.getInstance("SHA1");
+            byte[] publicKey = md.digest(cert);
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < publicKey.length; i++) {
+                String appendString = Integer.toHexString(0xFF & publicKey[i])
+                        .toUpperCase(Locale.US);
+                if (appendString.length() == 1)
+                    hexString.append("0");
+                hexString.append(appendString);
+                hexString.append(":");
+            }
+            String result = hexString.toString();
+            return result.substring(0, result.length()-1);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

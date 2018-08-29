@@ -1,6 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+//    signingConfigs {
+//        debug {
+//            storeFile file("C:/Users/Administrator/Desktop/Downloads/debug.keystore")
+//            //keystore的密码
+//            storePassword 'android'
+//        }
+//    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.cebbank.partner"

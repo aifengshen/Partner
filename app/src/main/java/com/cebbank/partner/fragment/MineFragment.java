@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.cebbank.partner.R;
 import com.cebbank.partner.bean.PartnerDynamicBean;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
+import com.cebbank.partner.ui.AbActivity;
 import com.cebbank.partner.ui.BecomePartnerActivity;
 import com.cebbank.partner.ui.MyApplyActivity;
 import com.cebbank.partner.ui.PersonalDataActivity;
@@ -127,6 +128,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 /**
                  *我的素材
                  */
+                startActivity(new Intent(getActivity(),AbActivity.class));
                 break;
             case R.id.tvBindingCard:
                 /**
