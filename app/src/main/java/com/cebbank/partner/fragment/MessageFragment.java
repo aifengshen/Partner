@@ -11,9 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cebbank.partner.R;
-import com.cebbank.partner.adapter.HomeFragmentAdapter;
 import com.cebbank.partner.adapter.MessageFragmentAdapter;
-import com.cebbank.partner.bean.HomeFragmentBean;
 import com.cebbank.partner.bean.MessageFragmentBean;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 

@@ -85,7 +85,7 @@ public class HttpUtil {
                                 public void run() {
                                     try {
                                         JSONObject jsonObject = new JSONObject(responseData);
-                                        LogUtils.e("返回的数据:", responseData);
+                                        LogUtils.e("返回的数据"+address+":", responseData);
                                         String code = jsonObject.optString("code");
                                         String msg = jsonObject.optString("msg");
                                         if (code.equals(MyApplication.ErrorCodeTokenInvalid)) {

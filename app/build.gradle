@@ -13,6 +13,14 @@ android {
 //            storePassword 'android'
 //        }
 //    }
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.cebbank.partner"
@@ -54,4 +62,14 @@ dependencies {
     implementation 'com.android.support:gridlayout-v7:27.1.1'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    //    implementation files('libs/umeng-sharetool-6.9.3.jar')
+    implementation files('libs/umeng-common-1.5.3.jar')
+    implementation files('libs/umeng-share-core-6.9.3.jar')
+    implementation files('libs/umeng-share-QQ-simplify-6.9.3.jar')
+    implementation files('libs/umeng-share-sina-simplify-6.9.3.jar')
+    implementation files('libs/umeng-share-wechat-simplify-6.9.3.jar')
+    implementation files('libs/umeng-shareboard-widget-6.9.3.jar')
+    implementation files('libs/umeng-sharetool-6.9.3.jar')
+    implementation files('libs/utdid4all-1.1.5.3_proguard.jar')
+    implementation 'org.jsoup:jsoup:1.11.3'
 }

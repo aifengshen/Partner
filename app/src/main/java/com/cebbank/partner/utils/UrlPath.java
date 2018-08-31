@@ -2,7 +2,7 @@ package com.cebbank.partner.utils;
 
 public class UrlPath {
 
-    public static final String IP = "http://21ao868134.51mypc.cn/cebpartner";
+    public static final String IP = "https://www.pnrchn.com/cebpartner";
 
 //    /**
 //     * 获取版本信息接口,版本更新接口
@@ -18,6 +18,18 @@ public class UrlPath {
      */
     public static final String AutoLogin = "/app/login/auto";
     /**
+     * 定位
+     */
+    public static final String Locate = "/app/area/locate";
+    /**
+     * 轮播图
+     */
+    public static final String Banner = "/app/home/banner";
+    /**
+     * 文章列表
+     */
+    public static final String Article = "/app/home/article";
+    /**
      * 合伙人动态
      */
     public static final String IdolNews = "/app/attention/idolNews";
@@ -25,18 +37,9 @@ public class UrlPath {
      * 上传图片
      */
     public static final String Upload = "/file/upload";
-    /**
-     * 昨日均值
-     */
-    public static final String YdayAverage = "/app/ydayAverage/detail";
-    /**
-     * 剩余小时值
-     */
-    public static final String SurplusHour = "/app/surplusHour/detail";
-    /**
-     * 分钟值详情
-     */
-    public static final String MinValue = "/app/minValue/detail";
+
+
+
     /**
      * 小时值详情
      */

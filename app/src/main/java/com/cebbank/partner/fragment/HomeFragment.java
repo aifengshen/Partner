@@ -15,22 +15,34 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.cebbank.partner.BaseFragment;
+import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
-import com.cebbank.partner.adapter.HomeFragmentAdapter;
+import com.cebbank.partner.adapter.ArticleAdapter;
+import com.cebbank.partner.bean.ArticleBean;
 import com.cebbank.partner.bean.HomeFragmentBean;
+import com.cebbank.partner.interfaces.HttpCallbackListener;
+import com.cebbank.partner.interfaces.LocateListener;
 import com.cebbank.partner.ui.WelcomeActivity;
+import com.cebbank.partner.utils.UrlPath;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 
 /**
  * @ClassName: Omnipotent
@@ -42,11 +54,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
 
     private View view;
     private RecyclerView recyclerView;
-    private SwipeRefreshLayout swipeLayout;
-    private HomeFragmentAdapter mAdapter;
-    private List<HomeFragmentBean> data;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private ArticleAdapter mAdapter;
+    private List<ArticleBean> data;
+
     private EditText edittextClientName;
     private SliderLayout mDemoSlider;
+    private MyApplication myApplication;
+    private static final int PAGE_SIZE = 10;
+    private int mNextRequestPage = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,14 +75,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
     }
 
     private void initView() {
+        myApplication = (MyApplication) getActivity().getApplication();
+        myApplication.setLocateListener(new LocateListener() {
+            @Override
+            public void OnLocate(String Latitude, String Longitude, String cityName, String adCode) {
+                locate(Latitude, Longitude);
+                requestBanner(adCode);
+            }
+        });
         recyclerView = view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        swipeLayout = view.findViewById(R.id.swipe_container);
-        swipeLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
         edittextClientName = view.findViewById(R.id.edittextClientName);
         data = new ArrayList<>();
-        mAdapter = new HomeFragmentAdapter(data);
+        mAdapter = new ArticleAdapter(data);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
 //        mAdapter.setPreLoadNumber(3);
 //        mAdapter.setLoadMoreView(new CustomLoadMoreView());
@@ -84,12 +108,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
     }
 
     private void initData() {
+        requestArticle(true);
 
-        for (int i = 1; i < 5; i++) {
-            HomeFragmentBean homeFragmentBean = new HomeFragmentBean(i);
-            homeFragmentBean.setName(i + "哈哈哈");
-            data.add(homeFragmentBean);
-        }
         mAdapter.notifyDataSetChanged();
         HashMap<String, String> url_maps = new HashMap<String, String>();
         url_maps.put("Hannibal", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534440083067&di=a04d46600bd5cfa3cf5b09f39de42f23&imgtype=0&src=http%3A%2F%2Fp16.qhimg.com%2Fbdr%2F__%2Fd%2F_open360%2Fbeauty0311%2F16.jpg");
@@ -114,6 +134,142 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
         }
     }
 
+    private void locate(String Latitude, String Longitude) {
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("lng", Longitude);
+            jsonObject.put("lat", Latitude);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest(getActivity(), UrlPath.Locate, jsonObject, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+                String code = jsonObject.optString("code");
+                JSONObject jodata = jsonObject.getJSONObject("data");
+
+//                JSONArray jsonArray = jodata.getJSONArray("records");
+//                Gson gson = new Gson();
+//                List<PartnerDynamicBean> partnerDynamicBeanList =
+//                        gson.fromJson(jsonArray.toString(), new TypeToken<List<PartnerDynamicBean>>() {
+//                        }.getType());
+
+//                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+    }
+
+    private void requestBanner(String adCode) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("areaId ", adCode);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest(getActivity(), UrlPath.Banner, jsonObject, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+                String code = jsonObject.optString("code");
+                JSONObject jodata = jsonObject.getJSONObject("data");
+
+//                JSONArray jsonArray = jodata.getJSONArray("records");
+//                Gson gson = new Gson();
+//                List<PartnerDynamicBean> partnerDynamicBeanList =
+//                        gson.fromJson(jsonArray.toString(), new TypeToken<List<PartnerDynamicBean>>() {
+//                        }.getType());
+
+//                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+    }
+
+    private void requestArticle(final boolean isRefresh) {
+        if (isRefresh) {
+            mNextRequestPage = 1;
+            mAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
+        }
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("size", PAGE_SIZE);
+            jsonObject.put("current", mNextRequestPage);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONObject jo = new JSONObject();
+        try {
+            jo.put("keyword", "");
+            jo.put("page", jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest(getActivity(), UrlPath.Article, jo, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+                String code = jsonObject.optString("code");
+                JSONObject jodata = jsonObject.getJSONObject("data");
+                if (isRefresh) {
+                    mAdapter.setEnableLoadMore(true);
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+                JSONArray jsonArray = jodata.getJSONArray("records");
+                Gson gson = new Gson();
+                List<ArticleBean> articleBeanList =
+                        gson.fromJson(jsonArray.toString(), new TypeToken<List<ArticleBean>>() {
+                        }.getType());
+                setData(isRefresh, articleBeanList);
+                mAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure() {
+                if (isRefresh) {
+                    mAdapter.setEnableLoadMore(true);
+                    mSwipeRefreshLayout.setRefreshing(false);
+                } else {
+                    mAdapter.loadMoreFail();
+                }
+
+            }
+        });
+    }
+
+    private void setData(boolean isRefresh, List<ArticleBean> data) {
+        mNextRequestPage++;
+        final int size = data == null ? 0 : data.size();
+        if (isRefresh) {
+            mAdapter.setNewData(data);
+        } else {
+            if (size > 0) {
+                mAdapter.addData(data);
+            }
+        }
+        if (size < PAGE_SIZE) {
+            //第一页如果不够一页，那么就不显示没有更多数据布局
+            mAdapter.loadMoreEnd(isRefresh);
+            Toast.makeText(getActivity(), "没有更多数据了...", Toast.LENGTH_SHORT).show();
+        } else {
+            mAdapter.loadMoreComplete();
+        }
+    }
+
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
@@ -123,11 +279,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
 
 
     private void setClickListener() {
-        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 initData();
-                swipeLayout.setRefreshing(false);
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
 

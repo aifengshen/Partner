@@ -19,6 +19,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.view.KeyEvent;
 
+import com.cebbank.partner.BaseActivity;
 import com.cebbank.partner.R;
 
 /**
@@ -32,7 +33,7 @@ import com.cebbank.partner.R;
  * @类型名称：PermissionsChecker
  * @since 2.5.0
  */
-public class CheckPermissionsActivity extends Activity {
+public class CheckPermissionsActivity extends BaseActivity {
 	/**
 	 * 需要进行检测的权限数组
 	 */
