@@ -1,6 +1,5 @@
 package com.cebbank.partner.adapter;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -8,8 +7,7 @@ import com.cebbank.partner.GlideApp;
 import com.cebbank.partner.R;
 import com.cebbank.partner.bean.ArticleBean;
 import com.cebbank.partner.bean.HomeFragmentBean;
-import com.cebbank.partner.bean.PartnerDynamicBean;
-import com.cebbank.partner.ui.ContentActivity;
+import com.cebbank.partner.ui.ArtcleDetailActivity;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -34,13 +32,12 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<ArticleBean, BaseV
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ArticleBean item) {
+    protected void convert(BaseViewHolder helper, final ArticleBean item) {
 
         helper.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,ContentActivity.class);
-                mContext.startActivity(intent);
+                ArtcleDetailActivity.actionStart(mContext,item.getId());
             }
         });
 

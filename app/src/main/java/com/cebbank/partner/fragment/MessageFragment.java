@@ -9,10 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.MessageFragmentAdapter;
 import com.cebbank.partner.bean.MessageFragmentBean;
+import com.cebbank.partner.ui.CommentActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -24,13 +26,14 @@ import java.util.List;
  * @Author Pjw
  * @date 2018/7/31 15:27
  */
-public class MessageFragment extends Fragment {
+public class MessageFragment extends Fragment implements View.OnClickListener {
 
     private View view;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeLayout;
     private MessageFragmentAdapter mAdapter;
     private List<MessageFragmentBean> data;
+    private TextView tvWonThePraise, tvComment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +45,8 @@ public class MessageFragment extends Fragment {
     }
 
     private void initView() {
+        tvWonThePraise = view.findViewById(R.id.tvWonThePraise);
+        tvComment = view.findViewById(R.id.tvComment);
         recyclerView = view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -66,6 +71,20 @@ public class MessageFragment extends Fragment {
     }
 
     private void setClickListener() {
+        tvWonThePraise.setOnClickListener(this);
+        tvComment.setOnClickListener(this);
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvWonThePraise:
+
+                break;
+
+            case R.id.tvComment:
+                CommentActivity.actionStart(getActivity());
+                break;
+        }
     }
 }

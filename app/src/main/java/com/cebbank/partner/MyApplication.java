@@ -24,7 +24,7 @@ import java.util.Date;
 
 public class MyApplication extends Application implements AMapLocationListener {
 
-    public static String token = "";
+    public static String token = "5503eb72fe764ac7843c810178763399";
     public static String EquipmentCode;//设备唯一标识码
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;

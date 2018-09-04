@@ -30,6 +30,14 @@ public class UrlPath {
      */
     public static final String Article = "/app/home/article";
     /**
+     * 详情
+     */
+    public static final String Detail = "/app/article/detail";
+    /**
+     * 卡详情
+     */
+    public static final String CardDetail = "/app/card/detail";
+    /**
      * 合伙人动态
      */
     public static final String IdolNews = "/app/attention/idolNews";
@@ -37,11 +45,12 @@ public class UrlPath {
      * 上传图片
      */
     public static final String Upload = "/file/upload";
-
-
-
     /**
-     * 小时值详情
+     * 评论
      */
-    public static final String HourValue = "/app/hourValue/detail";
+    public static final String Comment = "/app/notice/comment";
+
+
+
+
 }

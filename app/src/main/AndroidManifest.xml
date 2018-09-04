@@ -83,7 +83,7 @@
             android:name=".ui.WelcomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.ContentActivity"
+            android:name=".ui.ArtcleDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.PersonalDataActivity"
@@ -102,12 +102,12 @@
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.sina.weibo.sdk.web.WeiboSdkWebActivity"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.sina.weibo.sdk.share.WbShareTransActivity"
             android:launchMode="singleTask"
@@ -143,7 +143,9 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".ui.LocationActivity"></activity>
+        <activity android:name=".ui.LocationActivity" />
+        <activity android:name=".ui.CardDetailActivity" />
+        <activity android:name=".ui.CommentActivity"></activity>
     </application>
 
 </manifest>

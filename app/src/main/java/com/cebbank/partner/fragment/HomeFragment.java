@@ -109,7 +109,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
 
     private void initData() {
         requestArticle(true);
-
         mAdapter.notifyDataSetChanged();
         HashMap<String, String> url_maps = new HashMap<String, String>();
         url_maps.put("Hannibal", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534440083067&di=a04d46600bd5cfa3cf5b09f39de42f23&imgtype=0&src=http%3A%2F%2Fp16.qhimg.com%2Fbdr%2F__%2Fd%2F_open360%2Fbeauty0311%2F16.jpg");
@@ -286,6 +285,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
+
+//        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+//            @Override
+//            public void onLoadMoreRequested() {
+//                request(false);
+//            }
+//        });
 
     }
 
