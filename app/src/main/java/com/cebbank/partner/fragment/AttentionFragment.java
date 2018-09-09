@@ -60,22 +60,22 @@ public class AttentionFragment extends Fragment {
     }
 
     private void setClickListener() {
-//        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                Log.i("啊啊啊", "select page:" + position);
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.i("啊啊啊", "select page:" + position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 

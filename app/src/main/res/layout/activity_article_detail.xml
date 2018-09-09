@@ -27,6 +27,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:clickable="true"
             android:text="点赞"
             android:textColor="@color/text_color_orange" />
 
@@ -36,6 +37,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:clickable="true"
             android:text="评论" />
 
         <TextView
@@ -43,6 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:clickable="true"
             android:gravity="center"
             android:text="分享" />
 
@@ -52,6 +55,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:clickable="true"
             android:text="收纳" />
 
     </LinearLayout>
@@ -72,6 +76,7 @@
             android:src="@drawable/aaa" />
 
         <TextView
+            android:id="@+id/tvName"
             style="@style/textViewSmallLightGray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

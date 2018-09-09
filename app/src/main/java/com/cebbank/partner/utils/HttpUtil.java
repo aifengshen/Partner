@@ -47,7 +47,7 @@ public class HttpUtil {
     public static void sendOkHttpRequest(final Activity mActivity, final String address, final JSONObject jo,
                                          final SwipeRefreshLayout swipeLayout,
                                          final HttpCallbackListener httpCallbackListener) {
-        final CustomDialog customDialog = new CustomDialog(mActivity, false, null);
+        final CustomDialog customDialog = new CustomDialog(mActivity, true, null);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -88,6 +88,7 @@ public class HttpUtil {
                                         LogUtils.e("返回的数据"+address+":", responseData);
                                         String code = jsonObject.optString("code");
                                         String msg = jsonObject.optString("msg");
+                                        customDialog.dismiss();
                                         if (code.equals(MyApplication.ErrorCodeTokenInvalid)) {
                                             //token失效——>跳转到登陆页面
                                             Intent intent = new Intent(mActivity, LoginActivity.class);
@@ -105,7 +106,7 @@ public class HttpUtil {
                                                 httpCallbackListener.onFinish(responseData);
                                             }
                                         }
-                                        customDialog.dismiss();
+
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }

@@ -3,6 +3,7 @@ package com.cebbank.partner.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -34,4 +35,5 @@ public class MyViewPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         return titleList.get(position);
     }
+
 }

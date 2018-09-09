@@ -7,7 +7,7 @@ import com.cebbank.partner.GlideApp;
 import com.cebbank.partner.R;
 import com.cebbank.partner.bean.ArticleBean;
 import com.cebbank.partner.bean.HomeFragmentBean;
-import com.cebbank.partner.ui.ArtcleDetailActivity;
+import com.cebbank.partner.ui.ArticleDetailActivity;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -37,7 +37,7 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<ArticleBean, BaseV
         helper.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArtcleDetailActivity.actionStart(mContext,item.getId());
+                ArticleDetailActivity.actionStart(mContext,item.getId());
             }
         });
 

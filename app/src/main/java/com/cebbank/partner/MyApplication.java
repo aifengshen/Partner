@@ -37,7 +37,8 @@ public class MyApplication extends Application implements AMapLocationListener {
     //声明mLocationOption对象
     public AMapLocationClientOption mLocationOption = null;
     public LocateListener locateListener;
-    boolean isFirst = true;
+    private static Context context;
+
 
     public void setLocateListener(LocateListener locateListener) {
         this.locateListener = locateListener;
@@ -47,6 +48,7 @@ public class MyApplication extends Application implements AMapLocationListener {
     @Override
     public void onCreate() {
         super.onCreate();
+        context = this;
         init();
         initMap();
     }
@@ -108,11 +110,10 @@ public class MyApplication extends Application implements AMapLocationListener {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date = new Date(amapLocation.getTime());
                 df.format(date);//定位时间
-                if (isFirst){
-                    locateListener.OnLocate(String.valueOf(amapLocation.getLatitude()),
-                            String.valueOf(amapLocation.getLongitude()), amapLocation.getCity(),amapLocation.getAdCode());
-                }
-                isFirst = false;
+//                LogUtils.e(amapLocation.getAdCode()+"=="+amapLocation.getCityCode()+"=="+amapLocation.getCity()+"=="+amapLocation.getAddress()
+//                +"=="+amapLocation.getBuildingId()+"=="+amapLocation.getDescription());
+                locateListener.OnLocate(String.valueOf(amapLocation.getLatitude()),
+                        String.valueOf(amapLocation.getLongitude()), amapLocation.getCity(),amapLocation.getCityCode());
             } else {
                 //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
                 Log.e("AmapError", "location Error, ErrCode:"
@@ -122,6 +123,10 @@ public class MyApplication extends Application implements AMapLocationListener {
         }
     }
 
+
+    public static Context getContext() {
+        return context;
+    }
 
     /**
      * 获取设备唯一标识码并保存到本地

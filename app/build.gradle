@@ -72,4 +72,5 @@ dependencies {
     implementation files('libs/umeng-sharetool-6.9.3.jar')
     implementation files('libs/utdid4all-1.1.5.3_proguard.jar')
     implementation 'org.jsoup:jsoup:1.11.3'
+    implementation 'com.gjiazhe:wavesidebar:1.3'
 }

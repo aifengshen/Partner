@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".ui.ArticleCommentActivity">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/ll"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_bg_gray"
+            android:overScrollMode="never"></android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/text_color_white"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/corner_bg_littlegray_line_littlegray_super_big">
+
+            <EditText
+                android:id="@+id/ectvComment"
+                style="@style/textViewSmallBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@null"
+                android:hint="回复"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvSend"
+            style="@style/textViewSmallWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/corner_25_bg_orange_line_orange"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp"
+            android:text="发送" />
+    </LinearLayout>
+
+
+</RelativeLayout>

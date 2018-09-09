@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_index"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#E0E0E0"
+        android:paddingBottom="10dp"
+        android:paddingLeft="12dp"
+        android:paddingTop="10dp"
+        android:text="G"
+        android:textColor="@color/text_color_black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/text_color_white">
+        <!--<ImageView-->
+        <!--android:id="@+id/iv_avatar"-->
+        <!--android:layout_width="40dp"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:src="@drawable/ic_home_black_24dp"-->
+        <!--android:contentDescription="avatar"/>-->
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:text="Gjiazhe"
+            android:textColor="#424242"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#eee" />
+</LinearLayout>

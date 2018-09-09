@@ -16,7 +16,7 @@
 
 
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tvName"
         style="@style/textViewMediumBlack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         android:layout_toRightOf="@id/profile_image"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="啊啊啊啊啊啊啊啊啊" />
+        android:text="" />
 
     <TextView
         android:id="@+id/tvContent"
@@ -37,7 +37,7 @@
         android:layout_toRightOf="@id/profile_image"
         android:ellipsize="end"
         android:maxLines="2"
-        android:text="光大银行光大银行光光大银行光大银行光大银行光大银行光大银行光大银行大银行光大银行光大银行光大银行" />
+        android:text="" />
 
     <TextView
         android:id="@+id/tvAttention"

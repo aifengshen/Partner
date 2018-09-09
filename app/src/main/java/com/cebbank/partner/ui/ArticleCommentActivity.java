@@ -7,16 +7,17 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cebbank.partner.BaseActivity;
-import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
-import com.cebbank.partner.adapter.ArticleAdapter;
-import com.cebbank.partner.adapter.CommentAdapter;
-import com.cebbank.partner.bean.ArticleBean;
+import com.cebbank.partner.adapter.ArticleCommentAdapter;
 import com.cebbank.partner.bean.CommentBean;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
+import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
@@ -31,19 +32,25 @@ import java.util.List;
 
 import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 
-public class CommentActivity extends BaseActivity {
+
+/**
+ * 文章评论页面
+ */
+public class ArticleCommentActivity extends BaseActivity implements View.OnClickListener {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private CommentAdapter mAdapter;
+    private ArticleCommentAdapter mAdapter;
     private List<CommentBean> data;
     private static final int PAGE_SIZE = 10;
     private int mNextRequestPage = 1;
+    private TextView ectvComment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comment);
+        setContentView(R.layout.activity_article_comment);
         initView();
         initData();
         setListener();
@@ -58,18 +65,21 @@ public class CommentActivity extends BaseActivity {
         mSwipeRefreshLayout = findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
         data = new ArrayList<>();
-        mAdapter = new CommentAdapter(data);
+        mAdapter = new ArticleCommentAdapter(data);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
 //        mAdapter.setPreLoadNumber(3);
 //        mAdapter.setLoadMoreView(new CustomLoadMoreView());
         recyclerView.setAdapter(mAdapter);
+        ectvComment = findViewById(R.id.ectvComment);
+
     }
 
     private void initData() {
         requestComments(true);
     }
 
-    private void setListener(){
+    private void setListener() {
+        findViewById(R.id.tvSend).setOnClickListener(this);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -99,13 +109,14 @@ public class CommentActivity extends BaseActivity {
         }
         JSONObject jo = new JSONObject();
         try {
-            jo.put("token", MyApplication.token);
+            jo.put("articleId", getIntent().getStringExtra("articleId"));
+            jo.put("token", "5503eb72fe764ac7843c810178763399");
             jo.put("page", jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        sendOkHttpRequest(this, UrlPath.Comment, jo, null, new HttpCallbackListener() {
+        sendOkHttpRequest(this, UrlPath.CommentList, jo, null, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
@@ -117,11 +128,21 @@ public class CommentActivity extends BaseActivity {
                 }
                 JSONArray jsonArray = jodata.getJSONArray("records");
                 Gson gson = new Gson();
-//                List<CommentBean> articleBeanList =
-//                        gson.fromJson(jsonArray.toString(), new TypeToken<List<CommentBean>>() {
-//                        }.getType());
-//                setData(isRefresh, articleBeanList);
-//                mAdapter.notifyDataSetChanged();
+                List<CommentBean> commentBeanList =
+                        gson.fromJson(jsonArray.toString(), new TypeToken<List<CommentBean>>() {
+                        }.getType());
+                List<CommentBean> data = new ArrayList<>();
+                for (int i=0;i<commentBeanList.size();i++){
+                    CommentBean commentBean = commentBeanList.get(i);
+                    if (TextUtils.isEmpty(commentBean.getReply())){
+                        commentBean.setType("Comment");
+                    }else{
+                        commentBean.setType("Reply");
+                    }
+                    data.add(commentBean);
+                }
+                setData(isRefresh, data);
+                mAdapter.notifyDataSetChanged();
 
             }
 
@@ -133,7 +154,6 @@ public class CommentActivity extends BaseActivity {
                 } else {
                     mAdapter.loadMoreFail();
                 }
-
             }
         });
     }
@@ -158,9 +178,55 @@ public class CommentActivity extends BaseActivity {
         }
     }
 
-    public static void actionStart(Context context) {
-        Intent intent = new Intent(context, CommentActivity.class);
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvSend:
+                /**
+                 * 发表评论
+                 */
+                String comment = ectvComment.getText().toString();
+                if (TextUtils.isEmpty(comment)) {
+                    ToastUtils.showShortToast("评论内容不能为空");
+                    return;
+                }
+                sendComment(comment);
+                break;
+        }
+    }
+
+    private void sendComment(String comment) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("content", comment);
+            jsonObject.put("articleId", getIntent().getStringExtra("articleId"));
+            jsonObject.put("token", "5503eb72fe764ac7843c810178763399");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest(this, UrlPath.Publish, jsonObject, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+                String code = jsonObject.optString("code");
+                JSONObject jodata = jsonObject.getJSONObject("data");
+
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+    }
+
+    public static void actionStart(Context context, String articleId) {
+        Intent intent = new Intent(context, ArticleCommentActivity.class);
+        intent.putExtra("articleId", articleId);
         context.startActivity(intent);
     }
+
 
 }

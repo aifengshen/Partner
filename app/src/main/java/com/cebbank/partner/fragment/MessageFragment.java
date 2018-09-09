@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.MessageFragmentAdapter;
 import com.cebbank.partner.bean.MessageFragmentBean;
-import com.cebbank.partner.ui.CommentActivity;
+import com.cebbank.partner.ui.ArticleCommentActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -79,11 +79,15 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvWonThePraise:
-
+                /**
+                 * 我的点赞页面
+                 */
                 break;
 
             case R.id.tvComment:
-                CommentActivity.actionStart(getActivity());
+                /**
+                 * 我的评论页面
+                 */
                 break;
         }
     }

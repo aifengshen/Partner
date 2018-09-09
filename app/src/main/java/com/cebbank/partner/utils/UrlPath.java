@@ -46,9 +46,46 @@ public class UrlPath {
      */
     public static final String Upload = "/file/upload";
     /**
-     * 评论
+     * 收纳
+     */
+    public static final String Collection = "/app/partner/collection";
+    /**
+     * 我的收纳
+     */
+    public static final String MyCollection = "/app/attention/collection";
+    /**
+     * 合伙人的收纳
+     */
+    public static final String PartnerCollection = "/app/partner/collection";
+    /**
+     * 关注的合伙人
+     */
+    public static final String Idol = "/app/attention/idol";
+    /**
+     * 取消关注
+     */
+    public static final String Cancel = "/app/follow/cancel";
+    /**
+     * 关注
+     */
+    public static final String Concern = "/app/follow/concern";
+    /**
+     * 我的评论
      */
     public static final String Comment = "/app/notice/comment";
+    /**
+     * 文章评论
+     */
+    public static final String CommentList = "/app/comment/list";
+    /**
+     * 发表评论
+     */
+    public static final String Publish = "/app/comment/publish";
+    /**
+     * 回复评论
+     */
+    public static final String Reply = "/app/comment/reply";
+
 
 
 

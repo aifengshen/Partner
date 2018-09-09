@@ -2,6 +2,7 @@ package com.cebbank.partner.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,14 +19,19 @@ import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.AttentionPartnerAdapter;
 import com.cebbank.partner.adapter.PartnerDynamicAdapter;
+import com.cebbank.partner.bean.ArticleBean;
 import com.cebbank.partner.bean.AttentionPartnerBean;
 import com.cebbank.partner.bean.PartnerDynamicBean;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
+import com.cebbank.partner.utils.LogUtils;
 import com.cebbank.partner.utils.SharedPreferencesKey;
 import com.cebbank.partner.utils.UrlPath;
 import com.cebbank.partner.view.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,13 +54,42 @@ public class AttentionPartnerFragment extends Fragment {
     private static final int PAGE_SIZE = 10;
     private int mNextRequestPage = 1;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_attention_partner, container, false);
+        LogUtils.e("AttentionPartnerFragment","onCreateView");
         initView(rootView);
         initData();
         setListener();
         return rootView;
+    }
+
+
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        LogUtils.e("AttentionPartnerFragment","onCreate");
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        LogUtils.e("AttentionPartnerFragment","onActivityCreated");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        LogUtils.e("AttentionPartnerFragment","onStart");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtils.e("AttentionPartnerFragment","onResume");
     }
 
     private void initView(View view){
@@ -76,76 +111,75 @@ public class AttentionPartnerFragment extends Fragment {
     }
 
     private void initData(){
-        for (int i = 0; i < 10; i++) {
-            AttentionPartnerBean attentionPartnerBean = new AttentionPartnerBean();
-            attentionPartnerBean.setTitle(i + "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊");
-            data.add(attentionPartnerBean);
-        }
-        mAdapter.notifyDataSetChanged();
+        requestPartners(true);
     }
 
     private void setListener(){
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                request(true);
+                requestPartners(true);
             }
         });
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                request(false);
+                requestPartners(false);
             }
         });
     }
 
-    private void request(final boolean isRefresh) {
+    private void requestPartners(final boolean isRefresh) {
         if (isRefresh) {
             mNextRequestPage = 1;
             mAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
         }
-        Map<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("username", "admin");
-        paramsMap.put("password", "11");
-        paramsMap.put("token", MyApplication.getValue(SharedPreferencesKey.Token));
-        paramsMap.put("current", String.valueOf(mNextRequestPage));
-        paramsMap.put("size", String.valueOf(PAGE_SIZE));
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("size", PAGE_SIZE);
+            jsonObject.put("current", mNextRequestPage);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONObject jo = new JSONObject();
+        try {
+            jo.put("token","5503eb72fe764ac7843c810178763399");
+            jo.put("page", jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-//        sendOkHttpRequest(getActivity(), UrlPath.Login, paramsMap, null, new HttpCallbackListener() {
-//            @Override
-//            public void onFinish(String response) throws JSONException {
-//                JSONObject jsonObject = new JSONObject(response);
-//                String code = jsonObject.optString("code");
-//                String obj = jsonObject.optString("obj");
-//                if (isRefresh) {
-//                    mAdapter.setEnableLoadMore(true);
-//                    mSwipeRefreshLayout.setRefreshing(false);
-//                }
-//
-////                    Gson gson = new Gson();
-////                    List<PartnerDynamicBean> partnerDynamicBeanList = gson.fromJson(obj, PartnerDynamicBean.class);
-//                List<AttentionPartnerBean> dataList = new ArrayList<>();
-//                for (int i = 0; i < 10; i++) {
-//                    AttentionPartnerBean attentionPartnerBean = new AttentionPartnerBean();
-//                    attentionPartnerBean.setTitle(i + "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊");
-//                    dataList.add(attentionPartnerBean);
-//                }
-//                setData(isRefresh, dataList);
-//                mAdapter.notifyDataSetChanged();
-//
-//            }
-//
-//            @Override
-//            public void onFailure() {
-//                if (isRefresh) {
-//                    mAdapter.setEnableLoadMore(true);
-//                    mSwipeRefreshLayout.setRefreshing(false);
-//                } else {
-//                    mAdapter.loadMoreFail();
-//                }
-//
-//            }
-//        });
+        sendOkHttpRequest(getActivity(), UrlPath.Idol, jo, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+                String code = jsonObject.optString("code");
+                JSONObject jodata = jsonObject.getJSONObject("data");
+                if (isRefresh) {
+                    mAdapter.setEnableLoadMore(true);
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+                JSONArray jsonArray = jodata.getJSONArray("records");
+                Gson gson = new Gson();
+                List<AttentionPartnerBean> attentionPartnerBeanList =
+                        gson.fromJson(jsonArray.toString(), new TypeToken<List<AttentionPartnerBean>>() {
+                        }.getType());
+                setData(isRefresh, attentionPartnerBeanList);
+                mAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure() {
+                if (isRefresh) {
+                    mAdapter.setEnableLoadMore(true);
+                    mSwipeRefreshLayout.setRefreshing(false);
+                } else {
+                    mAdapter.loadMoreFail();
+                }
+
+            }
+        });
     }
 
 

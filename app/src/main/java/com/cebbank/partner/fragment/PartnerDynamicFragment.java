@@ -2,6 +2,7 @@ package com.cebbank.partner.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -55,11 +56,36 @@ public class PartnerDynamicFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        LogUtils.e("PartnerDynamicFragment","onCreateView");
         View rootView = inflater.inflate(R.layout.fragment_partner_dynamic, container, false);
         initView(rootView);
         initData();
         setListener();
         return rootView;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        LogUtils.e("PartnerDynamicFragment","onCreate");
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        LogUtils.e("PartnerDynamicFragment","onActivityCreated");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        LogUtils.e("PartnerDynamicFragment","onStart");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtils.e("PartnerDynamicFragment","onResume");
     }
 
     private void initView(View view) {

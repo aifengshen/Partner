@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 
@@ -12,6 +13,8 @@ import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.CardListAdapter;
 import com.cebbank.partner.bean.CardInfoBean;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
+import com.cebbank.partner.utils.LogUtils;
+import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
@@ -21,10 +24,6 @@ import com.umeng.socialize.UMShareAPI;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,19 +36,18 @@ import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
  * @Author Pjw
  * @date 2018/8/19 14:10
  */
-public class ArtcleDetailActivity extends CheckPermissionsActivity {
+public class ArticleDetailActivity extends CheckPermissionsActivity implements View.OnClickListener {
 
     private WebView webview;
     private LinearLayout ll;
     private RecyclerView recyclerView;
     private CardListAdapter mAdapter;
     private List<CardInfoBean> cardList;
-    private static final String IMAGE3 = "<p><font color=\\\"#ff0000\\\">富文本 this is a test</font></p>\n" + "<p><img src=\"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534440083067&di=a04d46600bd5cfa3cf5b09f39de42f23&imgtype=0&src=http%3A%2F%2Fp16.qhimg.com%2Fbdr%2F__%2Fd%2F_open360%2Fbeauty0311%2F16.jpg\" alt=\"Image\"/></p>";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_artcle_detail);
+        setContentView(R.layout.activity_article_detail);
         initView();
         initData();
         setListener();
@@ -66,16 +64,12 @@ public class ArtcleDetailActivity extends CheckPermissionsActivity {
         ll = findViewById(R.id.ll);
     }
 
-
-
     private void initData() {
         cardList = new ArrayList<>();
         mAdapter = new CardListAdapter(cardList);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
         recyclerView.setAdapter(mAdapter);
         articleDetail();
-//        webview.loadDataWithBaseURL("http://avatar.csdn.net",getNewContent(IMAGE3),"text/html", "UTF-8", null);
-//        webview.loadUrl("http://news.sina.com.cn/o/2018-08-19/doc-ihhxaafy5278620.shtml");
     }
 
     private void articleDetail() {
@@ -93,19 +87,29 @@ public class ArtcleDetailActivity extends CheckPermissionsActivity {
                 JSONObject jsonObject = new JSONObject(response);
                 String code = jsonObject.optString("code");
                 JSONObject jodata = jsonObject.getJSONObject("data");
-
-
                 JSONArray jsonArray = jodata.getJSONArray("cardVoList");
                 Gson gson = new Gson();
                 List<CardInfoBean> cardInfoBeanList =
                         gson.fromJson(jsonArray.toString(), new TypeToken<List<CardInfoBean>>() {
                         }.getType());
 
-                cardList.removeAll(cardInfoBeanList);
+                cardList.removeAll(cardList);
                 CardInfoBean cardInfoBean = new CardInfoBean();
                 cardInfoBean.setType("webview");
+                cardInfoBean.setWebview_id(jodata.optString("id"));
+                cardInfoBean.setWebview_title(jodata.optString("title"));
+                cardInfoBean.setWebview_author(jodata.optString("author"));
+                cardInfoBean.setWebview_createDate(jodata.optString("createDate"));
+                cardInfoBean.setWebview_content(jodata.optString("content"));
+                cardInfoBean.setWebview_authorId(jodata.optString("authorId"));
+                cardInfoBean.setWebview_avatar(jodata.optString("avatar"));
+                cardInfoBean.setWebview_attention(jodata.optString("attention"));
+                cardInfoBean.setWebview_like(jodata.optString("like"));
+                cardInfoBean.setWebview_comment(jodata.optString("comment"));
+                cardInfoBean.setWebview_forward(jodata.optString("forward"));
+                cardInfoBean.setWebview_collection(jodata.optString("collection"));
                 cardList.add(cardInfoBean);
-                for (int i=0;i<cardInfoBeanList.size();i++){
+                for (int i = 0; i < cardInfoBeanList.size(); i++) {
                     cardInfoBeanList.get(i).setType("cardinfo");
                 }
                 cardList.addAll(cardInfoBeanList);
@@ -113,21 +117,21 @@ public class ArtcleDetailActivity extends CheckPermissionsActivity {
 
 
 //                for (int i = 0; i < artcleDetailBean.getCardVoList().size(); i++) {
-//                    TextView textView = new TextView(ArtcleDetailActivity.this);
+//                    TextView textView = new TextView(ArticleDetailActivity.this);
 //                    textView.setText("哈哈哈" + i);
 //                    textView.setPadding(100, 100, 100, 100);
 //                    ll.addView(textView);
 //                    textView.setOnClickListener(new View.OnClickListener() {
 //                        @Override
 //                        public void onClick(View v) {
-//                            UMImage image = new UMImage(ArtcleDetailActivity.this, R.drawable.aaa);//资源文件
-//                            UMImage thumb = new UMImage(ArtcleDetailActivity.this, R.drawable.bbb);
+//                            UMImage image = new UMImage(ArticleDetailActivity.this, R.drawable.aaa);//资源文件
+//                            UMImage thumb = new UMImage(ArticleDetailActivity.this, R.drawable.bbb);
 //                            image.setThumb(thumb);
 //                            UMWeb web = new UMWeb("http://news.sina.com.cn/o/2018-08-19/doc-ihhxaafy5278620.shtml");
 //                            web.setTitle("震惊，恭喜开发团队喜中2亿软妹币");//标题
 //                            web.setThumb(thumb);  //缩略图
 //                            web.setDescription("震惊，他竟然干这样的事...");//描述
-//                            new ShareAction(ArtcleDetailActivity.this).withText("嘛哩嘛哩哄").withMedia(web).setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
+//                            new ShareAction(ArticleDetailActivity.this).withText("嘛哩嘛哩哄").withMedia(web).setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
 //                                    .setCallback(new UMShareListener() {
 //                                        @Override
 //                                        public void onStart(SHARE_MEDIA share_media) {
@@ -162,18 +166,115 @@ public class ArtcleDetailActivity extends CheckPermissionsActivity {
         });
     }
 
-    private String getNewContent(String htmltext) {
-
-        Document doc = Jsoup.parse(htmltext);
-        Elements elements = doc.getElementsByTag("img");
-        for (Element element : elements) {
-            element.attr("width", "100%").attr("height", "auto");
-        }
-        return doc.toString();
-    }
 
     private void setListener() {
+        findViewById(R.id.tvName).setOnClickListener(this);
+        findViewById(R.id.tvPraise).setOnClickListener(this);
+        findViewById(R.id.tvComment).setOnClickListener(this);
+        findViewById(R.id.tvShare).setOnClickListener(this);
+        findViewById(R.id.tvCollect).setOnClickListener(this);
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvName:
+                /**
+                 * 关注
+                 */
+                concernPartner();
+                break;
+            case R.id.tvPraise:
+                /**
+                 * 点赞
+                 */
+                ToastUtils.showShortToast("点赞");
+                break;
+            case R.id.tvComment:
+                /**
+                 * 文章评论页面
+                 */
+                ArticleCommentActivity.actionStart(this, cardList.get(0).getWebview_id());
+                break;
+            case R.id.tvShare:
+                /**
+                 * 分享
+                 */
+                break;
+            case R.id.tvCollect:
+                /**
+                 * 收纳
+                 */
+                collectArtcle();
+                break;
+        }
+    }
+
+    /**
+     * 关注
+     */
+    private void concernPartner() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("idolId", cardList.get(0).getWebview_authorId());
+            jsonObject.put("token", "5503eb72fe764ac7843c810178763399");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest(this, UrlPath.Concern, jsonObject, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+                String code = jsonObject.optString("code");
+                JSONObject jodata = jsonObject.getJSONObject("data");
+                Gson gson = new Gson();
+//                List<CardInfoBean> cardInfoBeanList =
+//                        gson.fromJson(jsonArray.toString(), new TypeToken<List<CardInfoBean>>() {
+//                        }.getType());
+
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+    }
+
+    /**
+     * 收纳文章
+     */
+    private void collectArtcle() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("partnerId", getIntent().getStringExtra("articleId"));
+            jsonObject.put("token", "5503eb72fe764ac7843c810178763399");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest(this, UrlPath.Collection, jsonObject, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+//                String code = jsonObject.optString("code");
+//                JSONObject jodata = jsonObject.getJSONObject("data");
+//                Gson gson = new Gson();
+//                List<CardInfoBean> cardInfoBeanList =
+//                        gson.fromJson(jsonArray.toString(), new TypeToken<List<CardInfoBean>>() {
+//                        }.getType());
+                ToastUtils.showShortToast("关注合伙人成功");
+//                mAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
     }
 
     @Override
@@ -183,8 +284,10 @@ public class ArtcleDetailActivity extends CheckPermissionsActivity {
     }
 
     public static void actionStart(Context context, String articleId) {
-        Intent intent = new Intent(context, ArtcleDetailActivity.class);
+        Intent intent = new Intent(context, ArticleDetailActivity.class);
         intent.putExtra("articleId", articleId);
         context.startActivity(intent);
     }
+
+
 }

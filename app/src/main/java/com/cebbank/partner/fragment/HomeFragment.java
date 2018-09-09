@@ -13,16 +13,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.ArticleAdapter;
 import com.cebbank.partner.bean.ArticleBean;
-import com.cebbank.partner.bean.HomeFragmentBean;
+import com.cebbank.partner.bean.BannerBean;
+import com.cebbank.partner.bean.Contact;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.interfaces.LocateListener;
-import com.cebbank.partner.ui.WelcomeActivity;
+import com.cebbank.partner.ui.ArticleDetailActivity;
+import com.cebbank.partner.ui.CityActivity;
 import com.cebbank.partner.utils.UrlPath;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -50,19 +53,20 @@ import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
  * @Author Pjw
  * @date 2018/7/31 15:25
  */
-public class HomeFragment extends Fragment implements View.OnClickListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+public class HomeFragment extends Fragment implements View.OnClickListener, ViewPagerEx.OnPageChangeListener {
 
     private View view;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ArticleAdapter mAdapter;
     private List<ArticleBean> data;
-
+    private TextView tvLocateCity;
     private EditText edittextClientName;
     private SliderLayout mDemoSlider;
     private MyApplication myApplication;
     private static final int PAGE_SIZE = 10;
     private int mNextRequestPage = 1;
+    boolean isFirst = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,7 +74,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
         view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home, container, false);
         initView();
         initData();
-        setClickListener();
+        setListener();
         return view;
     }
 
@@ -79,8 +83,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
         myApplication.setLocateListener(new LocateListener() {
             @Override
             public void OnLocate(String Latitude, String Longitude, String cityName, String adCode) {
-                locate(Latitude, Longitude);
-                requestBanner(adCode);
+                if (isFirst) {
+                    tvLocateCity.setText(cityName);
+                    requestBanner(cityName);
+                }
+                isFirst = false;
+
             }
         });
         recyclerView = view.findViewById(R.id.recyclerView);
@@ -95,6 +103,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
 //        mAdapter.setPreLoadNumber(3);
 //        mAdapter.setLoadMoreView(new CustomLoadMoreView());
         recyclerView.setAdapter(mAdapter);
+        tvLocateCity = view.findViewById(R.id.tvLocateCity);
 
         View view = getLayoutInflater().inflate(R.layout.headerview, (ViewGroup) recyclerView.getParent(), false);
         mAdapter.addHeaderView(view);
@@ -109,93 +118,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
 
     private void initData() {
         requestArticle(true);
-        mAdapter.notifyDataSetChanged();
-        HashMap<String, String> url_maps = new HashMap<String, String>();
-        url_maps.put("Hannibal", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534440083067&di=a04d46600bd5cfa3cf5b09f39de42f23&imgtype=0&src=http%3A%2F%2Fp16.qhimg.com%2Fbdr%2F__%2Fd%2F_open360%2Fbeauty0311%2F16.jpg");
-        url_maps.put("Big Bang Theory", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534440083067&di=e63cfc6a75ce3857d0d4eff60586bc01&imgtype=0&src=http%3A%2F%2Fimg.ph.126.net%2FijQNs4q86Q2fn5UI7ezxuQ%3D%3D%2F733523789408400623.jpg");
-        url_maps.put("House of Cards", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534440083067&di=83cf8d486adb35659ee5eb7038b85ac3&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F1%2F572afc324b7f1.jpg");
-        url_maps.put("Game of Thrones", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534440083067&di=ebcc5903ced82773e206a92806c23637&imgtype=0&src=http%3A%2F%2Fi8.download.fd.pchome.net%2Ft_600x1024%2Fg1%2FM00%2F07%2F18%2FoYYBAFNY5H2If_UQAA_d0sgFVhwAABfCAFKBJQAD93q339.jpg");
-
-        for (String name : url_maps.keySet()) {
-            TextSliderView textSliderView = new TextSliderView(getActivity());
-            // initialize a SliderLayout
-            textSliderView
-//                    .description(name)
-                    .image(url_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-                    .setOnSliderClickListener(this);
-            //add your extra information
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString("extra", name);
-
-            mDemoSlider.addSlider(textSliderView);
-        }
     }
 
-    private void locate(String Latitude, String Longitude) {
-
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("lng", Longitude);
-            jsonObject.put("lat", Latitude);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        sendOkHttpRequest(getActivity(), UrlPath.Locate, jsonObject, null, new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) throws JSONException {
-                JSONObject jsonObject = new JSONObject(response);
-                String code = jsonObject.optString("code");
-                JSONObject jodata = jsonObject.getJSONObject("data");
-
-//                JSONArray jsonArray = jodata.getJSONArray("records");
-//                Gson gson = new Gson();
-//                List<PartnerDynamicBean> partnerDynamicBeanList =
-//                        gson.fromJson(jsonArray.toString(), new TypeToken<List<PartnerDynamicBean>>() {
-//                        }.getType());
-
-//                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-        });
-    }
-
-    private void requestBanner(String adCode) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("areaId ", adCode);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        sendOkHttpRequest(getActivity(), UrlPath.Banner, jsonObject, null, new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) throws JSONException {
-                JSONObject jsonObject = new JSONObject(response);
-                String code = jsonObject.optString("code");
-                JSONObject jodata = jsonObject.getJSONObject("data");
-
-//                JSONArray jsonArray = jodata.getJSONArray("records");
-//                Gson gson = new Gson();
-//                List<PartnerDynamicBean> partnerDynamicBeanList =
-//                        gson.fromJson(jsonArray.toString(), new TypeToken<List<PartnerDynamicBean>>() {
-//                        }.getType());
-
-//                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-        });
-    }
 
     private void requestArticle(final boolean isRefresh) {
         if (isRefresh) {
@@ -269,15 +193,65 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
         }
     }
 
+    private void requestBanner(String cityName) {
+        String cityCode = "";
+        List<Contact> contactList = new ArrayList<>();
+        contactList.addAll(Contact.getChineseContacts());
+        for (int i = 0; i < contactList.size(); i++) {
+            if (contactList.get(i).getName().equals(cityName)) {
+                cityCode = contactList.get(i).getCode();
+            }
+        }
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("areaId", cityCode);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-    @Override
-    public void onSliderClick(BaseSliderView slider) {
-        startActivity(new Intent(getActivity(), WelcomeActivity.class));
-        Toast.makeText(getActivity(), slider.getBundle().get("extra") + "", Toast.LENGTH_SHORT).show();
+        sendOkHttpRequest(getActivity(), UrlPath.Banner, jsonObject, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+                String code = jsonObject.optString("code");
+                JSONArray jsonArray = jsonObject.getJSONArray("data");
+                Gson gson = new Gson();
+                final List<BannerBean> bannerBeanList = gson.fromJson(jsonArray.toString(), new TypeToken<List<BannerBean>>() {
+                }.getType());
+                HashMap<String, String> url_maps = new HashMap<>();
+                for (int i = 0; i < bannerBeanList.size(); i++) {
+                    final BannerBean bannerBean = bannerBeanList.get(i);
+                    TextSliderView textSliderView = new TextSliderView(getActivity());
+                    url_maps.put("", bannerBean.getImage());
+                    // initialize a SliderLayout
+                    textSliderView
+//                    .description(name)
+                            .image(bannerBean.getImage())
+                            .setScaleType(BaseSliderView.ScaleType.Fit)
+                            .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                                @Override
+                                public void onSliderClick(BaseSliderView slider) {
+                                    ArticleDetailActivity.actionStart(getActivity(), bannerBean.getArticleId());
+                                    Toast.makeText(getActivity(), "点击了第" + bannerBean.getSort() + "条banner", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    //add your extra information
+                    textSliderView.bundle(new Bundle());
+                    textSliderView.getBundle().putString("extra", "");
+                    mDemoSlider.addSlider(textSliderView);
+                }
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
     }
 
 
-    private void setClickListener() {
+    private void setListener() {
+        tvLocateCity.setOnClickListener(this);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -286,18 +260,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
             }
         });
 
-//        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-//            @Override
-//            public void onLoadMoreRequested() {
-//                request(false);
-//            }
-//        });
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                requestArticle(false);
+            }
+        });
 
     }
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.tvLocateCity:
+                Intent intent = new Intent(getActivity(), CityActivity.class);
+                startActivityForResult(intent, 0);
+                break;
+        }
     }
 
     @Override
@@ -311,6 +290,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Base
 
     @Override
     public void onPageScrollStateChanged(int state) {
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && resultCode == getActivity().RESULT_OK) {
+            String name = data.getStringExtra("name");
+            tvLocateCity.setText(name);
+            requestBanner(name);
+        }
     }
 
     @Override

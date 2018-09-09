@@ -29,8 +29,8 @@ public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, Bas
 
     public CardListAdapter(List data) {
         super(data);
-        addItemType(CardInfoBean.WebView, R.layout.activity_artcle_detail_webview_item);
-        addItemType(CardInfoBean.Card, R.layout.activity_artcle_detail_cardlist_item);
+        addItemType(CardInfoBean.WebView, R.layout.activity_article_detail_webview_item);
+        addItemType(CardInfoBean.Card, R.layout.activity_article_detail_cardlist_item);
     }
 
     @Override
@@ -78,11 +78,11 @@ public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, Bas
 //                int fontSize = (int) mContext.getResources().getDimension(R.dimen.samll);
 //                webSettings.setTextZoom(fontSize);
 
-                String cssLayout = "<style>*{padding: 20px;margin: 20px}#webview_content_wrapper{margin: 20px 20px 20px 20px;} p{color: #333333;line-height: 2em;font-size:48px;opacity: 1;} img {margin-top: 13px;margin-bottom: 15px;width: 100%;}</style>";
-                String htmlModify = IMAGE1.replaceAll("<br/>", "");
-                String htmlcontent = cssLayout + "<body><div id='webview_content_wrapper'>" + htmlModify + "</div></body>";
+//                String cssLayout = "<style>*{padding: 20px;margin: 20px}#webview_content_wrapper{margin: 20px 20px 20px 20px;} p{color: #333333;line-height: 2em;font-size:48px;opacity: 1;} img {margin-top: 13px;margin-bottom: 15px;width: 100%;}</style>";
+//                String htmlModify = IMAGE1.replaceAll("<br/>", "");
+//                String htmlcontent = cssLayout + "<body><div id='webview_content_wrapper'>" + htmlModify + "</div></body>";
 
-                webview.loadDataWithBaseURL(null, htmlcontent, "text/html", "UTF-8", null);
+                webview.loadDataWithBaseURL(null, getNewContent(item.getWebview_content()), "text/html", "UTF-8", null);
 //                webview.loadUrl("http://news.sina.com.cn/o/2018-08-19/doc-ihhxaafy5278620.shtml");
                 break;
             case CardInfoBean.Card:
