@@ -31,21 +31,21 @@
     <!-- TextView样式浅灰色 -->
     <style name="textViewMicroLightGray">
         <item name="android:textSize">@dimen/micro</item>
-        <item name="android:textColor">#BFBFBF</item>
+        <item name="android:textColor">#A4A4A4</item>
     </style>
     <style name="textViewSmallLightGray">
         <item name="android:textSize">@dimen/samll</item>
-        <item name="android:textColor">#BFBFBF</item>
+        <item name="android:textColor">#A4A4A4</item>
     </style>
 
     <style name="textViewMediumLightGray">
         <item name="android:textSize">@dimen/medium</item>
-        <item name="android:textColor">#BFBFBF</item>
+        <item name="android:textColor">#A4A4A4</item>
     </style>
 
     <style name="textViewLargeLightGray">
         <item name="android:textSize">@dimen/large</item>
-        <item name="android:textColor">#BFBFBF</item>
+        <item name="android:textColor">#A4A4A4</item>
     </style>
 
     <!-- TextView样式白色 -->

@@ -145,7 +145,7 @@ public class PartnerDynamicFragment extends Fragment {
             e.printStackTrace();
         }
 
-        sendOkHttpRequest(getActivity(), UrlPath.IdolNews, jo, null, new HttpCallbackListener() {
+        sendOkHttpRequest(getActivity(), UrlPath.IdolNews, jo, mSwipeRefreshLayout, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);

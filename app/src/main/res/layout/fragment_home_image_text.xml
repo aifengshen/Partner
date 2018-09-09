@@ -1,35 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp">
 
-    <ImageView
-        android:id="@+id/img"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="10dp"
-        android:background="#ff4a00" />
+        app:cardCornerRadius="10dp">
 
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+    </android.support.v7.widget.CardView>
 
-    <TextView
-        android:id="@+id/tvTitle"
-        style="@style/textViewMediumBlack"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/img"
-        android:layout_alignTop="@id/img"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:text="啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊" />
+        android:layout_above="@id/tvFrom"
+        android:layout_alignTop="@id/cardview"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/cardview"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/textViewMediumBlack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊" />
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/tvFrom"
         style="@style/textViewMicroLightGray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/img"
+        android:layout_alignBottom="@id/cardview"
+        android:layout_marginBottom="5dp"
         android:text="光大银行" />
 
     <TextView
@@ -37,7 +53,8 @@
         style="@style/textViewMicroLightGray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/img"
+        android:layout_alignBottom="@id/cardview"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@id/tvFrom"
         android:text="8月13日" />

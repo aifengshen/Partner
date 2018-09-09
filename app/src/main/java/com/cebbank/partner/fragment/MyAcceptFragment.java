@@ -138,7 +138,7 @@ public class MyAcceptFragment extends Fragment {
             e.printStackTrace();
         }
 
-        sendOkHttpRequest(getActivity(), UrlPath.MyCollection, jo, null, new HttpCallbackListener() {
+        sendOkHttpRequest(getActivity(), UrlPath.MyCollection, jo, mSwipeRefreshLayout, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);

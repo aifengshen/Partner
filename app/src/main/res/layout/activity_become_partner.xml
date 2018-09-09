@@ -6,7 +6,7 @@
     android:background="@color/text_color_white"
     android:orientation="vertical"
     android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+    android:paddingRight="20dp"
     tools:context=".ui.BecomePartnerActivity">
 
     <TextView
@@ -241,7 +241,7 @@
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:paddingTop="10dp"
-            android:text="取消重填" />
+            android:text="取    消" />
 
         <TextView
             style="@style/textViewSmallWhite"
@@ -252,7 +252,7 @@
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:paddingTop="10dp"
-            android:text="立即申请" />
+            android:text="下一步" />
     </LinearLayout>
 
 </LinearLayout>

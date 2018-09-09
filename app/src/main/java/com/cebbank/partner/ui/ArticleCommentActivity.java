@@ -116,7 +116,7 @@ public class ArticleCommentActivity extends BaseActivity implements View.OnClick
             e.printStackTrace();
         }
 
-        sendOkHttpRequest(this, UrlPath.CommentList, jo, null, new HttpCallbackListener() {
+        sendOkHttpRequest(this, UrlPath.CommentList, jo, mSwipeRefreshLayout, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);

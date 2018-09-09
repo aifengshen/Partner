@@ -141,7 +141,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, View
             e.printStackTrace();
         }
 
-        sendOkHttpRequest(getActivity(), UrlPath.Article, jo, null, new HttpCallbackListener() {
+        sendOkHttpRequest(getActivity(), UrlPath.Article, jo, mSwipeRefreshLayout, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);

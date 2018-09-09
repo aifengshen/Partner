@@ -8,13 +8,17 @@ import android.view.ViewGroup;
 
 import com.cebbank.partner.R;
 
+
+/**
+ * 成为合伙人fragment
+ */
 public class PartnerFragment extends Fragment {
 
     View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_partner, container, false);
+        view = LayoutInflater.from(getActivity()).inflate(R.layout.activity_become_partner, container, false);
         initView();
         initData();
         setClickListener();

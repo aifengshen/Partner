@@ -159,7 +159,7 @@ public class HttpUtil {
     public static void sendOkHttpRequestUpLoad(final Activity mActivity, final String address,
                                                final SwipeRefreshLayout swipeLayout, final String path,
                                                final HttpCallbackListener httpCallbackListener) {
-        final CustomDialog customDialog = new CustomDialog(mActivity, false, null);
+        final CustomDialog customDialog = new CustomDialog(mActivity, true, null);
         new Thread(new Runnable() {
             @Override
             public void run() {

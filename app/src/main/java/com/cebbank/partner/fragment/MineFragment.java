@@ -4,18 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cebbank.partner.R;
-import com.cebbank.partner.bean.PartnerDynamicBean;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
-import com.cebbank.partner.ui.AbActivity;
 import com.cebbank.partner.ui.BecomePartnerActivity;
 import com.cebbank.partner.ui.MyApplyActivity;
 import com.cebbank.partner.ui.PersonalDataActivity;
@@ -24,14 +20,8 @@ import com.cebbank.partner.utils.UrlPath;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequestUpLoad;
 
 /**
@@ -128,7 +118,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 /**
                  *我的素材
                  */
-                startActivity(new Intent(getActivity(),AbActivity.class));
+
                 break;
             case R.id.tvBindingCard:
                 /**

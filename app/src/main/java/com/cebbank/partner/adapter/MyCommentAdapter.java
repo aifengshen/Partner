@@ -5,22 +5,22 @@ import android.widget.ImageView;
 
 import com.cebbank.partner.GlideApp;
 import com.cebbank.partner.R;
-import com.cebbank.partner.bean.CommentBean;
+import com.cebbank.partner.bean.MyCommentBean;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.List;
 
-public class MyCommentAdapter extends BaseMultiItemQuickAdapter<CommentBean, BaseViewHolder> {
+public class MyCommentAdapter extends BaseMultiItemQuickAdapter<MyCommentBean, BaseViewHolder> {
 
     public MyCommentAdapter(List data) {
         super(data);
-        addItemType(CommentBean.Comment, R.layout.activity_commet_item);
-        addItemType(CommentBean.Reply, R.layout.activity_reply_item);
+        addItemType(MyCommentBean.Comment, R.layout.activity_my_commet_item);
+        addItemType(MyCommentBean.Reply, R.layout.activity_reply_item);
     }
 
     @Override
-    protected void convert(final BaseViewHolder helper, final CommentBean item) {
+    protected void convert(final BaseViewHolder helper, final MyCommentBean item) {
 
         helper.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,7 +30,7 @@ public class MyCommentAdapter extends BaseMultiItemQuickAdapter<CommentBean, Bas
         });
 
         switch (helper.getItemViewType()) {
-            case CommentBean.Comment:
+            case MyCommentBean.Comment:
                 helper.setText(R.id.tvName,item.getUsername());
                 helper.setText(R.id.tvDate,item.getCreateDate());
                 helper.setText(R.id.tvContent,item.getContent());
@@ -40,7 +40,7 @@ public class MyCommentAdapter extends BaseMultiItemQuickAdapter<CommentBean, Bas
                         .centerCrop()
                         .into((ImageView) helper.getView(R.id.img));
                 break;
-            case CommentBean.Reply:
+            case MyCommentBean.Reply:
                 helper.setText(R.id.tvReply,item.getContent());
                 break;
         }

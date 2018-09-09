@@ -102,7 +102,7 @@ public class PersonalDataActivity extends BaseActivity {
         paramsMap.put("current", String.valueOf(mNextRequestPage));
         paramsMap.put("size", String.valueOf(PAGE_SIZE));
 
-//        sendOkHttpRequest(this, UrlPath.Login, paramsMap, null, new HttpCallbackListener() {
+//        sendOkHttpRequest(this, UrlPath.Login, paramsMap, mSwipeRefreshLayout, new HttpCallbackListener() {
 //            @Override
 //            public void onFinish(String response) throws JSONException {
 //                JSONObject jsonObject = new JSONObject(response);

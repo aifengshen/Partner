@@ -149,7 +149,7 @@ public class AttentionPartnerFragment extends Fragment {
             e.printStackTrace();
         }
 
-        sendOkHttpRequest(getActivity(), UrlPath.Idol, jo, null, new HttpCallbackListener() {
+        sendOkHttpRequest(getActivity(), UrlPath.Idol, jo, mSwipeRefreshLayout, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);

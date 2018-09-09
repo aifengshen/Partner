@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +14,8 @@ import android.widget.Toast;
 
 import com.cebbank.partner.BaseActivity;
 import com.cebbank.partner.R;
-import com.cebbank.partner.adapter.ArticleCommentAdapter;
-import com.cebbank.partner.bean.CommentBean;
+import com.cebbank.partner.adapter.MyCommentAdapter;
+import com.cebbank.partner.bean.MyCommentBean;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
@@ -40,8 +39,8 @@ public class MyCommentActivity extends BaseActivity implements View.OnClickListe
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private ArticleCommentAdapter mAdapter;
-    private List<CommentBean> data;
+    private MyCommentAdapter mAdapter;
+    private List<MyCommentBean> data;
     private static final int PAGE_SIZE = 10;
     private int mNextRequestPage = 1;
     private TextView ectvComment;
@@ -64,7 +63,7 @@ public class MyCommentActivity extends BaseActivity implements View.OnClickListe
         mSwipeRefreshLayout = findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
         data = new ArrayList<>();
-        mAdapter = new ArticleCommentAdapter(data);
+        mAdapter = new MyCommentAdapter(data);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
 //        mAdapter.setPreLoadNumber(3);
 //        mAdapter.setLoadMoreView(new CustomLoadMoreView());
@@ -114,7 +113,7 @@ public class MyCommentActivity extends BaseActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
-        sendOkHttpRequest(this, UrlPath.CommentList, jo, null, new HttpCallbackListener() {
+        sendOkHttpRequest(this, UrlPath.CommentList, jo, mSwipeRefreshLayout, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
@@ -126,18 +125,18 @@ public class MyCommentActivity extends BaseActivity implements View.OnClickListe
                 }
                 JSONArray jsonArray = jodata.getJSONArray("records");
                 Gson gson = new Gson();
-                List<CommentBean> commentBeanList =
-                        gson.fromJson(jsonArray.toString(), new TypeToken<List<CommentBean>>() {
+                List<MyCommentBean> myCommentBeanList =
+                        gson.fromJson(jsonArray.toString(), new TypeToken<List<MyCommentBean>>() {
                         }.getType());
-                List<CommentBean> data = new ArrayList<>();
-                for (int i=0;i<commentBeanList.size();i++){
-                    CommentBean commentBean = commentBeanList.get(i);
-                    if (TextUtils.isEmpty(commentBean.getReply())){
-                        commentBean.setType("Comment");
+                List<MyCommentBean> data = new ArrayList<>();
+                for (int i=0;i<myCommentBeanList.size();i++){
+                    MyCommentBean myCommentBean = myCommentBeanList.get(i);
+                    if (TextUtils.isEmpty(myCommentBean.getReply())){
+                        myCommentBean.setType("Comment");
                     }else{
-                        commentBean.setType("Reply");
+                        myCommentBean.setType("Reply");
                     }
-                    data.add(commentBean);
+                    data.add(myCommentBean);
                 }
                 setData(isRefresh, data);
                 mAdapter.notifyDataSetChanged();
@@ -157,7 +156,7 @@ public class MyCommentActivity extends BaseActivity implements View.OnClickListe
     }
 
 
-    private void setData(boolean isRefresh, List<CommentBean> data) {
+    private void setData(boolean isRefresh, List<MyCommentBean> data) {
         mNextRequestPage++;
         final int size = data == null ? 0 : data.size();
         if (isRefresh) {

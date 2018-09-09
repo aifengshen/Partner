@@ -36,34 +36,6 @@ public class MyCommentBean implements MultiItemEntity {
     public String replyDate;
     public String replyable;
 
-    public static int getComment() {
-        return Comment;
-    }
-
-    public static int getReply() {
-        return Reply;
-    }
-
-    public void setReply(String reply) {
-        this.reply = reply;
-    }
-
-    public String getReplyDate() {
-        return replyDate;
-    }
-
-    public void setReplyDate(String replyDate) {
-        this.replyDate = replyDate;
-    }
-
-    public String getReplyable() {
-        return replyable;
-    }
-
-    public void setReplyable(String replyable) {
-        this.replyable = replyable;
-    }
-
     public String getType() {
         return type;
     }
@@ -126,5 +98,29 @@ public class MyCommentBean implements MultiItemEntity {
 
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
+    }
+
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
+
+    public String getReplyDate() {
+        return replyDate;
+    }
+
+    public void setReplyDate(String replyDate) {
+        this.replyDate = replyDate;
+    }
+
+    public String getReplyable() {
+        return replyable;
+    }
+
+    public void setReplyable(String replyable) {
+        this.replyable = replyable;
     }
 }
