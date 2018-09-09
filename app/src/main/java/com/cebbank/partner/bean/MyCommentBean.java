@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  * @Author Pjw
  * @date 2018/9/8 18:57
  */
-public class ArticleCommentBean implements MultiItemEntity {
+public class MyCommentBean implements MultiItemEntity {
 
     public static final int Comment = 1;
     public static final int Reply = 2;

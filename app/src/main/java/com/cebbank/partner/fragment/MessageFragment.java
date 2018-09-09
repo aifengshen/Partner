@@ -15,6 +15,7 @@ import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.MessageFragmentAdapter;
 import com.cebbank.partner.bean.MessageFragmentBean;
 import com.cebbank.partner.ui.ArticleCommentActivity;
+import com.cebbank.partner.ui.MyCommentActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -88,6 +89,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                 /**
                  * 我的评论页面
                  */
+                MyCommentActivity.actionStart(getActivity());
                 break;
         }
     }

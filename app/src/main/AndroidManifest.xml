@@ -145,7 +145,8 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".ui.CityActivity" />
         <activity android:name=".ui.CardDetailActivity" />
-        <activity android:name=".ui.ArticleCommentActivity"></activity>
+        <activity android:name=".ui.ArticleCommentActivity" />
+        <activity android:name=".ui.MyCommentActivity"></activity>
     </application>
 
 </manifest>
