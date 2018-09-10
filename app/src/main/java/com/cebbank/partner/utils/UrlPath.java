@@ -72,7 +72,7 @@ public class UrlPath {
     /**
      * 我的评论
      */
-    public static final String Comment = "/app/notice/comment";
+    public static final String MyComment = "/app/notice/comment";
     /**
      * 文章评论
      */

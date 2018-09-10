@@ -44,6 +44,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -94,7 +96,36 @@
         <activity
             android:name=".ui.MyApplyActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.BecomePartnerActivity" />
+        <activity
+            android:name=".ui.BecomePartnerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.CityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.CardDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.ArticleCommentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.MyCommentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.UpLoadIDActivity"
+            android:screenOrientation="portrait" />
+
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.cebbank.partner.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
 
         <!-- 新浪微博 -->
         <activity
@@ -138,14 +169,12 @@
                 <data android:scheme="tencent100424468" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".ui.CityActivity" />
-        <activity android:name=".ui.CardDetailActivity" />
-        <activity android:name=".ui.ArticleCommentActivity" />
-        <activity android:name=".ui.MyCommentActivity"></activity>
+
     </application>
 
 </manifest>

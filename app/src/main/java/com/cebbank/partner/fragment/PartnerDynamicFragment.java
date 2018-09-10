@@ -99,6 +99,7 @@ public class PartnerDynamicFragment extends Fragment {
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
 //        mAdapter.setPreLoadNumber(3);
         mAdapter.setLoadMoreView(new CustomLoadMoreView());
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(mAdapter);
 //        //添加自定义分割线
 //        DividerItemDecoration divider = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);

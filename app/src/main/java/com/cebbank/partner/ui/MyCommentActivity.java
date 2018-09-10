@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.MyCommentAdapter;
 import com.cebbank.partner.bean.MyCommentBean;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
+import com.cebbank.partner.interfaces.OnReplyListener;
 import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -35,7 +37,7 @@ import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 /**
  * 我的评论页面
  */
-public class MyCommentActivity extends BaseActivity implements View.OnClickListener{
+public class MyCommentActivity extends BaseActivity implements View.OnClickListener, OnReplyListener {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -44,6 +46,7 @@ public class MyCommentActivity extends BaseActivity implements View.OnClickListe
     private static final int PAGE_SIZE = 10;
     private int mNextRequestPage = 1;
     private TextView ectvComment;
+    private String commentId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class MyCommentActivity extends BaseActivity implements View.OnClickListe
         mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
         data = new ArrayList<>();
         mAdapter = new MyCommentAdapter(data);
+        mAdapter.setOnReplyListener(this);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
 //        mAdapter.setPreLoadNumber(3);
 //        mAdapter.setLoadMoreView(new CustomLoadMoreView());
@@ -107,13 +111,13 @@ public class MyCommentActivity extends BaseActivity implements View.OnClickListe
         }
         JSONObject jo = new JSONObject();
         try {
-            jo.put("token", "5503eb72fe764ac7843c810178763399");
+            jo.put("token", "5503eb72fe764ac7843c81017e767301");//5503eb72fe764ac7843c81017e767301
             jo.put("page", jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        sendOkHttpRequest(this, UrlPath.CommentList, jo, mSwipeRefreshLayout, new HttpCallbackListener() {
+        sendOkHttpRequest(this, UrlPath.MyComment, jo, mSwipeRefreshLayout, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
@@ -129,14 +133,24 @@ public class MyCommentActivity extends BaseActivity implements View.OnClickListe
                         gson.fromJson(jsonArray.toString(), new TypeToken<List<MyCommentBean>>() {
                         }.getType());
                 List<MyCommentBean> data = new ArrayList<>();
-                for (int i=0;i<myCommentBeanList.size();i++){
+                for (int i = 0; i < myCommentBeanList.size(); i++) {
                     MyCommentBean myCommentBean = myCommentBeanList.get(i);
-                    if (TextUtils.isEmpty(myCommentBean.getReply())){
+                    if (TextUtils.isEmpty(myCommentBean.getReply())) {
                         myCommentBean.setType("Comment");
-                    }else{
-                        myCommentBean.setType("Reply");
+                        data.add(myCommentBean);
+                    } else {
+                        myCommentBean.setType("Comment");
+                        data.add(myCommentBean);
+                        MyCommentBean myCommentBean1 = null;
+                        try {
+                            myCommentBean1 = (MyCommentBean) myCommentBean.clone();
+                        } catch (CloneNotSupportedException e) {
+                            e.printStackTrace();
+                        }
+                        myCommentBean1.setType("Reply");
+                        data.add(myCommentBean1);
                     }
-                    data.add(myCommentBean);
+
                 }
                 setData(isRefresh, data);
                 mAdapter.notifyDataSetChanged();
@@ -187,28 +201,32 @@ public class MyCommentActivity extends BaseActivity implements View.OnClickListe
                     ToastUtils.showShortToast("评论内容不能为空");
                     return;
                 }
-                sendComment(comment);
+                if (TextUtils.isEmpty(commentId)){
+                    ToastUtils.showShortToast("请点击要回复的评论");
+                    return;
+                }
+                sendComment(comment,commentId);
                 break;
         }
     }
 
-    private void sendComment(String comment) {
+    private void sendComment(String comment,String commentId) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("content", comment);
-            jsonObject.put("articleId", getIntent().getStringExtra("articleId"));
-            jsonObject.put("token", "5503eb72fe764ac7843c810178763399");
+            jsonObject.put("commentId", commentId);
+            jsonObject.put("token", "5503eb72fe764ac7843c81017e767301");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        sendOkHttpRequest(this, UrlPath.Publish, jsonObject, null, new HttpCallbackListener() {
+        sendOkHttpRequest(this, UrlPath.Reply, jsonObject, null, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
-                String code = jsonObject.optString("code");
-                JSONObject jodata = jsonObject.getJSONObject("data");
-
+                ToastUtils.showShortToast("回复成功~");
+                ectvComment.setText("");
+                requestComments(true);
 
             }
 
@@ -222,5 +240,11 @@ public class MyCommentActivity extends BaseActivity implements View.OnClickListe
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, MyCommentActivity.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void reply(String comment_Id, String name) {
+        ectvComment.setHint("回复 " + name + ":");
+        commentId = comment_Id;
     }
 }

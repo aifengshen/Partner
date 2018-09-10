@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="1dp"
+    android:background="@color/text_color_white"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -26,7 +28,7 @@
             android:text="张三" />
 
         <TextView
-            style="@style/textViewMicroLightGray"
+            style="@style/textViewSmallLightGray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
@@ -42,19 +44,20 @@
 
 
     <TextView
-        style="@style/textViewMicroLightGray"
+        style="@style/textViewSmallLightGray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="5dp"
         android:text="进行了评论:" />
 
     <TextView
+        android:id="@+id/tvContent"
         style="@style/textViewMicroBlack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="30dp"
         android:text="拉打飞机爱神的箭哦啊时代峻峰氨基酸的佛家搜到金佛四等奖覅按实际哦年纪是就是fiasco带手机的父爱世纪东方手机的佛急死我剪短发哦你手机欧尼我家搜到覅建安是的缴费soil破事多家非金属" />
 
 </LinearLayout>

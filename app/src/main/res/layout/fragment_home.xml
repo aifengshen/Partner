@@ -4,7 +4,7 @@
     android:id="@+id/llbackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/text_color_white"
+    android:background="@color/color_bg_gray"
     android:orientation="vertical">
 
     <android.support.design.widget.CoordinatorLayout
@@ -15,7 +15,6 @@
             android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <include layout="@layout/search_view" />
         </android.support.design.widget.AppBarLayout>
 
@@ -29,7 +28,6 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/color_bg_gray"
                 android:overScrollMode="never"></android.support.v7.widget.RecyclerView>
         </android.support.v4.widget.SwipeRefreshLayout>
     </android.support.design.widget.CoordinatorLayout>

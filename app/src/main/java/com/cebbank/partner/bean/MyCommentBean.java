@@ -8,10 +8,16 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  * @Author Pjw
  * @date 2018/9/8 18:57
  */
-public class MyCommentBean implements MultiItemEntity {
+public class MyCommentBean implements MultiItemEntity,Cloneable {
 
     public static final int Comment = 1;
     public static final int Reply = 2;
+
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();// 浅拷贝 step2
+    }
 
     @Override
     public int getItemType() {
