@@ -39,6 +39,7 @@
             android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/edtvName"
                 style="@style/textViewSmallBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -111,6 +112,7 @@
             android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/edtvNumber"
                 style="@style/textViewSmallBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -143,6 +145,7 @@
             android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/edtvPhone"
                 style="@style/textViewSmallBlack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -195,6 +198,7 @@
             android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/edtvCode"
                 style="@style/textViewSmallBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -208,6 +212,7 @@
 
 
         <TextView
+            android:id="@+id/tvSend"
             style="@style/textViewSmallBlack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

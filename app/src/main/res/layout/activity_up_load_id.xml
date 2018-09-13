@@ -1,99 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <TextView
-        style="@style/textViewSmallLightGray"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="20dp"
-        android:text="您的照片仅供认证，我们会严格保密" />
-
-    <TextView
-        style="@style/textViewMediumBlack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:text="身份证" />
-
-    <TextView
-        style="@style/textViewSmallLightGray"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="正面" />
-
-    <ImageView
-        android:id="@+id/imgIDfront"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
-        android:background="@color/text_color_orange" />
-
-    <TextView
-        style="@style/textViewMediumBlack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingBottom="10dp"
-        android:paddingTop="20dp"
-        android:text="身份证" />
-
-    <TextView
-        style="@style/textViewSmallLightGray"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="反面" />
-
-    <ImageView
-        android:id="@+id/imgIDback"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
-        android:background="@color/text_color_orange" />
+    android:background="@color/text_color_white"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvCancel"
-            style="@style/textViewSmallWhite"
-            android:layout_width="wrap_content"
+            style="@style/textViewSmallLightGray"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/corner_25_bg_orange_line_orange"
+            android:gravity="center"
             android:paddingBottom="10dp"
-            android:paddingLeft="40dp"
-            android:paddingRight="40dp"
-            android:paddingTop="10dp"
-            android:text="取消" />
+            android:text="您的照片仅供认证，我们会严格保密" />
 
         <TextView
-            android:id="@+id/tvSubmit"
-            style="@style/textViewSmallWhite"
+            style="@style/textViewMediumBlack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="身份证" />
+
+        <TextView
+            style="@style/textViewSmallLightGray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="正面" />
+
+        <android.support.v7.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/corner_25_bg_green_line_green"
-            android:paddingBottom="10dp"
-            android:paddingLeft="40dp"
-            android:paddingRight="40dp"
-            android:paddingTop="10dp"
-            android:text="提交" />
+            app:cardCornerRadius="10dp">
+
+            <ImageView
+                android:id="@+id/imgIDfront"
+                android:layout_width="255dp"
+                android:layout_height="162dp"
+                android:background="@color/text_color_orange" />
+        </android.support.v7.widget.CardView>
+
+
+        <TextView
+            style="@style/textViewMediumBlack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="身份证" />
+
+        <TextView
+            style="@style/textViewSmallLightGray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="反面" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp">
+
+            <ImageView
+                android:id="@+id/imgIDback"
+                android:layout_width="255dp"
+                android:layout_height="162dp"
+                android:background="@color/text_color_orange" />
+        </android.support.v7.widget.CardView>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvCancel"
+                style="@style/textViewSmallWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/corner_25_bg_orange_line_orange"
+                android:paddingBottom="10dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:paddingTop="10dp"
+                android:text="取消" />
+
+            <TextView
+                android:id="@+id/tvSubmit"
+                style="@style/textViewSmallWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/corner_25_bg_green_line_green"
+                android:paddingBottom="10dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:paddingTop="10dp"
+                android:text="提交" />
+        </LinearLayout>
+
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

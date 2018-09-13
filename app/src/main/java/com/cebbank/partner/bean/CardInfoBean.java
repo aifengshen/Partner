@@ -32,9 +32,11 @@ public class CardInfoBean implements MultiItemEntity {
     public String webview_avatar;
     public String webview_attention;
     public String webview_like;
+    public String webview_liked;
     public String webview_comment;
     public String webview_forward;
     public String webview_collection;
+    public String webview_collected;
 
 
     public String getId() {
@@ -163,5 +165,21 @@ public class CardInfoBean implements MultiItemEntity {
 
     public void setWebview_collection(String webview_collection) {
         this.webview_collection = webview_collection;
+    }
+
+    public String getWebview_liked() {
+        return webview_liked;
+    }
+
+    public void setWebview_liked(String webview_liked) {
+        this.webview_liked = webview_liked;
+    }
+
+    public String getWebview_collected() {
+        return webview_collected;
+    }
+
+    public void setWebview_collected(String webview_collected) {
+        this.webview_collected = webview_collected;
     }
 }

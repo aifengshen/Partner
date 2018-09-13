@@ -14,4 +14,7 @@
     <color name="color_bg_purple">#6C158A</color>
     <!--toolbar文本颜色-->
     <color name="gray_color">#4b4b58</color>
+    <!--控件颜色-->
+    <color name="praise_red_color">#F63C64</color>
+    <color name="praise_normal_color">#CDCDCD</color>
 </resources>

@@ -16,6 +16,7 @@ import com.cebbank.partner.BaseActivity;
 import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.ArticleCommentAdapter;
 import com.cebbank.partner.bean.CommentBean;
+import com.cebbank.partner.bean.MyCommentBean;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
@@ -132,15 +133,34 @@ public class ArticleCommentActivity extends BaseActivity implements View.OnClick
                         gson.fromJson(jsonArray.toString(), new TypeToken<List<CommentBean>>() {
                         }.getType());
                 List<CommentBean> data = new ArrayList<>();
-                for (int i=0;i<commentBeanList.size();i++){
+                for (int i = 0; i < commentBeanList.size(); i++) {
                     CommentBean commentBean = commentBeanList.get(i);
-                    if (TextUtils.isEmpty(commentBean.getReply())){
+                    if (TextUtils.isEmpty(commentBean.getReply())) {
                         commentBean.setType("Comment");
-                    }else{
-                        commentBean.setType("Reply");
+                        data.add(commentBean);
+                    } else {
+                        commentBean.setType("Comment");
+                        data.add(commentBean);
+                        CommentBean commentBean1 = null;
+                        try {
+                            commentBean1 = (CommentBean) commentBean.clone();
+                        } catch (CloneNotSupportedException e) {
+                            e.printStackTrace();
+                        }
+                        commentBean1.setType("Reply");
+                        data.add(commentBean1);
                     }
-                    data.add(commentBean);
+
                 }
+//                for (int i=0;i<commentBeanList.size();i++){
+//                    CommentBean commentBean = commentBeanList.get(i);
+//                    if (TextUtils.isEmpty(commentBean.getReply())){
+//                        commentBean.setType("Comment");
+//                    }else{
+//                        commentBean.setType("Reply");
+//                    }
+//                    data.add(commentBean);
+//                }
                 setData(isRefresh, data);
                 mAdapter.notifyDataSetChanged();
 

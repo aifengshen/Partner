@@ -42,7 +42,7 @@ public class UrlPath {
      */
     public static final String IdolNews = "/app/attention/idolNews";
     /**
-     * 上传图片
+     * 上传头像
      */
     public static final String Upload = "/file/upload";
     /**
@@ -70,6 +70,10 @@ public class UrlPath {
      */
     public static final String Concern = "/app/follow/concern";
     /**
+     * 点赞
+     */
+    public static final String Praise = "/app/like/send";
+    /**
      * 我的评论
      */
     public static final String MyComment = "/app/notice/comment";
@@ -85,7 +89,22 @@ public class UrlPath {
      * 回复评论
      */
     public static final String Reply = "/app/comment/reply";
-
+    /**
+     * 身份证正面照片上传
+     */
+    public static final String IDcardHeadUpload = "/file/IDcardHeadUpload";
+    /**
+     * 身份证正面照片上传
+     */
+    public static final String IDcardTailUpload = "/file/IDcardTailUpload";
+    /**
+     * 短信验证码
+     */
+    public static final String GetCode = "/app/sms/getCode";
+    /**
+     * 申请提交
+     */
+    public static final String Apply = "/app/partner/apply";
 
 
 

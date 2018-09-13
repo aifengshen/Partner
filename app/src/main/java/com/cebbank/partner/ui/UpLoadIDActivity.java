@@ -1,70 +1,62 @@
 package com.cebbank.partner.ui;
 
-import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.cebbank.partner.BaseActivity;
-import com.cebbank.partner.MyApplication;
+import com.cebbank.partner.GlideApp;
 import com.cebbank.partner.R;
-import com.cebbank.partner.utils.LogUtils;
+import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.utils.PictureUtils;
 import com.cebbank.partner.utils.ToastUtils;
+import com.cebbank.partner.utils.UrlPath;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
-public class UpLoadIDActivity extends BaseActivity implements View.OnClickListener {
+import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
+import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequestUpLoad;
+
+public class UpLoadIDActivity extends CheckPermissionsActivity implements View.OnClickListener {
 
     private ImageView imgIDfront, imgIDback;
     private static final int TAKE_PHOTO = 1;
     private static final int TAKE_ALBUM = 2;
     private Uri imageUri;
     private File outputImage = null;
-    String path = "";
+    private String path = "", type = "", front = "", back = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_up_load_id);
         initView();
-        initData();
         setListener();
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        getPersimmions();
-//    }
-
     private void initView() {
+        setTitle("上传身份证");
+        setBackBtn();
         imgIDfront = findViewById(R.id.imgIDfront);
         imgIDback = findViewById(R.id.imgIDback);
-    }
-
-    private void initData() {
-
     }
 
     private void setListener() {
@@ -81,64 +73,71 @@ public class UpLoadIDActivity extends BaseActivity implements View.OnClickListen
                 /**
                  * 身份证正面
                  */
-                show("front");
+                type = "front";
+                show();
                 break;
             case R.id.imgIDback:
                 /**
                  * 身份证反面
                  */
-                show("back");
+                type = "back";
+                show();
                 break;
             case R.id.tvCancel:
                 /**
                  * 取消
                  */
-
+                finish();
                 break;
             case R.id.tvSubmit:
                 /**
                  * 提交
                  */
-
+                submit();
                 break;
         }
     }
 
-    private void show(final String type) {
+    private void show() {
         View view = getLayoutInflater().inflate(R.layout.bottom_layout, null);
-        view.findViewById(R.id.tvTakePhoto).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(UpLoadIDActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(UpLoadIDActivity.this, new String[]{Manifest.permission.CAMERA,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                }else{
-                    takePhoto(type);
-                }
-
-            }
-        });
-        view.findViewById(R.id.tvTakeAlbum).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtils.showShortToast("相册");
-            }
-        });
-        view.findViewById(R.id.tvCancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtils.showShortToast("取消");
-            }
-        });
         BottomSheetDialog dialog = new BottomSheetDialog(this);
         dialog.setContentView(view);
         dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         dialog.show();
+        view.findViewById(R.id.tvTakePhoto).setOnClickListener(new MineOnClick(dialog));
+        view.findViewById(R.id.tvTakeAlbum).setOnClickListener(new MineOnClick(dialog));
+        view.findViewById(R.id.tvCancel).setOnClickListener(new MineOnClick(dialog));
+    }
+
+    /**
+     * 点击事件
+     */
+    class MineOnClick implements View.OnClickListener {
+        private BottomSheetDialog dialog;
+
+        public MineOnClick(BottomSheetDialog dialog) {
+            this.dialog = dialog;
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.tvTakePhoto:
+                    takePhoto(type);
+                    break;
+                case R.id.tvTakeAlbum:
+                    chooseFromAlbum();
+                    break;
+                case R.id.tvCancel:
+                    break;
+            }
+            dialog.dismiss();//关闭弹窗
+        }
+
     }
 
     private void takePhoto(String type) {
         // 拍照
-
         if (type.equals("front")) {
             path = "Partner/IMAGE_IDFront.jpg";
         } else {
@@ -153,9 +152,6 @@ public class UpLoadIDActivity extends BaseActivity implements View.OnClickListen
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        if (!outputImage.getParentFile().exists()) {
-//            outputImage.getParentFile().mkdirs();
-//        }
         // 兼容安卓7.0
         if (Build.VERSION.SDK_INT >= 24) {
             imageUri = FileProvider.getUriForFile(UpLoadIDActivity.this,
@@ -168,6 +164,42 @@ public class UpLoadIDActivity extends BaseActivity implements View.OnClickListen
         startActivityForResult(intent, TAKE_PHOTO);
     }
 
+    private void submit() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("username", getIntent().getStringExtra("username"));
+            jsonObject.put("phone", getIntent().getStringExtra("phone"));
+            jsonObject.put("code", getIntent().getStringExtra("code"));
+            jsonObject.put("idCard", getIntent().getStringExtra("idCard"));
+            jsonObject.put("front", front);
+            jsonObject.put("back", back);
+            jsonObject.put("token", "5503eb72fe764ac7843c810178763399");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest(this, UrlPath.Apply, jsonObject, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+                ToastUtils.showShortToast("提交成功~");
+
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+    }
+
+    private void chooseFromAlbum() {
+        Intent intent = new Intent("android.intent.action.GET_CONTENT");
+        intent.setType("image/*");
+        startActivityForResult(intent, TAKE_ALBUM);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -178,30 +210,16 @@ public class UpLoadIDActivity extends BaseActivity implements View.OnClickListen
                  */
                 if (resultCode == RESULT_OK) {
                     // 将拍摄的照片转化成bitmap
-                    LogUtils.e("路径", outputImage.getPath() + "");
                     Bitmap bitmap = PictureUtils.getScaledBitmap(outputImage.getPath(), this);
-                    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), path);
-                    if (!file.getParentFile().exists()) {
-                        file.getParentFile().mkdirs();
-                    }
-                    Bitmap imgTemp = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),
-                            Bitmap.Config.ARGB_8888);
                     try {
-                        FileOutputStream out = new FileOutputStream(file.getPath());
-                        imgTemp.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        FileOutputStream out = new FileOutputStream(outputImage);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
                         out.flush();
                         out.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    imgIDfront.setImageBitmap(bitmap);
-//                    try {
-//                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-//
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-
+                    upLoadIDImage(outputImage.getAbsolutePath());
                 }
                 break;
             case TAKE_ALBUM:
@@ -209,78 +227,116 @@ public class UpLoadIDActivity extends BaseActivity implements View.OnClickListen
                  * 相册
                  */
                 if (resultCode == RESULT_OK) {
-
-                }
-                break;
-            default:
-                break;
-        }
-
-    }
-
-//    @TargetApi(23)
-//    private void getPersimmions() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            ArrayList<String> permissionList = new ArrayList<String>();
-//            /***
-//             * 定位权限为必须权限，用户如果禁止，则每次进入都会申请
-//             * 红米4X会永久禁止，解决方式：设置-授权管理-应用权限管理-找到app开启相关权限才行
-//             * 魅族手机会绕过权限，永远可用。
-//             */
-//            // 定位精确位置
-//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
-//            }
-//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                permissionList.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-//            }
-//            // 拍照权限
-//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-//                permissionList.add(Manifest.permission.CAMERA);
-//            }
-//            // 音频权限
-//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-//                permissionList.add(Manifest.permission.RECORD_AUDIO);
-//            }
-//            // 读写权限
-//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//                permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//            }
-//
-//            if (permissionList.size() > 0) {
-//                String[] permissions = permissionList.toArray(new String[permissionList.size()]);
-//                ActivityCompat.requestPermissions(this, permissions, 1);
-//            } else {
-////                requestLocation();
-//            }
-//        } else {
-////            requestLocation();
-//        }
-//    }
-//
-    @TargetApi(23)
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case 1:
-                if (grantResults.length > 0) {
-                    for (int result : grantResults) {
-                        if (result != PackageManager.PERMISSION_GRANTED) {
-                            Toast.makeText(MyApplication.getContext(), "必须同意所有权限才能使用本程序", Toast.LENGTH_SHORT).show();
-                            finish();
-                            return;
-                        }
+                    //判断手机系统版本号
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        //4.4及以上系统使用这个方法处理图片
+                        handleImageOnKitKat(data);
+                    } else {
+                        //4.4以下系统使用这个方法处理图片, 因为此项目基于5.0起步，故不存在这个问题
+//                        handleImageBeforeKitKat(data);
                     }
-
-                } else {
-                    Toast.makeText(MyApplication.getContext(), "发生未知错误", Toast.LENGTH_SHORT).show();
-                    finish();
                 }
                 break;
             default:
+                break;
         }
 
     }
 
+    @TargetApi(19)
+    private void handleImageOnKitKat(Intent data) {
+        String imagePath = null;
+        Uri uri = data.getData();
+        if (DocumentsContract.isDocumentUri(this, uri)) {
+            //如果是document类型的uri，则通过document id 处理
+            String docId = DocumentsContract.getDocumentId(uri);
+            if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
+                String id = docId.split(":")[1];//解析出数字格式的id
+                String selection = MediaStore.Images.Media._ID + "=" + id;
+                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
+            } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
+                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
+                imagePath = getImagePath(contentUri, null);
+            }
+        } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            //如果是content类型的uri，则使用普通方式处理
+            imagePath = getImagePath(uri, null);
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            //如果是file类型的uri，直接获取图片路径即可
+            imagePath = uri.getPath();
+        }
+        displayImage(imagePath);
+    }
 
+    private String getImagePath(Uri uri, String selection) {
+        String path = null;
+        //通过Uri和selection来获取真实的图片路径
+        Cursor cursor = getContentResolver().query(uri, null, selection, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            }
+            cursor.close();
+        }
+        return path;
+    }
+
+    private void displayImage(String imagePath) {
+        if (imagePath != null) {
+            upLoadIDImage(imagePath);
+            ToastUtils.showShortToast("111");
+        } else {
+            ToastUtils.showShortToast("failed to get image");
+        }
+    }
+
+    private void upLoadIDImage(String path) {
+        String url = "";
+        if (type.equals("front")) {
+            url = UrlPath.IDcardHeadUpload;
+        } else {
+            url = UrlPath.IDcardTailUpload;
+        }
+        sendOkHttpRequestUpLoad(this, url, null, path, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+                String code = jsonObject.optString("code");
+                String url = jsonObject.optString("data");
+                ToastUtils.showShortToast("上传成功");
+                if (type.equals("front")) {
+                    GlideApp.with(UpLoadIDActivity.this)
+                            .load(url)
+//                        .placeholder(R.mipmap.loading)
+                            .centerCrop()
+                            .into(imgIDfront);
+                    front = url;
+                } else {
+                    GlideApp.with(UpLoadIDActivity.this)
+                            .load(url)
+//                        .placeholder(R.mipmap.loading)
+                            .centerCrop()
+                            .into(imgIDback);
+                    back = url;
+                }
+
+            }
+
+            @Override
+            public void onFailure() {
+
+
+            }
+        });
+    }
+
+    public static void actionStart(Context context, String username, String phone, String code,
+                                   String idCard) {
+        Intent intent = new Intent(context, UpLoadIDActivity.class);
+        intent.putExtra("username", username);
+        intent.putExtra("phone", phone);
+        intent.putExtra("code", code);
+        intent.putExtra("idCard", idCard);
+        context.startActivity(intent);
+    }
 }

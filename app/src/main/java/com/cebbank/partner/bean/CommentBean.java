@@ -2,10 +2,16 @@ package com.cebbank.partner.bean;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
-public class CommentBean implements MultiItemEntity {
+public class CommentBean implements MultiItemEntity,Cloneable {
 
     public static final int Comment = 1;
     public static final int Reply = 2;
+
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();// 浅拷贝 step2
+    }
 
     @Override
     public int getItemType() {

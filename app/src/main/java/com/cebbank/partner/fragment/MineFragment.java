@@ -14,6 +14,7 @@ import com.cebbank.partner.R;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.ui.BecomePartnerActivity;
 import com.cebbank.partner.ui.MyApplyActivity;
+import com.cebbank.partner.ui.MySettingActivity;
 import com.cebbank.partner.ui.PersonalDataActivity;
 import com.cebbank.partner.utils.UrlPath;
 
@@ -100,7 +101,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 /**
                  * 编辑资料
                  */
-
+                startActivity(new Intent(getActivity(),MySettingActivity.class));
                 break;
             case R.id.tvBecomePartner:
                 /**

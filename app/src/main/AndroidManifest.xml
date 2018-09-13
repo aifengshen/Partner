@@ -43,7 +43,6 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -115,7 +114,6 @@
             android:name=".ui.UpLoadIDActivity"
             android:screenOrientation="portrait" />
 
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.cebbank.partner.fileprovider"
@@ -125,7 +123,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
 
         <!-- 新浪微博 -->
         <activity
@@ -169,12 +166,11 @@
                 <data android:scheme="tencent100424468" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
+        <activity android:name=".ui.MySettingActivity"></activity>
     </application>
 
 </manifest>

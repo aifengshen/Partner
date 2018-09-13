@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.CardListAdapter;
@@ -40,6 +41,7 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
 
     private WebView webview;
     private LinearLayout ll;
+    private TextView tvPraise,tvComment;
     private RecyclerView recyclerView;
     private CardListAdapter mAdapter;
     private List<CardInfoBean> cardList;
@@ -62,6 +64,8 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
         ll = findViewById(R.id.ll);
+        tvPraise = findViewById(R.id.tvPraise);
+        tvComment = findViewById(R.id.tvComment);
     }
 
     private void initData() {
@@ -70,6 +74,49 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
         recyclerView.setAdapter(mAdapter);
         articleDetail();
+    }
+
+    private void setListener() {
+        findViewById(R.id.tvName).setOnClickListener(this);
+        findViewById(R.id.tvPraise).setOnClickListener(this);
+        findViewById(R.id.tvComment).setOnClickListener(this);
+        findViewById(R.id.tvShare).setOnClickListener(this);
+        findViewById(R.id.tvCollect).setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvName:
+                /**
+                 * 关注
+                 */
+                concernPartner();
+                break;
+            case R.id.tvPraise:
+                /**
+                 * 点赞
+                 */
+                praise();
+                break;
+            case R.id.tvComment:
+                /**
+                 * 文章评论页面
+                 */
+                ArticleCommentActivity.actionStart(this, cardList.get(0).getWebview_id());
+                break;
+            case R.id.tvShare:
+                /**
+                 * 分享
+                 */
+                break;
+            case R.id.tvCollect:
+                /**
+                 * 收纳
+                 */
+                collectArtcle();
+                break;
+        }
     }
 
     private void articleDetail() {
@@ -105,16 +152,24 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
                 cardInfoBean.setWebview_avatar(jodata.optString("avatar"));
                 cardInfoBean.setWebview_attention(jodata.optString("attention"));
                 cardInfoBean.setWebview_like(jodata.optString("like"));
+                cardInfoBean.setWebview_liked(jodata.optString("liked"));
                 cardInfoBean.setWebview_comment(jodata.optString("comment"));
                 cardInfoBean.setWebview_forward(jodata.optString("forward"));
                 cardInfoBean.setWebview_collection(jodata.optString("collection"));
+                cardInfoBean.setWebview_collected(jodata.optString("collected"));
                 cardList.add(cardInfoBean);
                 for (int i = 0; i < cardInfoBeanList.size(); i++) {
                     cardInfoBeanList.get(i).setType("cardinfo");
                 }
                 cardList.addAll(cardInfoBeanList);
                 mAdapter.notifyDataSetChanged();
-
+                if (cardList.get(0).getWebview_liked().equals("true")){
+                    tvPraise.setSelected(true);
+                }else{
+                    tvPraise.setSelected(false);
+                }
+                tvPraise.setText(cardList.get(0).getWebview_like());
+                tvComment.setText(cardList.get(0).getWebview_comment());
 
 //                for (int i = 0; i < artcleDetailBean.getCardVoList().size(); i++) {
 //                    TextView textView = new TextView(ArticleDetailActivity.this);
@@ -166,50 +221,6 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
         });
     }
 
-
-    private void setListener() {
-        findViewById(R.id.tvName).setOnClickListener(this);
-        findViewById(R.id.tvPraise).setOnClickListener(this);
-        findViewById(R.id.tvComment).setOnClickListener(this);
-        findViewById(R.id.tvShare).setOnClickListener(this);
-        findViewById(R.id.tvCollect).setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tvName:
-                /**
-                 * 关注
-                 */
-                concernPartner();
-                break;
-            case R.id.tvPraise:
-                /**
-                 * 点赞
-                 */
-                ToastUtils.showShortToast("点赞");
-                break;
-            case R.id.tvComment:
-                /**
-                 * 文章评论页面
-                 */
-                ArticleCommentActivity.actionStart(this, cardList.get(0).getWebview_id());
-                break;
-            case R.id.tvShare:
-                /**
-                 * 分享
-                 */
-                break;
-            case R.id.tvCollect:
-                /**
-                 * 收纳
-                 */
-                collectArtcle();
-                break;
-        }
-    }
-
     /**
      * 关注
      */
@@ -226,13 +237,45 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
-                String code = jsonObject.optString("code");
-                JSONObject jodata = jsonObject.getJSONObject("data");
-                Gson gson = new Gson();
+                ToastUtils.showShortToast("点赞成功");
+                tvPraise.setSelected(true);
+//                String code = jsonObject.optString("code");
+//                JSONObject jodata = jsonObject.getJSONObject("data");
+//                Gson gson = new Gson();
 //                List<CardInfoBean> cardInfoBeanList =
 //                        gson.fromJson(jsonArray.toString(), new TypeToken<List<CardInfoBean>>() {
 //                        }.getType());
 
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+    }
+
+    private void praise(){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("articleId", getIntent().getStringExtra("articleId"));
+            jsonObject.put("token", "5503eb72fe764ac7843c810178763399");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest(this, UrlPath.Praise, jsonObject, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+//                String code = jsonObject.optString("code");
+//                JSONObject jodata = jsonObject.getJSONObject("data");
+//                Gson gson = new Gson();
+//                List<CardInfoBean> cardInfoBeanList =
+//                        gson.fromJson(jsonArray.toString(), new TypeToken<List<CardInfoBean>>() {
+//                        }.getType());
+                findViewById(R.id.tvPraise).setSelected(true);
 
             }
 
