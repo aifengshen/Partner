@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.cebbank.partner.BaseActivity;
+import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.utils.UrlPath;
@@ -44,7 +45,7 @@ public class CardDetailActivity extends BaseActivity {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", cardId);
-            jsonObject.put("token", "5503eb72fe764ac7843c810178763399");
+            jsonObject.put("token", MyApplication.getToken());
         } catch (JSONException e) {
             e.printStackTrace();
         }

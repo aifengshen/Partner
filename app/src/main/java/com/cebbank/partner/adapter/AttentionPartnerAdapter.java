@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.cebbank.partner.GlideApp;
 import com.cebbank.partner.MainActivity;
+import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.bean.AttentionPartnerBean;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
@@ -57,7 +58,7 @@ public class AttentionPartnerAdapter extends BaseQuickAdapter<AttentionPartnerBe
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("idolId", idolId);
-            jsonObject.put("token", "5503eb72fe764ac7843c810178763399");
+            jsonObject.put("token", MyApplication.getToken());
             if (isCancel) {
 
             } else {

@@ -50,7 +50,7 @@ public class MyAcceptFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        LogUtils.e("MyAcceptFragment","onCreateView");
+        LogUtils.e("MyAcceptFragment", "onCreateView");
         View rootView = inflater.inflate(R.layout.fragment_partner_dynamic, container, false);
         initView(rootView);
         initData();
@@ -61,25 +61,25 @@ public class MyAcceptFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogUtils.e("MyAcceptFragment","onCreate");
+        LogUtils.e("MyAcceptFragment", "onCreate");
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        LogUtils.e("MyAcceptFragment","onActivityCreated");
+        LogUtils.e("MyAcceptFragment", "onActivityCreated");
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        LogUtils.e("MyAcceptFragment","onStart");
+        LogUtils.e("MyAcceptFragment", "onStart");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        LogUtils.e("PartnerDynamicFragment","onResume");
+        LogUtils.e("PartnerDynamicFragment", "onResume");
     }
 
     private void initView(View view) {
@@ -93,7 +93,7 @@ public class MyAcceptFragment extends Fragment {
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
 //        mAdapter.setPreLoadNumber(3);
         mAdapter.setLoadMoreView(new CustomLoadMoreView());
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(mAdapter);
 //        //添加自定义分割线
 //        DividerItemDecoration divider = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
@@ -134,7 +134,7 @@ public class MyAcceptFragment extends Fragment {
         }
         JSONObject jo = new JSONObject();
         try {
-            jo.put("token", "5503eb72fe764ac7843c810178763399");
+            jo.put("token", MyApplication.getToken());
             jo.put("page", jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();

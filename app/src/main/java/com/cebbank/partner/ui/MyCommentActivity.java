@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cebbank.partner.BaseActivity;
+import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.MyCommentAdapter;
 import com.cebbank.partner.bean.MyCommentBean;
@@ -111,7 +112,7 @@ public class MyCommentActivity extends BaseActivity implements View.OnClickListe
         }
         JSONObject jo = new JSONObject();
         try {
-            jo.put("token", "5503eb72fe764ac7843c81017e767301");//5503eb72fe764ac7843c81017e767301
+            jo.put("token", MyApplication.getToken());//5503eb72fe764ac7843c81017e767301
             jo.put("page", jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -215,7 +216,7 @@ public class MyCommentActivity extends BaseActivity implements View.OnClickListe
         try {
             jsonObject.put("content", comment);
             jsonObject.put("commentId", commentId);
-            jsonObject.put("token", "5503eb72fe764ac7843c81017e767301");
+            jsonObject.put("token", MyApplication.getToken());
         } catch (JSONException e) {
             e.printStackTrace();
         }

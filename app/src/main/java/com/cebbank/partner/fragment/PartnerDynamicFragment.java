@@ -140,7 +140,7 @@ public class PartnerDynamicFragment extends Fragment {
         }
         JSONObject jo = new JSONObject();
         try {
-            jo.put("token", "5503eb72fe764ac7843c810178763399");
+            jo.put("token", MyApplication.getToken());
             jo.put("page", jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cebbank.partner.BaseActivity;
+import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.ArticleCommentAdapter;
 import com.cebbank.partner.bean.CommentBean;
@@ -111,7 +112,7 @@ public class ArticleCommentActivity extends BaseActivity implements View.OnClick
         JSONObject jo = new JSONObject();
         try {
             jo.put("articleId", getIntent().getStringExtra("articleId"));
-            jo.put("token", "5503eb72fe764ac7843c810178763399");
+            jo.put("token", MyApplication.getToken());
             jo.put("page", jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -220,7 +221,7 @@ public class ArticleCommentActivity extends BaseActivity implements View.OnClick
         try {
             jsonObject.put("content", comment);
             jsonObject.put("articleId", getIntent().getStringExtra("articleId"));
-            jsonObject.put("token", "5503eb72fe764ac7843c810178763399");
+            jsonObject.put("token", MyApplication.getToken());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -230,8 +231,9 @@ public class ArticleCommentActivity extends BaseActivity implements View.OnClick
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
                 String code = jsonObject.optString("code");
-                JSONObject jodata = jsonObject.getJSONObject("data");
-
+                ToastUtils.showShortToast("回复成功~");
+                ectvComment.setText("");
+                requestComments(true);
 
             }
 

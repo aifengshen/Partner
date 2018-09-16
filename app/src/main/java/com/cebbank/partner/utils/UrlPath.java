@@ -105,6 +105,18 @@ public class UrlPath {
      * 申请提交
      */
     public static final String Apply = "/app/partner/apply";
+    /**
+     * 个人中心
+     */
+    public static final String Mine = "/app/my/index";
+    /**
+     * 系统消息
+     */
+    public static final String SystemMessages = "/app/notice/system";
+    /**
+     * 我获得的赞
+     */
+    public static final String Like = "/app/notice/like";
 
 
 

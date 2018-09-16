@@ -7,9 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cebbank.partner.GlideApp;
+import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.ui.BecomePartnerActivity;
@@ -23,6 +26,7 @@ import org.json.JSONObject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequestUpLoad;
 
 /**
@@ -64,7 +68,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initData() {
-
+        index();
     }
 
     private void setClickListener() {
@@ -90,7 +94,6 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 /**
                  * 头像
                  */
-                upload(Environment.getExternalStorageDirectory().getAbsolutePath()+"/aaa.jpg");
                 break;
             case R.id.tvUserName:
                 /**
@@ -101,7 +104,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 /**
                  * 编辑资料
                  */
-                startActivity(new Intent(getActivity(),MySettingActivity.class));
+                startActivity(new Intent(getActivity(), MySettingActivity.class));
                 break;
             case R.id.tvBecomePartner:
                 /**
@@ -161,30 +164,35 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void upload(String path){
+    private void index() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", MyApplication.getToken());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        sendOkHttpRequestUpLoad(getActivity(), UrlPath.Upload, null, path, new HttpCallbackListener() {
+        sendOkHttpRequest(getActivity(), UrlPath.Mine, jsonObject, null, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
-                String code = jsonObject.optString("code");
-                String obj = jsonObject.optString("obj");
-//                    Gson gson = new Gson();
-//                    List<PartnerDynamicBean> partnerDynamicBeanList = gson.fromJson(obj, PartnerDynamicBean.class);
-//                List<PartnerDynamicBean> dataList = new ArrayList<>();
-//                for (int i = 0; i < 10; i++) {
-//                    PartnerDynamicBean partnerDynamicBean = new PartnerDynamicBean();
-//                    partnerDynamicBean.setTitle(i + "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊");
-//                    dataList.add(partnerDynamicBean);
-//                }
-
+                JSONObject data = jsonObject.getJSONObject("data");
+                String name = data.optString("username");
+                String avatar = data.optString("avatar");
+                String userId = data.optString("userId");
+                tvUserName.setText(name);
+                GlideApp.with(getActivity())
+                        .load(avatar)
+//                        .placeholder(R.mipmap.loading)
+                        .centerCrop()
+                        .into(profile_image);
             }
 
             @Override
             public void onFailure() {
 
-
             }
         });
+
     }
 }

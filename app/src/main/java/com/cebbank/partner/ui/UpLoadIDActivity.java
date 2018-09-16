@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.cebbank.partner.GlideApp;
+import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.utils.PictureUtils;
@@ -173,7 +174,7 @@ public class UpLoadIDActivity extends CheckPermissionsActivity implements View.O
             jsonObject.put("idCard", getIntent().getStringExtra("idCard"));
             jsonObject.put("front", front);
             jsonObject.put("back", back);
-            jsonObject.put("token", "5503eb72fe764ac7843c810178763399");
+            jsonObject.put("token", MyApplication.getToken());
         } catch (JSONException e) {
             e.printStackTrace();
         }

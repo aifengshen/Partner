@@ -24,13 +24,11 @@ import java.util.Date;
 
 public class MyApplication extends Application implements AMapLocationListener {
 
-    public static String token = "5503eb72fe764ac7843c810178763399";
     public static String EquipmentCode;//设备唯一标识码
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
-    public static final String ErrorCodeLoginFailure = "4000";//登录失败
     public static final String ErrorCodeTokenInvalid = "4001";//token无效
-    public static final String ErrorCodeParameterException = "4002";//参数异常
+    public static final String ErrorCodeParameterException = "4000";//参数异常
     public static final String SuccessCode = "2000";//成功
     //声明mlocationClient对象
     public AMapLocationClient mlocationClient;
@@ -74,7 +72,7 @@ public class MyApplication extends Application implements AMapLocationListener {
         sharedPreferences = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         saveEquipmentCode();
-        token = getValue(SharedPreferencesKey.Token);
+
     }
 
     private void initMap() {
@@ -95,6 +93,15 @@ public class MyApplication extends Application implements AMapLocationListener {
         // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
         //启动定位
         mlocationClient.startLocation();
+    }
+
+    public static Context getContext() {
+        return context;
+    }
+
+    public static String getToken(){
+        String token = getValue(SharedPreferencesKey.Token);
+        return token;
     }
 
     @Override
@@ -124,9 +131,7 @@ public class MyApplication extends Application implements AMapLocationListener {
     }
 
 
-    public static Context getContext() {
-        return context;
-    }
+
 
     /**
      * 获取设备唯一标识码并保存到本地

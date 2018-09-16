@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 
 import com.cebbank.partner.BaseActivity;
+import com.cebbank.partner.MainActivity;
 import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
@@ -40,66 +41,15 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     private void initView() {
-
+        hideToolbar(true);
     }
 
     private void initData() {
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                if (!TextUtils.isEmpty(MyApplication.token)) {
-                    autoLogin(MyApplication.getValue(SharedPreferencesKey.Token));
-                } else {
-                    startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
-                    finish();
-                }
-
+                startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                finish();
             }
-        }, 3000);
-    }
-
-    /**
-     * 自动登录
-     *
-     * @param token token
-     */
-    private void autoLogin(String token) {
-
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("token", "5503eb72fe764ac7843c810178763399");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        sendOkHttpRequest(this, UrlPath.AutoLogin, jsonObject, null,new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) throws JSONException {
-                JSONObject jsonObject = new JSONObject(response);
-                String code = jsonObject.optString("code");
-                String obj = jsonObject.optString("obj");
-                if (code.equals(MyApplication.SuccessCode)) {
-                    Gson gson = new Gson();
-//                    LoginBean loginBean = gson.fromJson(obj, LoginBean.class);
-//                    MyApplication.saveValue(SharedPreferencesKey.Token, loginBean.getToken());
-//                    MyApplication.token = loginBean.getToken();
-//                    EquipmentListActivity.actionStart(WelcomeActivity.this);
-//                    finish();
-                } else if (code.equals(MyApplication.ErrorCodeTokenInvalid)) {
-                    //token失效   跳转到登陆页
-                    startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
-                    finish();
-                } else {
-                    //参数异常、登录异常 吐司提示  跳转到登陆页
-                    ToastUtils.showShortToast(jsonObject.optString("msg"));
-                    startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
-                    finish();
-                }
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-        });
+        }, 2000);
     }
 }

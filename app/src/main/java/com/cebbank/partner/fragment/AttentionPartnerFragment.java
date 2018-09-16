@@ -43,7 +43,7 @@ import java.util.Map;
 import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 
 /**
- *关注的合伙人
+ * 关注的合伙人
  */
 public class AttentionPartnerFragment extends Fragment {
 
@@ -58,7 +58,7 @@ public class AttentionPartnerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_attention_partner, container, false);
-        LogUtils.e("AttentionPartnerFragment","onCreateView");
+        LogUtils.e("AttentionPartnerFragment", "onCreateView");
         initView(rootView);
         initData();
         setListener();
@@ -66,33 +66,31 @@ public class AttentionPartnerFragment extends Fragment {
     }
 
 
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogUtils.e("AttentionPartnerFragment","onCreate");
+        LogUtils.e("AttentionPartnerFragment", "onCreate");
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        LogUtils.e("AttentionPartnerFragment","onActivityCreated");
+        LogUtils.e("AttentionPartnerFragment", "onActivityCreated");
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        LogUtils.e("AttentionPartnerFragment","onStart");
+        LogUtils.e("AttentionPartnerFragment", "onStart");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        LogUtils.e("AttentionPartnerFragment","onResume");
+        LogUtils.e("AttentionPartnerFragment", "onResume");
     }
 
-    private void initView(View view){
+    private void initView(View view) {
         recyclerView = view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -103,7 +101,7 @@ public class AttentionPartnerFragment extends Fragment {
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
 //        mAdapter.setPreLoadNumber(3);
         mAdapter.setLoadMoreView(new CustomLoadMoreView());
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(mAdapter);
 //        //添加自定义分割线
 //        DividerItemDecoration divider = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
@@ -111,11 +109,11 @@ public class AttentionPartnerFragment extends Fragment {
 //        recyclerView.addItemDecoration(divider);
     }
 
-    private void initData(){
+    private void initData() {
         requestPartners(true);
     }
 
-    private void setListener(){
+    private void setListener() {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -144,7 +142,7 @@ public class AttentionPartnerFragment extends Fragment {
         }
         JSONObject jo = new JSONObject();
         try {
-            jo.put("token","5503eb72fe764ac7843c810178763399");
+            jo.put("token", MyApplication.getToken());
             jo.put("page", jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();

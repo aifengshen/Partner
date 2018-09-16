@@ -103,7 +103,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, View
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
 //        mAdapter.setPreLoadNumber(3);
 //        mAdapter.setLoadMoreView(new CustomLoadMoreView());
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(mAdapter);
         tvLocateCity = view.findViewById(R.id.tvLocateCity);
 
@@ -119,11 +119,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, View
     }
 
     private void initData() {
-        requestArticle(true);
+        requestArticle(true, edittextClientName.getText().toString());
     }
 
 
-    private void requestArticle(final boolean isRefresh) {
+    private void requestArticle(final boolean isRefresh, String keyword) {
         if (isRefresh) {
             mNextRequestPage = 1;
             mAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, View
         }
         JSONObject jo = new JSONObject();
         try {
-            jo.put("keyword", "");
+            jo.put("keyword", keyword);
             jo.put("page", jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -253,6 +253,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, View
 
 
     private void setListener() {
+        view.findViewById(R.id.tvSearch).setOnClickListener(this);
         tvLocateCity.setOnClickListener(this);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -265,7 +266,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, View
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                requestArticle(false);
+                requestArticle(false, edittextClientName.getText().toString());
             }
         });
 
@@ -274,6 +275,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, View
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tvSearch:
+                requestArticle(true, edittextClientName.getText().toString());
+                break;
             case R.id.tvLocateCity:
                 Intent intent = new Intent(getActivity(), CityActivity.class);
                 startActivityForResult(intent, 0);

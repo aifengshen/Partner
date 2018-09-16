@@ -9,6 +9,8 @@ package com.cebbank.partner.bean;
 public class MessageFragmentBean {
 
     private String title;
+    private String noticeId;
+    private String read;
 
     public String getTitle() {
         return title;
@@ -16,5 +18,21 @@ public class MessageFragmentBean {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getNoticeId() {
+        return noticeId;
+    }
+
+    public void setNoticeId(String noticeId) {
+        this.noticeId = noticeId;
+    }
+
+    public String getRead() {
+        return read;
+    }
+
+    public void setRead(String read) {
+        this.read = read;
     }
 }
