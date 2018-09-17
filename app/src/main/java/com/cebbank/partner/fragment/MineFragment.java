@@ -2,12 +2,10 @@ package com.cebbank.partner.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,8 +14,10 @@ import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.ui.BecomePartnerActivity;
-import com.cebbank.partner.ui.MyApplyActivity;
+import com.cebbank.partner.ui.CheckingProgressActivity;
 import com.cebbank.partner.ui.MySettingActivity;
+import com.cebbank.partner.ui.OpinionActivity;
+import com.cebbank.partner.ui.PartnerActivity;
 import com.cebbank.partner.ui.PersonalDataActivity;
 import com.cebbank.partner.utils.UrlPath;
 
@@ -27,7 +27,6 @@ import org.json.JSONObject;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
-import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequestUpLoad;
 
 /**
  * @ClassName: Omnipotent
@@ -40,6 +39,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private CircleImageView profile_image;
     private TextView tvUserName, tvEditProfile, tvBecomePartner, tvPersonalData, tvMyMaterial, tvBindingCard, tvProgress_Audit, tvFeedback;
     private RelativeLayout rlHelpCenter, rlOfficialTutorials, rlContactUs, rlLogout;
+    private String userId = "";
 
 
     @Override
@@ -122,7 +122,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 /**
                  *我的素材
                  */
-
+                PartnerActivity.actionStart(getActivity(),userId);
                 break;
             case R.id.tvBindingCard:
                 /**
@@ -133,12 +133,13 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 /**
                  *审核进度
                  */
-                startActivity(new Intent(getActivity(), MyApplyActivity.class));
+                startActivity(new Intent(getActivity(), CheckingProgressActivity.class));
                 break;
             case R.id.tvFeedback:
                 /**
                  *意见反馈
                  */
+                startActivity(new Intent(getActivity(), OpinionActivity.class));
                 break;
             case R.id.rlHelpCenter:
                 /**
@@ -179,7 +180,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 JSONObject data = jsonObject.getJSONObject("data");
                 String name = data.optString("username");
                 String avatar = data.optString("avatar");
-                String userId = data.optString("userId");
+                userId = data.optString("userId");
                 tvUserName.setText(name);
                 GlideApp.with(getActivity())
                         .load(avatar)

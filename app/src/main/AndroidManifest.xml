@@ -95,7 +95,7 @@
             android:name=".ui.PartnerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.MyApplyActivity"
+            android:name=".ui.CheckingProgressActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.BecomePartnerActivity"
@@ -173,7 +173,8 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".ui.MySettingActivity" />
-        <activity android:name=".ui.MyPraiseActivity"></activity>
+        <activity android:name=".ui.MyPraiseActivity" />
+        <activity android:name=".ui.OpinionActivity"></activity>
     </application>
 
 </manifest>

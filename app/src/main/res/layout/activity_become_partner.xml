@@ -46,7 +46,7 @@
                 android:background="@null"
                 android:minHeight="30dp"
                 android:paddingBottom="10dp"
-                android:paddingLeft="5dp"
+                android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:text="" />
         </LinearLayout>
@@ -86,7 +86,7 @@
                 android:hint="境内居民身份证"
                 android:minHeight="30dp"
                 android:paddingBottom="10dp"
-                android:paddingLeft="5dp"
+                android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:text="" />
         </LinearLayout>
@@ -117,9 +117,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:digits="xX0123456789"
                 android:minHeight="30dp"
                 android:paddingBottom="10dp"
-                android:paddingLeft="5dp"
+                android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:text="" />
         </LinearLayout>
@@ -151,29 +152,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null"
+                android:inputType="number"
                 android:minHeight="30dp"
                 android:paddingBottom="10dp"
-                android:paddingLeft="5dp"
+                android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:text="" />
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:background="@drawable/corner_no_bg_white_line_gray">-->
-
-                <!--<TextView-->
-                    <!--style="@style/textViewMicroBlack"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingBottom="5dp"-->
-                    <!--android:paddingLeft="20dp"-->
-                    <!--android:paddingRight="20dp"-->
-                    <!--android:paddingTop="5dp"-->
-                    <!--android:text="选择" />-->
-            <!--</LinearLayout>-->
         </LinearLayout>
     </LinearLayout>
 
@@ -203,9 +187,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:inputType="number"
                 android:minHeight="30dp"
                 android:paddingBottom="10dp"
-                android:paddingLeft="5dp"
+                android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:text="" />
         </LinearLayout>
@@ -213,12 +198,16 @@
 
         <TextView
             android:id="@+id/tvSend"
-            style="@style/textViewSmallBlack"
+            style="@style/textViewMicroWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="发送" />
+            android:background="@drawable/corner_5_bg_orange_line_orange"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:text="获取验证码" />
     </LinearLayout>
 
     <LinearLayout
@@ -229,14 +218,16 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tvCancel"
             style="@style/textViewSmallWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="50dp"
-            android:background="@color/text_color_orange"
+            android:background="@drawable/corner_5_bg_orange_line_orange"
             android:paddingBottom="10dp"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
+            android:visibility="gone"
             android:paddingTop="10dp"
             android:text="取    消" />
 
@@ -245,7 +236,7 @@
             style="@style/textViewSmallWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/color_bg_purple"
+            android:background="@drawable/corner_5_bg_purple_line_purple"
             android:paddingBottom="10dp"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="1dp"
+    android:background="@color/text_color_white"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/textViewSmallBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:text="申请提现"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvChecking"
+            style="@style/textViewMicroWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/corner_25_bg_orange_line_orange"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp"
+            android:text="审核中"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tvPass"
+            style="@style/textViewMicroWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/corner_25_bg_green_line_green"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp"
+            android:text="已通过"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvRefuse"
+            style="@style/textViewMicroWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/corner_25_bg_red_line_red"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp"
+            android:text="已拒绝"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvMoney"
+            style="@style/textViewSmallBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="200阳光币"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvUserName"
+        style="@style/textViewMicroLightGray"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll"
+        android:layout_marginBottom="5dp"
+        android:text="账户：王**" />
+
+    <TextView
+        android:id="@+id/tvUserAccount"
+        style="@style/textViewMicroLightGray"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll"
+        android:layout_toRightOf="@id/tvUserName"
+        android:text="提现账号：6225 **** **** **** 648" />
+
+    <TextView
+        android:id="@+id/tvOpenAccountBank"
+        style="@style/textViewMicroLightGray"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvUserName"
+        android:text="开户行：招商银行" />
+
+    <TextView
+        android:id="@+id/tvSubmitDate"
+        style="@style/textViewMicroLightGray"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvUserName"
+        android:layout_toRightOf="@id/tvOpenAccountBank"
+        android:text="提交时间：2018-16-15" />
+
+    <TextView
+        android:id="@+id/tvReason"
+        style="@style/textViewSmallBlack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvOpenAccountBank"
+        android:layout_marginTop="5dp"
+        android:text="理由：银行账号不存在"
+        android:textColor="@color/gray_color"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

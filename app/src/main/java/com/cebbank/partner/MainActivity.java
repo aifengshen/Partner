@@ -11,13 +11,30 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.cebbank.partner.bean.BannerBean;
 import com.cebbank.partner.fragment.PartnerFragment;
 import com.cebbank.partner.fragment.HomeFragment;
 import com.cebbank.partner.fragment.MineFragment;
 import com.cebbank.partner.fragment.MessageFragment;
 import com.cebbank.partner.fragment.AttentionFragment;
+import com.cebbank.partner.interfaces.HttpCallbackListener;
+import com.cebbank.partner.ui.ArticleDetailActivity;
 import com.cebbank.partner.utils.BottomNavigationViewHelper;
 import com.cebbank.partner.utils.SharedPreferencesKey;
+import com.cebbank.partner.utils.UrlPath;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.List;
+
+import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,16 +48,16 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new HomeFragment());
                     return true;
                 case R.id.navigation_attention:
-                    replaceFragment(new AttentionFragment());
+                    check(2);
                     return true;
                 case R.id.navigation_message:
-                    replaceFragment(new MessageFragment());
+                    check(3);
                     return true;
                 case R.id.navigation_partner:
-                    replaceFragment(new PartnerFragment());
+                    check(4);
                     return true;
                 case R.id.navigation_mine:
-                    replaceFragment(new MineFragment());
+                    check(5);
                     return true;
             }
             return false;
@@ -56,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         navigation.setSelectedItemId(R.id.navigation_home);
 //        navigation.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
         BottomNavigationViewHelper.disableShiftMode(navigation);
-        MyApplication.saveValue(SharedPreferencesKey.Token,"04327681cfe3450bbd4740e2cc02e1a8");
+        MyApplication.saveValue(SharedPreferencesKey.Token, "6642d6b962f841ea97d142abf059f00b");
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -64,6 +81,41 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment, fragment);
         transaction.commit();
+    }
+
+    private void check(final int index) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", MyApplication.getToken());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest(this, UrlPath.Check, jsonObject, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+                switch (index) {
+                    case 2:
+                        replaceFragment(new AttentionFragment());
+                        break;
+                    case 3:
+                        replaceFragment(new MessageFragment());
+                        break;
+                    case 4:
+                        replaceFragment(new PartnerFragment());
+                        break;
+                    case 5:
+                        replaceFragment(new MineFragment());
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
     }
 
     /**
@@ -74,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
      * android.view.KeyEvent)
      */
     int i = 0;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 

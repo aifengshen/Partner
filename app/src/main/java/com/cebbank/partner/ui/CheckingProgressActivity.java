@@ -1,25 +1,22 @@
 package com.cebbank.partner.ui;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cebbank.partner.BaseActivity;
-import com.cebbank.partner.GlideApp;
 import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
-import com.cebbank.partner.adapter.ArticleAdapter;
-import com.cebbank.partner.bean.ArticleBean;
+import com.cebbank.partner.adapter.CheckingProgressAdapter;
+import com.cebbank.partner.bean.CheckingProgressBean;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
+import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
-import com.cebbank.partner.view.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -31,79 +28,84 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 
-public class PartnerActivity extends BaseActivity {
+/**
+ * 审核进度页面
+ */
+public class CheckingProgressActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private ArticleAdapter mAdapter;
-    private List<ArticleBean> data;
+    private CheckingProgressAdapter mAdapter;
+    private List<CheckingProgressBean> data;
     private static final int PAGE_SIZE = 10;
     private int mNextRequestPage = 1;
-    private String url = UrlPath.Collection, type = "";
-    private TabLayout mTabLayout;
-    private TextView tvName, tvIsAttent, tvSignature, tvFans, tvPraise;
-
+    private String type = "fodder", url = UrlPath.CheckingProgressFodder;
+    private TabLayout tablayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_partner);
+        setContentView(R.layout.activity_checking_progress);
         initView();
         initData();
         setListener();
     }
 
     private void initView() {
-        setTitle("我的素材");
+        setTitle("审核进度");
         setBackBtn();
-        mTabLayout = findViewById(R.id.tablayout);
-        mTabLayout.addTab(mTabLayout.newTab().setText("收纳"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("原创"));
-
         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         mSwipeRefreshLayout = findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
+
         data = new ArrayList<>();
-        mAdapter = new ArticleAdapter(data);
+        mAdapter = new CheckingProgressAdapter(data);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
 //        mAdapter.setPreLoadNumber(3);
-        mAdapter.setLoadMoreView(new CustomLoadMoreView());
+//        mAdapter.setLoadMoreView(new CustomLoadMoreView());
+//        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(mAdapter);
-        mTabLayout = findViewById(R.id.tablayout);
-        tvName = findViewById(R.id.tvName);
-        tvIsAttent = findViewById(R.id.tvIsAttent);
-        tvSignature = findViewById(R.id.tvSignature);
-        tvFans = findViewById(R.id.tvFans);
-        tvPraise = findViewById(R.id.tvPraise);
+        tablayout = findViewById(R.id.tablayout);
     }
 
     private void initData() {
-        Info();
-        requestArticle(true);
+        checkingprogress(true);
     }
 
     private void setListener() {
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                checkingprogress(true);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                checkingprogress(false);
+            }
+        });
+
+        tablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 0:
-                        url = UrlPath.Collection;
-                        type = "collection";
-                        requestArticle(true);
-                        break;
-                    case 1:
-                        url = UrlPath.Creation;
-                        type = "creation";
-                        requestArticle(true);
-                        break;
+                if (tab.getPosition() == 0) {
+                    url = UrlPath.CheckingProgressFodder;
+                    type = "fodder";
+                    checkingprogress(true);
+                } else if (tab.getPosition() == 1) {
+                    url = UrlPath.CheckingProgressWithdraw;
+                    type = "withdraw";
+                    checkingprogress(true);
                 }
+
             }
 
             @Override
@@ -116,63 +118,9 @@ public class PartnerActivity extends BaseActivity {
 
             }
         });
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                requestArticle(true);
-            }
-        });
-        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                requestArticle(false);
-            }
-        });
     }
 
-    private void Info() {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("token", MyApplication.getToken());
-            jsonObject.put("partnerId", getIntent().getStringExtra("userId"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        sendOkHttpRequest(this, UrlPath.Info, jsonObject, null, new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) throws JSONException {
-                JSONObject jsonObject = new JSONObject(response);
-                JSONObject jo = jsonObject.getJSONObject("data");
-                String id = jo.optString("id");
-                String avatar = jo.optString("avatar");
-                String username = jo.optString("username");
-                String signature = jo.optString("signature");
-                String oneself = jo.optString("oneself");
-                String idol = jo.optString("idol");
-                String fans = jo.optString("fans");
-                String like = jo.optString("like");
-
-                GlideApp.with(PartnerActivity.this)
-                        .load(avatar)
-//                        .placeholder(R.mipmap.loading)
-                        .centerCrop()
-                        .into((CircleImageView) findViewById(R.id.profile_image));
-                tvName.setText(username);
-                tvIsAttent.setText(idol);
-                tvSignature.setText(signature);
-                tvFans.setText(fans);
-                tvPraise.setText(like);
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-        });
-    }
-
-    private void requestArticle(final boolean isRefresh) {
+    private void checkingprogress(final boolean isRefresh) {
         if (isRefresh) {
             mNextRequestPage = 1;
             mAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
@@ -186,12 +134,11 @@ public class PartnerActivity extends BaseActivity {
         }
         JSONObject jo = new JSONObject();
         try {
-            jo.put("partnerId", getIntent().getStringExtra("userId"));
+            jo.put("token", MyApplication.getToken());
             jo.put("page", jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         sendOkHttpRequest(this, url, jo, mSwipeRefreshLayout, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
@@ -204,9 +151,12 @@ public class PartnerActivity extends BaseActivity {
                 }
                 JSONArray jsonArray = jodata.getJSONArray("records");
                 Gson gson = new Gson();
-                List<ArticleBean> articleBeanList =
-                        gson.fromJson(jsonArray.toString(), new TypeToken<List<ArticleBean>>() {
+                List<CheckingProgressBean> articleBeanList =
+                        gson.fromJson(jsonArray.toString(), new TypeToken<List<CheckingProgressBean>>() {
                         }.getType());
+                for (int i = 0; i < articleBeanList.size(); i++) {
+                    articleBeanList.get(i).setType(type);
+                }
                 setData(isRefresh, articleBeanList);
                 mAdapter.notifyDataSetChanged();
 
@@ -225,8 +175,7 @@ public class PartnerActivity extends BaseActivity {
         });
     }
 
-
-    private void setData(boolean isRefresh, List<ArticleBean> data) {
+    private void setData(boolean isRefresh, List<CheckingProgressBean> data) {
         mNextRequestPage++;
         final int size = data == null ? 0 : data.size();
         if (isRefresh) {
@@ -244,11 +193,4 @@ public class PartnerActivity extends BaseActivity {
             mAdapter.loadMoreComplete();
         }
     }
-
-    public static void actionStart(Context context, String userId) {
-        Intent intent = new Intent(context, PartnerActivity.class);
-        intent.putExtra("userId", userId);
-        context.startActivity(intent);
-    }
-
 }

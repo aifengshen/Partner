@@ -12,6 +12,7 @@
     <!--背景颜色-->
     <color name="color_bg_gray">#F0F0F0</color>
     <color name="color_bg_purple">#6C158A</color>
+    <color name="color_bg_red">#F64100</color>
     <!--toolbar文本颜色-->
     <color name="gray_color">#4b4b58</color>
     <!--控件颜色-->

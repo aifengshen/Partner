@@ -54,9 +54,9 @@ public class UrlPath {
      */
     public static final String MyCollection = "/app/attention/collection";
     /**
-     * 合伙人的收纳
+     * 原创
      */
-    public static final String PartnerCollection = "/app/partner/collection";
+    public static final String Creation = "/app/partner/creation";
     /**
      * 关注的合伙人
      */
@@ -117,6 +117,27 @@ public class UrlPath {
      * 我获得的赞
      */
     public static final String Like = "/app/notice/like";
+    /**
+     * 素材审核
+     */
+    public static final String CheckingProgressFodder = "/app/reviewSchedule/article";
+    /**
+     * 体现审核
+     */
+    public static final String CheckingProgressWithdraw = "/app/reviewSchedule/withdraw";
+    /**
+     * 身份校验
+     */
+    public static final String Check = "/app/perm/check";
+    /**
+     * 意见反馈
+     */
+    public static final String OpinionSubmit = "/app/feedback/submit";
+    /**
+     * 信息
+     */
+    public static final String Info = "/app/partner/info";
+
 
 
 
