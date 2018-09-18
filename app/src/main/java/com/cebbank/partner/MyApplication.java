@@ -64,7 +64,7 @@ public class MyApplication extends Application implements AMapLocationListener {
          * 参数: boolean 默认为false，如需查看LOG设置为true
          */
         UMConfigure.setLogEnabled(true);
-        PlatformConfig.setWeixin("wx0f62ce05bc2d64a0", "57860109c618afbe64033dd7ba2862b5");
+        PlatformConfig.setWeixin("wxc641c74287e9984f", "2688e2970aeb355c0e0beb780e34ebf6");
         PlatformConfig.setSinaWeibo("2682311299", "5f923ea0b79f9ed23f0c49212fadce16", "http://sns.whalecloud.com");
         PlatformConfig.setQQZone("1107733541", "mzhu8UMkD1x4m0At");
 

@@ -47,7 +47,7 @@ public class WelcomeActivity extends BaseActivity {
     private void initData() {
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
                 finish();
             }
         }, 2000);

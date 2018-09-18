@@ -137,6 +137,10 @@ public class UrlPath {
      * 信息
      */
     public static final String Info = "/app/partner/info";
+    /**
+     * 微信登录
+     */
+    public static final String AuthLogin = "/app/login/auth";
 
 
 
