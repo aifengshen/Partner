@@ -184,8 +184,7 @@ public class UpLoadIDActivity extends CheckPermissionsActivity implements View.O
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
                 ToastUtils.showShortToast("提交成功~");
-
-
+                finish();
             }
 
             @Override
@@ -285,7 +284,6 @@ public class UpLoadIDActivity extends CheckPermissionsActivity implements View.O
     private void displayImage(String imagePath) {
         if (imagePath != null) {
             upLoadIDImage(imagePath);
-            ToastUtils.showShortToast("111");
         } else {
             ToastUtils.showShortToast("failed to get image");
         }

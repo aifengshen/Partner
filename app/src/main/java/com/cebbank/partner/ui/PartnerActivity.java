@@ -8,6 +8,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 
-public class PartnerActivity extends BaseActivity {
+public class PartnerActivity extends BaseActivity implements View.OnClickListener{
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -45,7 +47,7 @@ public class PartnerActivity extends BaseActivity {
     private int mNextRequestPage = 1;
     private String url = UrlPath.Collection, type = "";
     private TabLayout mTabLayout;
-    private TextView tvName, tvIsAttent, tvSignature, tvFans, tvPraise;
+    private TextView tvName, tvIsAttent, tvSignature, tvFans, tvPraise,tvCopy;
 
 
     @Override
@@ -81,6 +83,7 @@ public class PartnerActivity extends BaseActivity {
         tvSignature = findViewById(R.id.tvSignature);
         tvFans = findViewById(R.id.tvFans);
         tvPraise = findViewById(R.id.tvPraise);
+        tvCopy = findViewById(R.id.tvCopy);
     }
 
     private void initData() {
@@ -89,6 +92,9 @@ public class PartnerActivity extends BaseActivity {
     }
 
     private void setListener() {
+        tvCopy.setOnClickListener(this);
+        tvIsAttent.setOnClickListener(this);
+
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -159,10 +165,23 @@ public class PartnerActivity extends BaseActivity {
                         .centerCrop()
                         .into((CircleImageView) findViewById(R.id.profile_image));
                 tvName.setText(username);
-                tvIsAttent.setText(idol);
-                tvSignature.setText(signature);
-                tvFans.setText(fans);
-                tvPraise.setText(like);
+
+                tvSignature.setText(signature.equals("null") ? "暂无签名" : signature);
+                tvFans.setText(fans + " 粉丝");
+                tvPraise.setText(like + " 获赞");
+                if (oneself.equals("true")) {
+                    tvIsAttent.setVisibility(View.INVISIBLE);
+                    tvCopy.setVisibility(View.INVISIBLE);
+                } else {
+                    tvIsAttent.setVisibility(View.VISIBLE);
+                    tvCopy.setVisibility(View.VISIBLE);
+                    if (idol.equals("true")) {
+                        tvIsAttent.setText("已关注");
+                    } else {
+                        tvIsAttent.setText("关注");
+                    }
+
+                }
             }
 
             @Override
@@ -251,4 +270,19 @@ public class PartnerActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tvIsAttent:
+                /**
+                 * 关注
+                 */
+                break;
+            case R.id.tvCopy:
+                /**
+                 * 聊一聊复制微信号
+                 */
+                break;
+        }
+    }
 }

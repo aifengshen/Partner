@@ -21,6 +21,7 @@ import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.ui.ArticleDetailActivity;
 import com.cebbank.partner.utils.BottomNavigationViewHelper;
 import com.cebbank.partner.utils.SharedPreferencesKey;
+import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
@@ -54,10 +55,10 @@ public class MainActivity extends AppCompatActivity {
                     check(3);
                     return true;
                 case R.id.navigation_partner:
-                    check(4);
+                    replaceFragment(new PartnerFragment());
                     return true;
                 case R.id.navigation_mine:
-                    check(5);
+                    replaceFragment(new MineFragment());
                     return true;
             }
             return false;
@@ -68,12 +69,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_home);
 //        navigation.setItemTextColor(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
         BottomNavigationViewHelper.disableShiftMode(navigation);
-        MyApplication.saveValue(SharedPreferencesKey.Token, "6642d6b962f841ea97d142abf059f00b");
+
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -95,20 +96,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
-                switch (index) {
-                    case 2:
-                        replaceFragment(new AttentionFragment());
-                        break;
-                    case 3:
-                        replaceFragment(new MessageFragment());
-                        break;
-                    case 4:
-                        replaceFragment(new PartnerFragment());
-                        break;
-                    case 5:
-                        replaceFragment(new MineFragment());
-                        break;
+                String aa = jsonObject.optString("data");
+                if (aa.equals("true")) {
+                    switch (index) {
+                        case 2:
+                            replaceFragment(new AttentionFragment());
+                            break;
+                        case 3:
+                            replaceFragment(new MessageFragment());
+                            break;
+                    }
+                } else {
+                    ToastUtils.showShortToast("您还不是合伙人");
                 }
+
             }
 
             @Override

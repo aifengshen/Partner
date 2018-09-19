@@ -140,7 +140,15 @@ public class UrlPath {
     /**
      * 微信登录
      */
-    public static final String AuthLogin = "/app/login/auth";
+    public static final String WXLogin = "/app/login/auth";
+    /**
+     * 自动登录
+     */
+    public static final String AuthLogin = "/app/login/auto";
+    /**
+     * 成为合伙人初始化
+     */
+    public static final String ApplyIndex = "/app/partner/applyIndex";
 
 
 

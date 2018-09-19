@@ -18,7 +18,7 @@
         android:layout_marginTop="30dp"
         android:gravity="center"
         android:lineSpacingExtra="10dp"
-        android:text="您正在申请合伙人资格,\n请确保正确评分,请务必如实填写如下信息" />
+        android:text="您正在申请合伙人资格,\n为确保正确评分,请务必如实填写信息" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -199,13 +199,12 @@
         <TextView
             android:id="@+id/tvSend"
             style="@style/textViewMicroWhite"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/corner_5_bg_orange_line_orange"
+            android:background="@drawable/selector_code_bg"
             android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+            android:gravity="center"
             android:paddingTop="10dp"
             android:text="获取验证码" />
     </LinearLayout>

@@ -142,10 +142,10 @@ public class HttpUtil {
 
     public static void sendOkHttpRequestDetail(String address, JSONObject jo, okhttp3.Callback callback) {
         LogUtils.e("接口路径：", UrlPath.IP + address);
-        LogUtils.e("接口参数：", jo.toString());
+        LogUtils.e("接口参数：", jo.toString().replaceAll("\\\\",""));
         OkHttpClient client = new OkHttpClient.Builder().connectTimeout(15, TimeUnit.SECONDS).readTimeout(15, TimeUnit.SECONDS).
                 writeTimeout(15, TimeUnit.SECONDS).build();
-        String json = jo.toString();
+        String json = jo.toString().replaceAll("\\\\","");
         RequestBody body =
                 RequestBody.create(MediaType.parse("application/json;charset=utf-8"), json);
         Request request = new Request.Builder()

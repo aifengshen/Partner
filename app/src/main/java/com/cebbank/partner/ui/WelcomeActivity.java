@@ -11,6 +11,7 @@ import com.cebbank.partner.MainActivity;
 import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
+import com.cebbank.partner.utils.LogUtils;
 import com.cebbank.partner.utils.SharedPreferencesKey;
 import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
@@ -47,9 +48,44 @@ public class WelcomeActivity extends BaseActivity {
     private void initData() {
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
-                finish();
+                LogUtils.e(MyApplication.getToken());
+                if (!TextUtils.isEmpty(MyApplication.getToken())) {
+                    autoLogin(MyApplication.getToken());
+                } else {
+                    startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+                    finish();
+                }
             }
         }, 2000);
+    }
+
+    /**
+     * 自动登录
+     *
+     * @param token token
+     */
+    private void autoLogin(String token) {
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", token);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest(this, UrlPath.AuthLogin, jsonObject, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+                startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                finish();
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
     }
 }

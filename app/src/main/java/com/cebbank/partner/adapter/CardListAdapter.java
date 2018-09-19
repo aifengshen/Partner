@@ -9,12 +9,21 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
+import com.cebbank.partner.GlideApp;
+import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.bean.CardInfoBean;
+import com.cebbank.partner.interfaces.HttpCallbackListener;
+import com.cebbank.partner.ui.ArticleDetailActivity;
 import com.cebbank.partner.ui.CardDetailActivity;
+import com.cebbank.partner.utils.DateTimeUtil;
+import com.cebbank.partner.utils.ToastUtils;
+import com.cebbank.partner.utils.UrlPath;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,10 +31,11 @@ import org.jsoup.select.Elements;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
+
 public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, BaseViewHolder> {
-
-    private static final String IMAGE1 = "<h2>这是标题</h2><p>< img src= \\\" \\\"https://gw.alicdn.com/tps/TB1W_X6OXXXXXcZXVXXXXXXXXXX-400-400.png \\\"> \\\"></p ><p><strong>阿三快点回家啊圣诞狂欢</strong></p ><ol><li><p>123123</p ></li><li><p><strong>444</strong></p ></li><li><p><strong>55</strong></p ></li><li><p><strong>6</strong></p ></li></ol><p><strong><br/></strong></p ><p>打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊</p ><br/><br/><br/><br/><h1>我是标题</h1><button>点击我啊啊啊啊 啊</button><div>打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊打打杀杀打打啊</div><ol><li>111111</li><li>111111</li><li>111111</li><li>111111</li><li>111111</li><li>111111</li><li>111111</li><li>111111</li><li>111111</li><li>111111</li><li>111111</li><li>111111</li><li>111111</li><li>111111</li><li>111111</li><li>111111</li><li>111111</li><li>111111</li><li>111111</li><li>111111</li><embed src='http:\\/\\//\\/tb-video.bdstatic.com\\/ti\\/tieba-smallvideo-transcode\\/3612804_e50cb68f52adb3c4c3f6135c0edcc7b0_b0_3.mp4' a4' autostart=true/false loop=true/false width=100% height=\\\"500\\\"></embed></ol><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><span>这是底部-----------------</span>";
-
 
     public CardListAdapter(List data) {
         super(data);
@@ -36,12 +46,13 @@ public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, Bas
     @Override
     protected void convert(final BaseViewHolder helper, final CardInfoBean item) {
 
-        helper.itemView.setOnClickListener(new View.OnClickListener() {
+        helper.getView(R.id.tvIsAttent).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                concernPartner(item);
             }
         });
+
 
         switch (helper.getItemViewType()) {
             case CardInfoBean.WebView:
@@ -78,12 +89,25 @@ public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, Bas
 //                int fontSize = (int) mContext.getResources().getDimension(R.dimen.samll);
 //                webSettings.setTextZoom(fontSize);
 
-//                String cssLayout = "<style>*{padding: 20px;margin: 20px}#webview_content_wrapper{margin: 20px 20px 20px 20px;} p{color: #333333;line-height: 2em;font-size:48px;opacity: 1;} img {margin-top: 13px;margin-bottom: 15px;width: 100%;}</style>";
+                String cssLayout = "<style>*{padding: 0px;margin: 10px}#webview_content_wrapper{margin: 10px 10px 10px 10px;} p{color: #000000;line-height: 1.5em;font-size:45px;opacity: 1;} img {margin-top: 0px;margin-bottom: 60px;width: 100%;}</style>";
 //                String htmlModify = IMAGE1.replaceAll("<br/>", "");
-//                String htmlcontent = cssLayout + "<body><div id='webview_content_wrapper'>" + htmlModify + "</div></body>";
+                String htmlModify = item.getWebview_content();
+                String htmlcontent = cssLayout + "<body><div id='webview_content_wrapper'>" + htmlModify + "</div></body>";
 
-                webview.loadDataWithBaseURL(null, getNewContent(item.getWebview_content()), "text/html", "UTF-8", null);
-//                webview.loadUrl("http://news.sina.com.cn/o/2018-08-19/doc-ihhxaafy5278620.shtml");
+                webview.loadDataWithBaseURL(null, htmlcontent, "text/html", "UTF-8", null);
+                if (item.getWebview_attention().equals("true")) {
+                    helper.setText(R.id.tvIsAttent, "已关注");
+                } else {
+                    helper.setText(R.id.tvIsAttent, "关注");
+                }
+                helper.setText(R.id.tvTitle, item.getWebview_title());
+                helper.setText(R.id.tvName, item.getWebview_author());
+                helper.setText(R.id.tvDate, DateTimeUtil.stampToDate(item.getWebview_createDate()));
+                GlideApp.with(mContext)
+                        .load(item.getWebview_avatar())
+//                        .placeholder(R.mipmap.loading)
+                        .centerCrop()
+                        .into((CircleImageView) helper.getView(R.id.avatar));
                 break;
             case CardInfoBean.Card:
                 helper.setText(R.id.tvName, item.getName());
@@ -109,5 +133,30 @@ public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, Bas
         return doc.toString();
     }
 
+    /**
+     * 关注
+     */
+    private void concernPartner(CardInfoBean item) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("idolId", item.getWebview_authorId());
+            jsonObject.put("token", MyApplication.getToken());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest((ArticleDetailActivity) mContext, UrlPath.Concern, jsonObject, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+                ToastUtils.showShortToast("关注成功");
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+    }
 
 }

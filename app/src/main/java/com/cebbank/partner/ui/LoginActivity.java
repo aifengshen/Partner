@@ -2,6 +2,7 @@ package com.cebbank.partner.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.cebbank.partner.BaseActivity;
@@ -11,6 +12,7 @@ import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.utils.LogUtils;
+import com.cebbank.partner.utils.SharedPreferencesKey;
 import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
 import com.umeng.socialize.UMAuthListener;
@@ -41,10 +43,6 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void getData(View view) {
-//        UMShareConfig config = new UMShareConfig();
-//        config.isNeedAuthOnGetUserInfo(true);
-//        UMShareAPI.get(this).setShareConfig(config);
-
         UMShareAPI mShareAPI = UMShareAPI.get(this);
         mShareAPI.getPlatformInfo(LoginActivity.this, SHARE_MEDIA.WEIXIN, new UMAuthListener() {
             /**
@@ -64,8 +62,8 @@ public class LoginActivity extends BaseActivity {
              */
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                LogUtils.e("回调", map.toString());
-                login(map.get("screen_name"), map.get("unionid"), map.get("openid"));
+                String avatar = map.get("profile_image_url").replace(" ", "");
+                login(map.get("screen_name"), map.get("unionid"), map.get("openid"), avatar);
             }
 
             /**
@@ -91,20 +89,24 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private void login(String wechatName, String unionId, String openId) {
+    private void login(String wechatName, String unionId, String openId, String profile_image_url) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("wechatName", wechatName);
             jsonObject.put("unionId", unionId);
             jsonObject.put("openId", openId);
+            jsonObject.put("avatar", profile_image_url);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        sendOkHttpRequest(this, UrlPath.AuthLogin, jsonObject, null, new HttpCallbackListener() {
+        sendOkHttpRequest(this, UrlPath.WXLogin, jsonObject, null, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
+                JSONObject data = jsonObject.getJSONObject("data");
+                String token = data.optString("token");
+                MyApplication.saveValue(SharedPreferencesKey.Token, token);
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 finish();
             }
@@ -119,7 +121,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        UMShareAPI.get(this).onActivityResult(requestCode,resultCode,data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
 }

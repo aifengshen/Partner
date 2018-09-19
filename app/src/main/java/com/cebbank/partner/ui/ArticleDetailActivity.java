@@ -10,7 +10,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -22,6 +21,7 @@ import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.CardListAdapter;
 import com.cebbank.partner.bean.CardInfoBean;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
+import com.cebbank.partner.utils.DateTimeUtil;
 import com.cebbank.partner.utils.LogUtils;
 import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
@@ -56,8 +56,7 @@ import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
  */
 public class ArticleDetailActivity extends CheckPermissionsActivity implements View.OnClickListener {
 
-    private WebView webview;
-    private CircleImageView avatar;
+
     private LinearLayout ll;
     private TextView tvPraise, tvComment;
     private RecyclerView recyclerView;
@@ -76,7 +75,7 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
 
 
     private void initView() {
-        setTitle("光大信用卡阳光合伙人");
+        setTitle("阳光合伙人");
         setBackBtn();
         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -85,45 +84,44 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
         ll = findViewById(R.id.ll);
         tvPraise = findViewById(R.id.tvPraise);
         tvComment = findViewById(R.id.tvComment);
-        avatar = findViewById(R.id.avatar);
-        switcher = findViewById(R.id.switcher);
-        // 指定转换器的 ViewSwitcher.ViewFactory，ViewSwitcher.ViewFactory会为TextSwitcher提供转换的View
-        // 定义视图显示工厂，并设置
-        switcher.setFactory(new ViewSwitcher.ViewFactory() {
-
-            public View makeView() {
-                TextView tv = new TextView(ArticleDetailActivity.this);
-                tv.setTextSize(15);
-                tv.setBackgroundColor(getResources().getColor(R.color.text_color_orange));
-                tv.setTextColor(getResources().getColor(
-                        R.color.text_color_black));
-                Drawable leftDrawable = getResources().getDrawable(R.drawable.trumpet);
-                leftDrawable.setBounds(0, 0, leftDrawable.getMinimumWidth(), leftDrawable.getMinimumHeight());
-                tv.setCompoundDrawablePadding(20);
-                tv.setCompoundDrawables(leftDrawable, null, null, null);
-                tv.setPadding(30, 0, 0, 0);
-                tv.setGravity(Gravity.CENTER_VERTICAL);
-                tv.setText("风险提示");
-                return tv;
-            }
-        });
-        // 设置转换时的淡入和淡出动画效果（可选）
-        Animation in = AnimationUtils.loadAnimation(this, R.anim.slide_in_down);
-        Animation out = AnimationUtils.loadAnimation(this, R.anim.slide_out_top);
-        switcher.setInAnimation(in);
-        switcher.setOutAnimation(out);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        switcher.setText("风险提示哦~");
-                    }
-                });
-            }
-        }, 2000, 2000);
+//        switcher = findViewById(R.id.switcher);
+//        // 指定转换器的 ViewSwitcher.ViewFactory，ViewSwitcher.ViewFactory会为TextSwitcher提供转换的View
+//        // 定义视图显示工厂，并设置
+//        switcher.setFactory(new ViewSwitcher.ViewFactory() {
+//
+//            public View makeView() {
+//                TextView tv = new TextView(ArticleDetailActivity.this);
+//                tv.setTextSize(15);
+//                tv.setBackgroundColor(getResources().getColor(R.color.text_color_orange));
+//                tv.setTextColor(getResources().getColor(
+//                        R.color.text_color_black));
+//                Drawable leftDrawable = getResources().getDrawable(R.drawable.trumpet);
+//                leftDrawable.setBounds(0, 0, leftDrawable.getMinimumWidth(), leftDrawable.getMinimumHeight());
+//                tv.setCompoundDrawablePadding(20);
+//                tv.setCompoundDrawables(leftDrawable, null, null, null);
+//                tv.setPadding(30, 10, 0, 10);
+//                tv.setGravity(Gravity.CENTER_VERTICAL);
+//                tv.setText("风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示");
+//                return tv;
+//            }
+//        });
+//        // 设置转换时的淡入和淡出动画效果（可选）
+//        Animation in = AnimationUtils.loadAnimation(this, R.anim.slide_in_down);
+//        Animation out = AnimationUtils.loadAnimation(this, R.anim.slide_out_top);
+//        switcher.setInAnimation(in);
+//        switcher.setOutAnimation(out);
+//        Timer timer = new Timer();
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        switcher.setText("风险提示哦~");
+//                    }
+//                });
+//            }
+//        }, 2000, 2000);
     }
 
     private void initData() {
@@ -135,7 +133,6 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
     }
 
     private void setListener() {
-        findViewById(R.id.tvName).setOnClickListener(this);
         findViewById(R.id.tvPraise).setOnClickListener(this);
         findViewById(R.id.tvComment).setOnClickListener(this);
         findViewById(R.id.tvShare).setOnClickListener(this);
@@ -145,12 +142,6 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tvName:
-                /**
-                 * 关注
-                 */
-                concernPartner();
-                break;
             case R.id.tvPraise:
                 /**
                  * 点赞
@@ -229,12 +220,6 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
                 }
                 tvPraise.setText(cardList.get(0).getWebview_like());
                 tvComment.setText(cardList.get(0).getWebview_comment());
-                ((TextView) findViewById(R.id.tvName)).setText(cardList.get(0).getWebview_author());
-                GlideApp.with(ArticleDetailActivity.this)
-                        .load(cardList.get(0).getWebview_avatar())
-//                        .placeholder(R.mipmap.loading)
-                        .centerCrop()
-                        .into(avatar);
             }
 
             @Override
@@ -244,32 +229,6 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
         });
     }
 
-    /**
-     * 关注
-     */
-    private void concernPartner() {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("idolId", cardList.get(0).getWebview_authorId());
-            jsonObject.put("token", MyApplication.getToken());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        sendOkHttpRequest(this, UrlPath.Concern, jsonObject, null, new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) throws JSONException {
-                JSONObject jsonObject = new JSONObject(response);
-                ToastUtils.showShortToast("已关注");
-                tvPraise.setSelected(true);
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-        });
-    }
 
     /**
      * 点赞
@@ -323,6 +282,9 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
         });
     }
 
+    /**
+     * 分享
+     */
     private void share() {
         UMImage image = new UMImage(ArticleDetailActivity.this, R.drawable.aaa);//资源文件
         UMImage thumb = new UMImage(ArticleDetailActivity.this, R.drawable.bbb);

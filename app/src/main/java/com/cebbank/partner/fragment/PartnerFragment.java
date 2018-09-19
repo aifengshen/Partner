@@ -1,5 +1,6 @@
 package com.cebbank.partner.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
@@ -10,9 +11,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.cebbank.partner.MainActivity;
+import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.ui.UpLoadIDActivity;
+import com.cebbank.partner.ui.WelcomeActivity;
 import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
 
@@ -30,6 +34,7 @@ public class PartnerFragment extends Fragment implements View.OnClickListener {
     private View view;
     private TextView tvSend;
     private EditText edtvName, edtvNumber, edtvPhone, edtvCode;
+    private String Code = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,12 +45,19 @@ public class PartnerFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        applyIndex();
+    }
+
     private void initView() {
         edtvName = view.findViewById(R.id.edtvName);
         edtvNumber = view.findViewById(R.id.edtvNumber);
         edtvPhone = view.findViewById(R.id.edtvPhone);
         edtvCode = view.findViewById(R.id.edtvCode);
         tvSend = view.findViewById(R.id.tvSend);
+        tvSend.setSelected(false);
     }
 
     private void initData() {
@@ -75,6 +87,7 @@ public class PartnerFragment extends Fragment implements View.OnClickListener {
 
                     public void onFinish() { // 倒计时结束。
                         tvSend.setEnabled(true);
+                        tvSend.setSelected(false);
                         tvSend.setText("获取验证码");
                     }
                 }.start();
@@ -104,15 +117,15 @@ public class PartnerFragment extends Fragment implements View.OnClickListener {
                     ToastUtils.showShortToast("请填写验证码");
                     return;
                 }
-                if (number.length() != 18){
+                if (number.length() != 18) {
                     ToastUtils.showShortToast("身份证号填写不正确");
                     return;
                 }
-                if (phone.length() != 11){
+                if (phone.length() != 11) {
                     ToastUtils.showShortToast("手机号码填写不正确");
                     return;
                 }
-                if (code.length() != 4){
+                if (code.length() != 4 || !code.equals(Code)) {
                     ToastUtils.showShortToast("验证码填写不正确");
                     return;
                 }
@@ -133,7 +146,35 @@ public class PartnerFragment extends Fragment implements View.OnClickListener {
         sendOkHttpRequest(getActivity(), UrlPath.GetCode, jsonObject, null, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
+                JSONObject jo = new JSONObject(response);
+                Code = jo.optString("data");
+            }
 
+            @Override
+            public void onFailure() {
+
+            }
+        });
+    }
+
+    private void applyIndex(){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", MyApplication.getToken());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest(getActivity(), UrlPath.ApplyIndex, jsonObject, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jo = new JSONObject(response);
+                JSONObject data = jo.getJSONObject("data");
+                edtvName.setText(data.optString("username"));
+                edtvNumber.setText(data.optString("idCard"));
+                edtvPhone.setText(data.optString("phone"));
+                edtvName.setText(data.optString("username"));
             }
 
             @Override

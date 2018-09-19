@@ -1,8 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/llwebview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/text_color_white"
     android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/textViewLargeBlack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingLeft="10dp"
+            android:text=""
+            android:textStyle="bold" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/tvTitle"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@color/color_bg_gray"
+            app:civ_border_color="@color/color_bg_gray"
+            app:civ_border_width="1dp" />
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/textViewSmallBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/avatar"
+            android:layout_toRightOf="@id/avatar"
+            android:paddingLeft="20dp"
+            android:text=""
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            style="@style/textViewMicroLightGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/avatar"
+            android:layout_toRightOf="@id/avatar"
+            android:paddingLeft="20dp"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/tvIsAttent"
+            style="@style/textViewMicroWhite"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/avatar"
+            android:background="@drawable/corner_5_bg_orange_line_orange"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="关注"
+            android:visibility="visible" />
+
+    </RelativeLayout>
 
 </LinearLayout>

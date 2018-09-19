@@ -8,16 +8,32 @@
     <TextSwitcher
         android:id="@+id/switcher"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"></TextSwitcher>
+
+    <TextView
+        android:id="@+id/tvHint"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:padding="10dp"></TextSwitcher>
+        android:background="@color/text_color_orange"
+        android:drawableLeft="@drawable/trumpet"
+        android:drawablePadding="5dp"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:singleLine="true"
+        android:text="阿萨德飞我阿萨德解放军搜ID金佛吓我死嗲世纪东方就我没法我爱绝对是偶发就搜ID积分is阿丹姐佛爱上费时间大佛啊搜地我爱时代峻峰熬时间大佛啊搜地就爱减肥王我加入佛is饭来张口想买苍龙卡外" />
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/ll"
-        android:layout_below="@id/switcher"
+        android:layout_below="@id/tvHint"
         android:background="@color/color_bg_gray"
         android:overScrollMode="never"></android.support.v7.widget.RecyclerView>
 
@@ -90,40 +106,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:gravity="center"
                 android:drawableLeft="@drawable/collect"
+                android:gravity="center"
                 android:text="" />
         </LinearLayout>
 
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/ll"
-        android:layout_marginBottom="40dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/corner_bg_half_translucence_super_big"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/aaa"
-            app:civ_border_color="@color/color_bg_gray"
-            app:civ_border_width="1dp" />
-
-        <TextView
-            android:id="@+id/tvName"
-            style="@style/textViewSmallWhite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingRight="30dp"
-            android:text="黄大仙" />
     </LinearLayout>
 
 </RelativeLayout>

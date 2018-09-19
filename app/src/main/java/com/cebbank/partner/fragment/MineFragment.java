@@ -19,6 +19,7 @@ import com.cebbank.partner.ui.MySettingActivity;
 import com.cebbank.partner.ui.OpinionActivity;
 import com.cebbank.partner.ui.PartnerActivity;
 import com.cebbank.partner.ui.PersonalDataActivity;
+import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
 
 import org.json.JSONException;
@@ -110,30 +111,31 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 /**
                  * 成为合伙人
                  */
-                startActivity(new Intent(getActivity(), BecomePartnerActivity.class));
+                check(1);
                 break;
             case R.id.tvPersonalData:
                 /**
                  * 个人数据
                  */
-                startActivity(new Intent(getActivity(), PersonalDataActivity.class));
+                check(2);
                 break;
             case R.id.tvMyMaterial:
                 /**
                  *我的素材
                  */
-                PartnerActivity.actionStart(getActivity(),userId);
+                check(3);
                 break;
             case R.id.tvBindingCard:
                 /**
                  *绑定银行卡
                  */
+                check(4);
                 break;
             case R.id.tvProgress_Audit:
                 /**
                  *审核进度
                  */
-                startActivity(new Intent(getActivity(), CheckingProgressActivity.class));
+                check(5);
                 break;
             case R.id.tvFeedback:
                 /**
@@ -195,5 +197,64 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+    }
+
+    private void check(final int index) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", MyApplication.getToken());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest(getActivity(), UrlPath.Check, jsonObject, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+                String aa = jsonObject.optString("data");
+                if (aa.equals("true")) {
+                    switch (index) {
+                        case 1:
+                            /**
+                             * 成为合伙人
+                             */
+                            startActivity(new Intent(getActivity(), BecomePartnerActivity.class));
+                            break;
+                        case 2:
+                            /**
+                             * 个人数据
+                             */
+                            startActivity(new Intent(getActivity(), PersonalDataActivity.class));
+                            break;
+                        case 3:
+                            /**
+                             *我的素材
+                             */
+                            PartnerActivity.actionStart(getActivity(), userId);
+                            break;
+                        case 4:
+                            /**
+                             *绑定银行卡
+                             */
+
+                            break;
+                        case 5:
+                            /**
+                             *审核进度
+                             */
+                            startActivity(new Intent(getActivity(), CheckingProgressActivity.class));
+                            break;
+                    }
+                } else {
+                    ToastUtils.showShortToast("您还不是合伙人");
+                }
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
     }
 }
