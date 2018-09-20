@@ -59,8 +59,8 @@
 
         <service android:name="com.amap.api.track.AMapTrackService" />
         <service android:name="com.amap.api.location.APSService" />
-        <!--5b878fb5f43e4813e700002d-->
-        <!--5b86a86cb27b0a379400060f-->
+        <!-- 5b878fb5f43e4813e700002d -->
+        <!-- 5b86a86cb27b0a379400060f -->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5b878fb5f43e4813e700002d" />
@@ -175,7 +175,8 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".ui.MySettingActivity" />
         <activity android:name=".ui.MyPraiseActivity" />
-        <activity android:name=".ui.OpinionActivity"></activity>
+        <activity android:name=".ui.OpinionActivity" />
+        <activity android:name=".ui.TestActivity"></activity>
     </application>
 
 </manifest>

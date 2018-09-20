@@ -8,6 +8,7 @@ import com.cebbank.partner.R;
 import com.cebbank.partner.bean.ArticleBean;
 import com.cebbank.partner.bean.HomeFragmentBean;
 import com.cebbank.partner.ui.ArticleDetailActivity;
+import com.cebbank.partner.utils.DateTimeUtil;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -37,7 +38,7 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<ArticleBean, BaseV
         helper.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArticleDetailActivity.actionStart(mContext,item.getId());
+                ArticleDetailActivity.actionStart(mContext, item.getId());
             }
         });
 
@@ -53,7 +54,8 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<ArticleBean, BaseV
 
                 helper.setText(R.id.tvTitle, item.getTitle());
                 helper.setText(R.id.tvFrom, item.getAuthor());
-                helper.setText(R.id.tvDate, item.getCreateDate());
+                helper.setText(R.id.tvUV, "浏览量:" + item.getUv());
+                helper.setText(R.id.tvDate, DateTimeUtil.stampToDate(item.getCreateDate()));
                 break;
             case ArticleBean.BigImage:
                 if (item.getThumbnailList().size() == 1) {
@@ -66,7 +68,8 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<ArticleBean, BaseV
 
                 helper.setText(R.id.tvTitle, item.getTitle());
                 helper.setText(R.id.tvFrom, item.getAuthor());
-                helper.setText(R.id.tvDate, item.getCreateDate());
+                helper.setText(R.id.tvUV, "浏览量:" + item.getUv());
+                helper.setText(R.id.tvDate, DateTimeUtil.stampToDate(item.getCreateDate()));
                 break;
             case ArticleBean.ThreeImage:
                 if (item.getThumbnailList().size() == 3) {
@@ -89,7 +92,8 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<ArticleBean, BaseV
 
                 helper.setText(R.id.tvTitle, item.getTitle());
                 helper.setText(R.id.tvFrom, item.getAuthor());
-                helper.setText(R.id.tvDate, item.getCreateDate());
+                helper.setText(R.id.tvUV, "浏览量:" + item.getUv());
+                helper.setText(R.id.tvDate, DateTimeUtil.stampToDate(item.getCreateDate()));
                 break;
             case ArticleBean.Video:
                 if (item.getThumbnailList().size() == 1) {
@@ -102,7 +106,8 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<ArticleBean, BaseV
 
                 helper.setText(R.id.tvTitle, item.getTitle());
                 helper.setText(R.id.tvFrom, item.getAuthor());
-                helper.setText(R.id.tvDate, item.getCreateDate());
+                helper.setText(R.id.tvUV, "浏览量:" + item.getUv());
+                helper.setText(R.id.tvDate, DateTimeUtil.stampToDate(item.getCreateDate()));
                 break;
         }
 

@@ -12,23 +12,15 @@
         style="@style/textViewMediumBlack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="啊啊啊啊啊啊啊啊啊啊" />
+        android:lineSpacingExtra="5dp"
+        android:text="啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardview"
+    <ImageView
+        android:id="@+id/img"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        app:cardCornerRadius="10dp">
-
-        <ImageView
-            android:id="@+id/img"
-            android:layout_width="match_parent"
-            android:layout_height="100dp" />
-    </android.support.v7.widget.CardView>
+        android:layout_height="180dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,7 +39,15 @@
             style="@style/textViewMicroLightGray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
+            android:text="8月13日" />
+
+        <TextView
+            android:id="@+id/tvUV"
+            style="@style/textViewMicroLightGray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:text="8月13日" />
     </LinearLayout>
 

@@ -46,14 +46,6 @@ public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, Bas
     @Override
     protected void convert(final BaseViewHolder helper, final CardInfoBean item) {
 
-        helper.getView(R.id.tvIsAttent).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                concernPartner(item);
-            }
-        });
-
-
         switch (helper.getItemViewType()) {
             case CardInfoBean.WebView:
                 ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -95,7 +87,7 @@ public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, Bas
                 String htmlcontent = cssLayout + "<body><div id='webview_content_wrapper'>" + htmlModify + "</div></body>";
 
                 webview.loadDataWithBaseURL(null, htmlcontent, "text/html", "UTF-8", null);
-                if (item.getWebview_attention().equals("true")) {
+                if (item.getWebview_attention().equals("false")) {
                     helper.setText(R.id.tvIsAttent, "已关注");
                 } else {
                     helper.setText(R.id.tvIsAttent, "关注");
@@ -108,6 +100,12 @@ public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, Bas
 //                        .placeholder(R.mipmap.loading)
                         .centerCrop()
                         .into((CircleImageView) helper.getView(R.id.avatar));
+                helper.getView(R.id.tvIsAttent).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        concernPartner(item);
+                    }
+                });
                 break;
             case CardInfoBean.Card:
                 helper.setText(R.id.tvName, item.getName());
@@ -118,9 +116,7 @@ public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, Bas
                     }
                 });
                 break;
-
         }
-
     }
 
     private String getNewContent(String htmltext) {

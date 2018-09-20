@@ -165,35 +165,6 @@ public class UpLoadIDActivity extends CheckPermissionsActivity implements View.O
         startActivityForResult(intent, TAKE_PHOTO);
     }
 
-    private void submit() {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("username", getIntent().getStringExtra("username"));
-            jsonObject.put("phone", getIntent().getStringExtra("phone"));
-            jsonObject.put("code", getIntent().getStringExtra("code"));
-            jsonObject.put("idCard", getIntent().getStringExtra("idCard"));
-            jsonObject.put("front", front);
-            jsonObject.put("back", back);
-            jsonObject.put("token", MyApplication.getToken());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        sendOkHttpRequest(this, UrlPath.Apply, jsonObject, null, new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) throws JSONException {
-                JSONObject jsonObject = new JSONObject(response);
-                ToastUtils.showShortToast("提交成功~");
-                finish();
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-        });
-    }
-
     private void chooseFromAlbum() {
         Intent intent = new Intent("android.intent.action.GET_CONTENT");
         intent.setType("image/*");
@@ -324,6 +295,35 @@ public class UpLoadIDActivity extends CheckPermissionsActivity implements View.O
             @Override
             public void onFailure() {
 
+
+            }
+        });
+    }
+
+    private void submit() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("username", getIntent().getStringExtra("username"));
+            jsonObject.put("phone", getIntent().getStringExtra("phone"));
+            jsonObject.put("code", getIntent().getStringExtra("code"));
+            jsonObject.put("idCard", getIntent().getStringExtra("idCard"));
+            jsonObject.put("front", front);
+            jsonObject.put("back", back);
+            jsonObject.put("token", MyApplication.getToken());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest(this, UrlPath.Apply, jsonObject, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+                ToastUtils.showShortToast("提交成功~");
+                finish();
+            }
+
+            @Override
+            public void onFailure() {
 
             }
         });
