@@ -47,38 +47,42 @@ public class AttentionPartnerAdapter extends BaseQuickAdapter<AttentionPartnerBe
                 /**
                  * 取消关注
                  */
-                cancel(item.isCancel(), item.getId(), getParentPosition(item));
+                cancel(item, helper);
             }
         });
 
     }
 
-    private void cancel(boolean isCancel, String idolId, final int position) {
-
+    private void cancel(final AttentionPartnerBean item, final BaseViewHolder helper) {
+        String url = "";
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("idolId", idolId);
+            jsonObject.put("idolId", item.getId());
             jsonObject.put("token", MyApplication.getToken());
-            if (isCancel) {
 
+            if (item.isCancel()) {
+                url = UrlPath.Cancel;
             } else {
-
+                url = UrlPath.Concern;
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        sendOkHttpRequest((MainActivity) mContext, UrlPath.Cancel, jsonObject, null, new HttpCallbackListener() {
+        sendOkHttpRequest((MainActivity) mContext, url, jsonObject, null, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
-//                String code = jsonObject.optString("code");
-//                JSONArray jsonArray = jsonObject.getJSONArray("data");
-//                Gson gson = new Gson();
-                ToastUtils.showShortToast("取关成功");
-//                data.get(position).setCancel(false);
+                if (item.isCancel()) {
+                    item.setCancel(false);
+                    ToastUtils.showShortToast("取关成功");
+                    helper.setText(R.id.tvAttention, "关注");
+                } else {
+                    item.setCancel(true);
+                    ToastUtils.showShortToast("关注成功");
+                    helper.setText(R.id.tvAttention, "取消关注");
+                }
 
-//                notifyDataSetChanged();
             }
 
             @Override

@@ -2,26 +2,19 @@ package com.cebbank.partner.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
-import com.cebbank.partner.GlideApp;
 import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.CardListAdapter;
 import com.cebbank.partner.bean.CardInfoBean;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
-import com.cebbank.partner.utils.DateTimeUtil;
 import com.cebbank.partner.utils.LogUtils;
 import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
@@ -41,10 +34,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 
@@ -62,7 +51,6 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
     private RecyclerView recyclerView;
     private CardListAdapter mAdapter;
     private List<CardInfoBean> cardList;
-    private TextSwitcher switcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +61,11 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
         setListener();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        articleDetail();
+    }
 
     private void initView() {
         setTitle("阳光合伙人");
@@ -84,44 +77,6 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
         ll = findViewById(R.id.ll);
         tvPraise = findViewById(R.id.tvPraise);
         tvComment = findViewById(R.id.tvComment);
-//        switcher = findViewById(R.id.switcher);
-//        // 指定转换器的 ViewSwitcher.ViewFactory，ViewSwitcher.ViewFactory会为TextSwitcher提供转换的View
-//        // 定义视图显示工厂，并设置
-//        switcher.setFactory(new ViewSwitcher.ViewFactory() {
-//
-//            public View makeView() {
-//                TextView tv = new TextView(ArticleDetailActivity.this);
-//                tv.setTextSize(15);
-//                tv.setBackgroundColor(getResources().getColor(R.color.text_color_orange));
-//                tv.setTextColor(getResources().getColor(
-//                        R.color.text_color_black));
-//                Drawable leftDrawable = getResources().getDrawable(R.drawable.trumpet);
-//                leftDrawable.setBounds(0, 0, leftDrawable.getMinimumWidth(), leftDrawable.getMinimumHeight());
-//                tv.setCompoundDrawablePadding(20);
-//                tv.setCompoundDrawables(leftDrawable, null, null, null);
-//                tv.setPadding(30, 10, 0, 10);
-//                tv.setGravity(Gravity.CENTER_VERTICAL);
-//                tv.setText("风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示风险提示");
-//                return tv;
-//            }
-//        });
-//        // 设置转换时的淡入和淡出动画效果（可选）
-//        Animation in = AnimationUtils.loadAnimation(this, R.anim.slide_in_down);
-//        Animation out = AnimationUtils.loadAnimation(this, R.anim.slide_out_top);
-//        switcher.setInAnimation(in);
-//        switcher.setOutAnimation(out);
-//        Timer timer = new Timer();
-//        timer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        switcher.setText("风险提示哦~");
-//                    }
-//                });
-//            }
-//        }, 2000, 2000);
     }
 
     private void initData() {
@@ -129,7 +84,6 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
         mAdapter = new CardListAdapter(cardList);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
         recyclerView.setAdapter(mAdapter);
-        articleDetail();
     }
 
     private void setListener() {

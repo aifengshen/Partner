@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lineSpacingExtra="10dp"
-        android:text="啊啊啊啊啊啊啊啊啊啊" />
+        android:text="" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
             style="@style/textViewMicroLightGray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="光大银行" />
+            android:text="" />
 
         <TextView
             android:id="@+id/tvDate"
@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="8月13日" />
+            android:text="" />
 
         <TextView
             android:id="@+id/tvUV"
@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="8月13日" />
+            android:text="" />
     </LinearLayout>
 
 </LinearLayout>

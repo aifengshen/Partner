@@ -2,7 +2,8 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#BFBFBF</color>
+    <color name="colorAccent">#E5A817</color>
+    <!--<color name="colorAccent">#BFBFBF</color>-->
 
     <!--文本颜色-->
     <color name="text_color_white">#FFFFFF</color>
@@ -13,6 +14,8 @@
     <color name="color_bg_gray">#F0F0F0</color>
     <color name="color_bg_purple">#6C158A</color>
     <color name="color_bg_red">#F64100</color>
+    <color name="transparent">#ffffffff</color>
+    <color name="transparent1">#005c5c5c</color>
     <!--toolbar文本颜色-->
     <color name="gray_color">#4b4b58</color>
     <!--控件颜色-->

@@ -20,7 +20,7 @@
             app:tabIndicatorColor="@color/text_color_orange"
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/text_color_orange"
-            app:tabTextColor="@color/colorAccent" />
+            app:tabTextColor="@color/text_color_gray" />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout

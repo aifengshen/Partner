@@ -1,9 +1,12 @@
 package com.cebbank.partner.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
+import static com.umeng.socialize.utils.DeviceConfig.context;
 
 
 /**
@@ -157,7 +161,7 @@ public class PartnerFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    private void applyIndex(){
+    private void applyIndex() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("token", MyApplication.getToken());
@@ -175,6 +179,9 @@ public class PartnerFragment extends Fragment implements View.OnClickListener {
                 edtvNumber.setText(data.optString("idCard"));
                 edtvPhone.setText(data.optString("phone"));
                 edtvName.setText(data.optString("username"));
+                if (data.optString("checkStatus").equals("PASS")) {
+                    showdialog();
+                }
             }
 
             @Override
@@ -182,6 +189,19 @@ public class PartnerFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+    }
+
+    private void showdialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("温馨提示");
+        builder.setMessage("您已成为合伙人,重复提交需要重新审核!");
+        builder.setNegativeButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
 

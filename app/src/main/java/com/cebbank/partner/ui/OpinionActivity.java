@@ -1,6 +1,5 @@
 package com.cebbank.partner.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;

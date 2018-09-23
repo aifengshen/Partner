@@ -24,7 +24,7 @@ public class MessageFragmentAdapter extends BaseQuickAdapter<MessageFragmentBean
     @Override
     protected void convert(final BaseViewHolder helper, final MessageFragmentBean item) {
 
-        helper.setText(R.id.tvTitle, item.getTitle());
+        helper.setText(R.id.tvContent, item.getContent());
 
 
         helper.itemView.setOnClickListener(new View.OnClickListener() {

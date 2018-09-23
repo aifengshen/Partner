@@ -3,8 +3,6 @@ package com.cebbank.partner.utils;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
-
 
 import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
@@ -16,12 +14,10 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;

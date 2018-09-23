@@ -149,6 +149,18 @@ public class UrlPath {
      * 成为合伙人初始化
      */
     public static final String ApplyIndex = "/app/partner/applyIndex";
+    /**
+     * 收入
+     */
+    public static final String Income = "/app/data/income";
+    /**
+     * 收益列表
+     */
+    public static final String IncomeList = "/app/data/list";
+    /**
+     * 提现
+     */
+    public static final String Withdraw = "/app/data/withdraw";
 
 
 

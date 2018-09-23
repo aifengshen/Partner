@@ -8,24 +8,25 @@ package com.cebbank.partner.bean;
  */
 public class MessageFragmentBean {
 
-    private String title;
-    private String noticeId;
+    private String id;
+    private String content;
     private String read;
+    private String createDate;
 
-    public String getTitle() {
-        return title;
+    public String getId() {
+        return id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getNoticeId() {
-        return noticeId;
+    public String getContent() {
+        return content;
     }
 
-    public void setNoticeId(String noticeId) {
-        this.noticeId = noticeId;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getRead() {
@@ -34,5 +35,13 @@ public class MessageFragmentBean {
 
     public void setRead(String read) {
         this.read = read;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 }

@@ -17,7 +17,7 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:text="素材结算" />
+        android:text="" />
 
     <TextView
         android:id="@+id/tvSunshineValue"
@@ -28,7 +28,7 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:text="+50"
+        android:text=""
         android:textColor="@color/text_color_orange" />
 
     <TextView
@@ -40,7 +40,7 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:text="广大银行官方" />
+        android:text="" />
 
     <TextView
         android:id="@+id/tvSettlementTime"
@@ -51,6 +51,6 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:text="2018-03-20" />
+        android:text="" />
 
 </LinearLayout>

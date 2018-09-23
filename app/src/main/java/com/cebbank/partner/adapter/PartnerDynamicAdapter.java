@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import com.cebbank.partner.GlideApp;
 import com.cebbank.partner.R;
 import com.cebbank.partner.bean.PartnerDynamicBean;
+import com.cebbank.partner.utils.DateTimeUtil;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -31,7 +32,8 @@ public class PartnerDynamicAdapter extends BaseMultiItemQuickAdapter<PartnerDyna
                         .into((ImageView) helper.getView(R.id.img));
                 helper.setText(R.id.tvTitle, item.getTitle());
                 helper.setText(R.id.tvFrom, item.getAuthor());
-                helper.setText(R.id.tvDate, item.getCreateDate());
+                helper.setText(R.id.tvUV, "浏览量:" + item.getUv());
+                helper.setText(R.id.tvDate, DateTimeUtil.stampToDate(item.getCreateDate()));
                 break;
             case PartnerDynamicBean.BigImage:
                 GlideApp.with(mContext)
@@ -41,7 +43,8 @@ public class PartnerDynamicAdapter extends BaseMultiItemQuickAdapter<PartnerDyna
                         .into((ImageView) helper.getView(R.id.img));
                 helper.setText(R.id.tvTitle, item.getTitle());
                 helper.setText(R.id.tvFrom, item.getAuthor());
-                helper.setText(R.id.tvDate, item.getCreateDate());
+                helper.setText(R.id.tvUV, "浏览量:" + item.getUv());
+                helper.setText(R.id.tvDate, DateTimeUtil.stampToDate(item.getCreateDate()));
                 break;
             case PartnerDynamicBean.ThreeImage:
                 GlideApp.with(mContext)
@@ -61,7 +64,8 @@ public class PartnerDynamicAdapter extends BaseMultiItemQuickAdapter<PartnerDyna
                         .into((ImageView) helper.getView(R.id.img3));
                 helper.setText(R.id.tvTitle, item.getTitle());
                 helper.setText(R.id.tvFrom, item.getAuthor());
-                helper.setText(R.id.tvDate, item.getCreateDate());
+                helper.setText(R.id.tvUV, "浏览量:" + item.getUv());
+                helper.setText(R.id.tvDate, DateTimeUtil.stampToDate(item.getCreateDate()));
                 break;
             case PartnerDynamicBean.Video:
                 GlideApp.with(mContext)
@@ -71,7 +75,8 @@ public class PartnerDynamicAdapter extends BaseMultiItemQuickAdapter<PartnerDyna
                         .into((ImageView) helper.getView(R.id.img));
                 helper.setText(R.id.tvTitle, item.getTitle());
                 helper.setText(R.id.tvFrom, item.getAuthor());
-                helper.setText(R.id.tvDate, item.getCreateDate());
+                helper.setText(R.id.tvUV, "浏览量:" + item.getUv());
+                helper.setText(R.id.tvDate, DateTimeUtil.stampToDate(item.getCreateDate()));
                 break;
         }
 
