@@ -81,7 +81,7 @@ public class HttpUtil {
                                 public void run() {
                                     try {
                                         JSONObject jsonObject = new JSONObject(responseData);
-                                        LogUtils.e("返回的数据"+address+":", responseData);
+                                        LogUtils.e("返回的数据" + address + ":", responseData);
                                         String code = jsonObject.optString("code");
                                         String msg = jsonObject.optString("msg");
                                         customDialog.dismiss();
@@ -131,17 +131,17 @@ public class HttpUtil {
     /**
      * OkHttp访问接口
      *
-     * @param address     接口地址
-     * @param jo 接口参数
-     * @param callback    接口回调
+     * @param address  接口地址
+     * @param jo       接口参数
+     * @param callback 接口回调
      */
 
     public static void sendOkHttpRequestDetail(String address, JSONObject jo, okhttp3.Callback callback) {
         LogUtils.e("接口路径：", UrlPath.IP + address);
-        LogUtils.e("接口参数：", jo.toString().replaceAll("\\\\",""));
+        LogUtils.e("接口参数：", jo.toString().replaceAll("\\\\", ""));
         OkHttpClient client = new OkHttpClient.Builder().connectTimeout(15, TimeUnit.SECONDS).readTimeout(15, TimeUnit.SECONDS).
                 writeTimeout(15, TimeUnit.SECONDS).build();
-        String json = jo.toString().replaceAll("\\\\","");
+        String json = jo.toString().replaceAll("\\\\", "");
         RequestBody body =
                 RequestBody.create(MediaType.parse("application/json;charset=utf-8"), json);
         Request request = new Request.Builder()
@@ -167,7 +167,7 @@ public class HttpUtil {
                         }
                     });
 
-                    sendOkHttpRequestUpLoadDetail(address,  path,new Callback() {
+                    sendOkHttpRequestUpLoadDetail(address, path, new Callback() {
                         @Override
                         public void onFailure(Call call, final IOException e) {
                             mActivity.runOnUiThread(new Runnable() {
@@ -192,7 +192,6 @@ public class HttpUtil {
                                 @Override
                                 public void run() {
                                     try {
-                                        LogUtils.e("返回的数据1111:", responseData);
                                         JSONObject jsonObject = new JSONObject(responseData);
                                         LogUtils.e("返回的数据:", responseData);
                                         String code = jsonObject.optString("code");
@@ -243,6 +242,7 @@ public class HttpUtil {
     public static void sendOkHttpRequestUpLoadDetail(String address,
                                                      String path, okhttp3.Callback callback) {
         LogUtils.e("接口路径：", UrlPath.IP + address);
+        LogUtils.e("接口参数：", path + "");
         OkHttpClient client = new OkHttpClient.Builder().connectTimeout(15, TimeUnit.SECONDS).readTimeout(15, TimeUnit.SECONDS).
                 writeTimeout(15, TimeUnit.SECONDS).build();
 

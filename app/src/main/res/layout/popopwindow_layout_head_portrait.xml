@@ -1,63 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipChildren="false"
     android:orientation="vertical"
-    android:paddingBottom="30dp">
+    android:paddingBottom="30dp"
+    android:paddingTop="20dp">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="56dp" />
 
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tvHine1"
+        style="@style/textViewMediumBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="加合伙人微信聊一聊" />
+
+    <TextView
+        android:id="@+id/tvHine2"
+        style="@style/textViewSmallLightGray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvHine1"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="合伙人个人微信号：手动阀撒地方" />
+
+    <TextView
+        android:id="@+id/tvAddwx"
+        style="@style/textViewMediumWhite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_below="@id/tvHine2"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/corner_25_bg_orange_line_orange"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="复制微信号" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:background="@color/transparent1"></LinearLayout>
-
-        <ImageView
-            android:id="@+id/imgAvatar"
-            style="@style/textViewMediumBlack"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="-28dp" />
-
-        <TextView
-            android:id="@+id/tvHine1"
-            style="@style/textViewMediumBlack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:text="加合伙人微信聊一聊" />
-
-        <TextView
-            android:id="@+id/tvHine2"
-            style="@style/textViewSmallLightGray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="合伙人个人微信号：手动阀撒地方" />
-
-        <TextView
-            android:id="@+id/tvAddwx"
-            style="@style/textViewMediumWhite"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/corner_25_bg_orange_line_orange"
-            android:gravity="center"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:text="复制微信号" />
-    </LinearLayout>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgAvatar"
+        style="@style/textViewMediumBlack"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_above="@id/tvHine1"
+        android:layout_centerHorizontal="true"
+        android:clipChildren="false"
+        android:src="@color/color_bg_gray"
+        app:civ_border_color="@color/color_bg_gray"
+        app:civ_border_width="1dp" />
 
 
-</LinearLayout>
+</RelativeLayout>

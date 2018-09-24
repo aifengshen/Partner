@@ -11,29 +11,18 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.cebbank.partner.bean.BannerBean;
-import com.cebbank.partner.fragment.PartnerFragment;
+import com.cebbank.partner.fragment.BecomePartnerFragment;
 import com.cebbank.partner.fragment.HomeFragment;
 import com.cebbank.partner.fragment.MineFragment;
 import com.cebbank.partner.fragment.MessageFragment;
 import com.cebbank.partner.fragment.AttentionFragment;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
-import com.cebbank.partner.ui.ArticleDetailActivity;
 import com.cebbank.partner.utils.BottomNavigationViewHelper;
-import com.cebbank.partner.utils.SharedPreferencesKey;
 import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.List;
 
 import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 
@@ -55,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                     check(3);
                     return true;
                 case R.id.navigation_partner:
-                    replaceFragment(new PartnerFragment());
+                    replaceFragment(new BecomePartnerFragment());
                     return true;
                 case R.id.navigation_mine:
                     replaceFragment(new MineFragment());

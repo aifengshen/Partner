@@ -50,6 +50,10 @@ public class UrlPath {
      */
     public static final String Collection = "/app/partner/collection";
     /**
+     * 转发
+     */
+    public static final String Send = "/app/forward/send";
+    /**
      * 我的收纳
      */
     public static final String MyCollection = "/app/attention/collection";
@@ -74,6 +78,10 @@ public class UrlPath {
      */
     public static final String Praise = "/app/like/send";
     /**
+     * 收纳
+     */
+    public static final String CollectsSend = "/app/collect/send";
+    /**
      * 我的评论
      */
     public static final String MyComment = "/app/notice/comment";
@@ -97,6 +105,14 @@ public class UrlPath {
      * 身份证正面照片上传
      */
     public static final String IDcardTailUpload = "/file/IDcardTailUpload";
+    /**
+     * 银行卡正面照片上传
+     */
+    public static final String BankcardUpload = "/file/bankcardUpload";
+    /**
+     * 手持银行卡照片上传
+     */
+    public static final String BankcardHandUpload = "/file/bankcardHandUpload";
     /**
      * 短信验证码
      */
@@ -161,6 +177,39 @@ public class UrlPath {
      * 提现
      */
     public static final String Withdraw = "/app/data/withdraw";
+    /**
+     * 头像上传
+     */
+    public static final String AvatarUpload = "/file/avatarUpload";
+    /**
+     * 修改资料
+     */
+    public static final String ModifyData = "/app/my/modifyData";
+    /**
+     * 绑定银行卡初始化
+     */
+    public static final String BindCardIndex = "/app/bankCard/index";
+    /**
+     * 银行卡绑定
+     */
+    public static final String BindCard = "/app/bankCard/bind";
+    /**
+     * FAQ列表
+     */
+    public static final String FAQlist = "/app/faq/list";
+    /**
+     * 官方教程列表
+     */
+    public static final String Tutoriallist = "/app/tutorial/list";
+    /**
+     * 官方教程详情
+     */
+    public static final String TutorialDetail = "/app/tutorial/detail";
+    /**
+     * 联系我们
+     */
+    public static final String ContactDetail = "/app/contact/detail";
+
 
 
 

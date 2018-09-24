@@ -112,7 +112,7 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
                 /**
                  * 分享
                  */
-                share();
+                transmit();
                 break;
             case R.id.tvCollect:
                 /**
@@ -216,17 +216,43 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
     private void collectArtcle() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("partnerId", getIntent().getStringExtra("articleId"));
+            jsonObject.put("articleId", getIntent().getStringExtra("articleId"));
             jsonObject.put("token", MyApplication.getToken());
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        sendOkHttpRequest(this, UrlPath.Collection, jsonObject, null, new HttpCallbackListener() {
+        sendOkHttpRequest(this, UrlPath.CollectsSend, jsonObject, null, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
-                ToastUtils.showShortToast(jsonObject.optString("msg"));
+                ToastUtils.showShortToast("收纳成功");
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+    }
+
+    /**
+     * 转发
+     */
+    private void transmit() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("articleId", getIntent().getStringExtra("articleId"));
+            jsonObject.put("token", MyApplication.getToken());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest(this, UrlPath.Send, jsonObject, null, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) throws JSONException {
+                JSONObject jsonObject = new JSONObject(response);
+                ToastUtils.showShortToast("转发成功");
             }
 
             @Override
@@ -240,35 +266,35 @@ public class ArticleDetailActivity extends CheckPermissionsActivity implements V
      * 分享
      */
     private void share() {
-        UMImage image = new UMImage(ArticleDetailActivity.this, R.drawable.aaa);//资源文件
-        UMImage thumb = new UMImage(ArticleDetailActivity.this, R.drawable.bbb);
-        image.setThumb(thumb);
-        UMWeb web = new UMWeb("http://news.sina.com.cn/o/2018-08-19/doc-ihhxaafy5278620.shtml");
-        web.setTitle("震惊，恭喜开发团队喜中2亿软妹币");//标题
-        web.setThumb(thumb);  //缩略图
-        web.setDescription("震惊，他竟然干这样的事...");//描述
-        new ShareAction(ArticleDetailActivity.this).withText("嘛哩嘛哩哄").withMedia(web).setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
-                .setCallback(new UMShareListener() {
-                    @Override
-                    public void onStart(SHARE_MEDIA share_media) {
-                        LogUtils.e("onStart");
-                    }
-
-                    @Override
-                    public void onResult(SHARE_MEDIA share_media) {
-                        LogUtils.e("onResult");
-                    }
-
-                    @Override
-                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-                        LogUtils.e("onError");
-                    }
-
-                    @Override
-                    public void onCancel(SHARE_MEDIA share_media) {
-                        LogUtils.e("onCancel");
-                    }
-                }).open();
+//        UMImage image = new UMImage(ArticleDetailActivity.this, R.drawable.aaa);//资源文件
+//        UMImage thumb = new UMImage(ArticleDetailActivity.this, R.drawable.bbb);
+//        image.setThumb(thumb);
+//        UMWeb web = new UMWeb("http://news.sina.com.cn/o/2018-08-19/doc-ihhxaafy5278620.shtml");
+//        web.setTitle("震惊，恭喜开发团队喜中2亿软妹币");//标题
+//        web.setThumb(thumb);  //缩略图
+//        web.setDescription("震惊，他竟然干这样的事...");//描述
+//        new ShareAction(ArticleDetailActivity.this).withText("嘛哩嘛哩哄").withMedia(web).setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
+//                .setCallback(new UMShareListener() {
+//                    @Override
+//                    public void onStart(SHARE_MEDIA share_media) {
+//                        LogUtils.e("onStart");
+//                    }
+//
+//                    @Override
+//                    public void onResult(SHARE_MEDIA share_media) {
+//                        LogUtils.e("onResult");
+//                    }
+//
+//                    @Override
+//                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+//                        LogUtils.e("onError");
+//                    }
+//
+//                    @Override
+//                    public void onCancel(SHARE_MEDIA share_media) {
+//                        LogUtils.e("onCancel");
+//                    }
+//                }).open();
     }
 
     @Override

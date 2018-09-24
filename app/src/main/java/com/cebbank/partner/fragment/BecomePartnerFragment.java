@@ -1,8 +1,6 @@
 package com.cebbank.partner.fragment;
 
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
@@ -14,12 +12,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.cebbank.partner.MainActivity;
 import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.ui.UpLoadIDActivity;
-import com.cebbank.partner.ui.WelcomeActivity;
 import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
 
@@ -27,13 +23,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
-import static com.umeng.socialize.utils.DeviceConfig.context;
 
 
 /**
  * 成为合伙人fragment
  */
-public class PartnerFragment extends Fragment implements View.OnClickListener {
+public class BecomePartnerFragment extends Fragment implements View.OnClickListener {
 
     private View view;
     private TextView tvSend;

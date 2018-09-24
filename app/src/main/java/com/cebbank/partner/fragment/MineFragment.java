@@ -13,9 +13,13 @@ import com.cebbank.partner.GlideApp;
 import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
+import com.cebbank.partner.ui.AnswerActivity;
 import com.cebbank.partner.ui.BecomePartnerActivity;
+import com.cebbank.partner.ui.BindCardActivity;
 import com.cebbank.partner.ui.CheckingProgressActivity;
+import com.cebbank.partner.ui.ContactUsActivity;
 import com.cebbank.partner.ui.MySettingActivity;
+import com.cebbank.partner.ui.OfficialCourseActivity;
 import com.cebbank.partner.ui.OpinionActivity;
 import com.cebbank.partner.ui.PartnerActivity;
 import com.cebbank.partner.ui.PersonalDataActivity;
@@ -39,17 +43,22 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
     private CircleImageView profile_image;
     private TextView tvUserName, tvEditProfile, tvBecomePartner, tvPersonalData, tvMyMaterial, tvBindingCard, tvProgress_Audit, tvFeedback;
-    private RelativeLayout rlHelpCenter, rlOfficialTutorials, rlContactUs, rlLogout;
-    private String userId = "";
+    private RelativeLayout rlHelpCenter, rlOfficialTutorials, rlContactUs;
+    private String userId = "", name = "", avatar = "";
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mine, container, false);
         initView(view);
-        initData();
         setClickListener();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
     }
 
     private void initView(View view) {
@@ -65,7 +74,6 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         rlHelpCenter = view.findViewById(R.id.rlHelpCenter);
         rlOfficialTutorials = view.findViewById(R.id.rlOfficialTutorials);
         rlContactUs = view.findViewById(R.id.rlContactUs);
-        rlLogout = view.findViewById(R.id.rlLogout);
     }
 
     private void initData() {
@@ -85,7 +93,6 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         rlHelpCenter.setOnClickListener(this);
         rlOfficialTutorials.setOnClickListener(this);
         rlContactUs.setOnClickListener(this);
-        rlLogout.setOnClickListener(this);
     }
 
     @Override
@@ -105,7 +112,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 /**
                  * 编辑资料
                  */
-                startActivity(new Intent(getActivity(), MySettingActivity.class));
+                MySettingActivity.actionStart(getActivity(), name, avatar);
                 break;
             case R.id.tvBecomePartner:
                 /**
@@ -145,23 +152,21 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.rlHelpCenter:
                 /**
-                 *帮助中心
+                 *疑难解答
                  */
+                startActivity(new Intent(getActivity(), AnswerActivity.class));
                 break;
             case R.id.rlOfficialTutorials:
                 /**
                  *官方教程
                  */
+                startActivity(new Intent(getActivity(), OfficialCourseActivity.class));
                 break;
             case R.id.rlContactUs:
                 /**
                  *联系我们
                  */
-                break;
-            case R.id.rlLogout:
-                /**
-                 *退出登录
-                 */
+                startActivity(new Intent(getActivity(), ContactUsActivity.class));
                 break;
 
         }
@@ -180,8 +185,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
                 JSONObject data = jsonObject.getJSONObject("data");
-                String name = data.optString("username");
-                String avatar = data.optString("avatar");
+                name = data.optString("username");
+                avatar = data.optString("avatar");
                 userId = data.optString("userId");
                 tvUserName.setText(name);
                 GlideApp.with(getActivity())
@@ -236,7 +241,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                             /**
                              *绑定银行卡
                              */
-
+                            startActivity(new Intent(getActivity(), BindCardActivity.class));
                             break;
                         case 5:
                             /**

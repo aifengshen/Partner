@@ -2,29 +2,29 @@ package com.cebbank.partner.ui;
 
 import android.annotation.TargetApi;
 import android.content.ContentUris;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.FileProvider;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.cebbank.partner.BaseActivity;
 import com.cebbank.partner.GlideApp;
 import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
-import com.cebbank.partner.utils.LogUtils;
+import com.cebbank.partner.utils.PictureUtils;
 import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
 
@@ -32,65 +32,129 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequestUpLoad;
 
-/**
- * 我的设置页面
- */
-public class MySettingActivity extends BaseActivity {
+public class BindCardActivity extends BaseActivity implements View.OnClickListener {
 
-
+    private EditText edtvName, edtvBankName, edtvBankAddress, edtvBankNumber;
     private static final int TAKE_PHOTO = 1;
     private static final int TAKE_ALBUM = 2;
-    private static final int CROP = 3;
-    private CircleImageView imgAvatar;
-    private File outputImage = null;
-    private String path = "", avatar = "";
+    private ImageView imgCardfront, imgCardback;
     private Uri imageUri;
-
+    private File outputImage = null;
+    private String path = "", type = "", front = "", back = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_setting);
+        setContentView(R.layout.activity_bind_card);
         initView();
-        initData();
         setListener();
     }
 
-    private void initView() {
-        imgAvatar = findViewById(R.id.imgAvatar);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        bindCardIndex();
     }
 
-    private void initData() {
-        ((EditText) findViewById(R.id.edtvNickname)).setText(getIntent().getStringExtra("name"));
-        avatar = getIntent().getStringExtra("avatar");
-        if (!TextUtils.isEmpty(avatar)) {
-            GlideApp.with(this)
-                    .load(avatar)
-//                        .placeholder(R.mipmap.loading)
-                    .centerCrop()
-                    .into(imgAvatar);
-        }
+    private void initView() {
+        setTitle("绑定银行卡");
+        setBackBtn();
+        edtvName = findViewById(R.id.edtvName);
+        edtvBankName = findViewById(R.id.edtvBankName);
+        edtvBankAddress = findViewById(R.id.edtvBankAddress);
+        edtvBankNumber = findViewById(R.id.edtvBankNumber);
+        imgCardfront = findViewById(R.id.img_card_fount);
+        imgCardback = findViewById(R.id.img_card_back);
     }
 
     private void setListener() {
-        imgAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                show();
-            }
-        });
+        (findViewById(R.id.tvCancel)).setOnClickListener(this);
+        (findViewById(R.id.tvSave)).setOnClickListener(this);
+        (findViewById(R.id.img_card_fount)).setOnClickListener(this);
+        (findViewById(R.id.img_card_back)).setOnClickListener(this);
+    }
 
-        findViewById(R.id.tvSubmit).setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.tvCancel:
+                /**
+                 * 取消
+                 */
+                finish();
+                break;
+            case R.id.tvSave:
+                /**
+                 * 保存
+                 */
+                save();
+                break;
+            case R.id.img_card_fount:
+                /**
+                 * 银行卡正面照
+                 */
+                type = "front";
+                show();
+                break;
+            case R.id.img_card_back:
+                /**
+                 * 手持银行卡照片
+                 */
+                type = "hand";
+                show();
+                break;
+        }
+
+    }
+
+    private void bindCardIndex() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", MyApplication.getToken());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest(this, UrlPath.BindCardIndex, jsonObject, null, new HttpCallbackListener() {
             @Override
-            public void onClick(View v) {
-                modifyData();
+            public void onFinish(String response) throws JSONException {
+                JSONObject jo = new JSONObject(response);
+                JSONObject data = jo.getJSONObject("data");
+                edtvName.setText(data.optString("owner"));
+                edtvBankName.setText(data.optString("bank"));
+                edtvBankAddress.setText(data.optString("bankAddress"));
+                edtvBankNumber.setText(data.optString("number"));
+                String hand = data.optString("hand");
+                String bankCard = data.optString("bankCard");
+                if (!TextUtils.isEmpty(hand)) {
+                    GlideApp.with(BindCardActivity.this)
+                            .load(hand)
+//                        .placeholder(R.mipmap.loading)
+                            .centerCrop()
+                            .into(imgCardfront);
+                }
+                if (!TextUtils.isEmpty(bankCard)) {
+                    GlideApp.with(BindCardActivity.this)
+                            .load(bankCard)
+//                        .placeholder(R.mipmap.loading)
+                            .centerCrop()
+                            .into(imgCardback);
+                }
+
+
+            }
+
+            @Override
+            public void onFailure() {
+
             }
         });
     }
@@ -101,9 +165,9 @@ public class MySettingActivity extends BaseActivity {
         dialog.setContentView(view);
         dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         dialog.show();
-        view.findViewById(R.id.tvTakePhoto).setOnClickListener(new MySettingActivity.MineOnClick(dialog));
-        view.findViewById(R.id.tvTakeAlbum).setOnClickListener(new MySettingActivity.MineOnClick(dialog));
-        view.findViewById(R.id.tvCancel).setOnClickListener(new MySettingActivity.MineOnClick(dialog));
+        view.findViewById(R.id.tvTakePhoto).setOnClickListener(new BindCardActivity.MineOnClick(dialog));
+        view.findViewById(R.id.tvTakeAlbum).setOnClickListener(new BindCardActivity.MineOnClick(dialog));
+        view.findViewById(R.id.tvCancel).setOnClickListener(new BindCardActivity.MineOnClick(dialog));
     }
 
     /**
@@ -120,7 +184,7 @@ public class MySettingActivity extends BaseActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.tvTakePhoto:
-                    takePhoto();
+                    takePhoto(type);
                     break;
                 case R.id.tvTakeAlbum:
                     chooseFromAlbum();
@@ -133,9 +197,13 @@ public class MySettingActivity extends BaseActivity {
 
     }
 
-    private void takePhoto() {
+    private void takePhoto(String type) {
         // 拍照
-        path = "Partner/Avatar.jpg";
+        if (type.equals("front")) {
+            path = "Partner/IMAGE_CardFront.jpg";
+        } else {
+            path = "Partner/IMAGE_CardHand.jpg";
+        }
         outputImage = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), path);
         try {
             if (outputImage.exists()) {
@@ -147,7 +215,7 @@ public class MySettingActivity extends BaseActivity {
         }
         // 兼容安卓7.0
         if (Build.VERSION.SDK_INT >= 24) {
-            imageUri = FileProvider.getUriForFile(MySettingActivity.this,
+            imageUri = FileProvider.getUriForFile(BindCardActivity.this,
                     "com.cebbank.partner.fileprovider", outputImage);
         } else {
             imageUri = Uri.fromFile(outputImage);
@@ -167,23 +235,22 @@ public class MySettingActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case TAKE_PHOTO:
+            case 1:
                 /**
                  * 拍照
                  */
                 if (resultCode == RESULT_OK) {
                     // 将拍摄的照片转化成bitmap
-//                    Bitmap bitmap = PictureUtils.getScaledBitmap(outputImage.getPath(), this);
-//                    try {
-//                        FileOutputStream out = new FileOutputStream(outputImage);
-//                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-//                        out.flush();
-//                        out.close();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    Uri uri = data.getData();
-                    crop(imageUri);
+                    Bitmap bitmap = PictureUtils.getScaledBitmap(outputImage.getPath(), this);
+                    try {
+                        FileOutputStream out = new FileOutputStream(outputImage);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        out.flush();
+                        out.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    upLoadIDImage(outputImage.getAbsolutePath());
                 }
                 break;
             case TAKE_ALBUM:
@@ -200,12 +267,6 @@ public class MySettingActivity extends BaseActivity {
 //                        handleImageBeforeKitKat(data);
                     }
                 }
-                break;
-            case CROP:
-                /**
-                 * 裁剪
-                 */
-                upLoadAvatarImage(outputImage.getAbsolutePath());
                 break;
             default:
                 break;
@@ -253,26 +314,47 @@ public class MySettingActivity extends BaseActivity {
 
     private void displayImage(String imagePath) {
         if (imagePath != null) {
-            upLoadAvatarImage(imagePath);
+            upLoadIDImage(imagePath);
         } else {
             ToastUtils.showShortToast("failed to get image");
         }
     }
 
-    private void upLoadAvatarImage(String path) {
-        sendOkHttpRequestUpLoad(this, UrlPath.AvatarUpload, null, path, new HttpCallbackListener() {
+    /**
+     * 上传照片
+     *
+     * @param path
+     */
+    private void upLoadIDImage(String path) {
+        String url = "";
+        if (type.equals("front")) {
+            url = UrlPath.BankcardUpload;
+        } else {
+            url = UrlPath.BankcardHandUpload;
+        }
+        sendOkHttpRequestUpLoad(this, url, null, path, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
                 String code = jsonObject.optString("code");
-                avatar = jsonObject.optString("data");
-
+                String url = jsonObject.optString("data");
                 ToastUtils.showShortToast("上传成功");
-                GlideApp.with(MySettingActivity.this)
-                        .load(avatar)
+                if (type.equals("front")) {
+                    GlideApp.with(BindCardActivity.this)
+                            .load(url)
 //                        .placeholder(R.mipmap.loading)
-                        .centerCrop()
-                        .into(imgAvatar);
+                            .centerCrop()
+                            .into(imgCardfront);
+                    front = url;
+                } else {
+                    GlideApp.with(BindCardActivity.this)
+                            .load(url)
+//                        .placeholder(R.mipmap.loading)
+                            .centerCrop()
+                            .into(imgCardback);
+                    back = url;
+                }
+
             }
 
             @Override
@@ -283,29 +365,49 @@ public class MySettingActivity extends BaseActivity {
         });
     }
 
-    private void modifyData() {
-        String nikeName = ((EditText) findViewById(R.id.edtvNickname)).getText().toString();
-        String personalizedSignature = ((EditText) findViewById(R.id.edtvPersonalizedSignature)).getText().toString();
+    /**
+     * 保存
+     */
+    private void save() {
+        String name = edtvName.getText().toString();
+        String bank_name = edtvBankName.getText().toString();
+        String bank_address = edtvBankAddress.getText().toString();
+        String bank_number = edtvBankNumber.getText().toString();
+        if (TextUtils.isEmpty(name)) {
+            ToastUtils.showShortToast("请填写开户人");
+            return;
+        }
+        if (TextUtils.isEmpty(bank_name)) {
+            ToastUtils.showShortToast("请填写开户行");
+            return;
+        }
+        if (TextUtils.isEmpty(bank_address)) {
+            ToastUtils.showShortToast("请填写开户地址");
+            return;
+        }
+        if (TextUtils.isEmpty(bank_number)) {
+            ToastUtils.showShortToast("请填写银行卡号");
+            return;
+        }
+
         JSONObject jsonObject = new JSONObject();
         try {
+            jsonObject.put("owner", name);
+            jsonObject.put("bank", bank_name);
+            jsonObject.put("bankAddress", bank_address);
+            jsonObject.put("number", bank_number);
+            jsonObject.put("bankCard", front);
+            jsonObject.put("hand", back);
             jsonObject.put("token", MyApplication.getToken());
-            jsonObject.put("avatar", avatar);
-            jsonObject.put("username", nikeName);
-            jsonObject.put("signature", personalizedSignature);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        sendOkHttpRequest(this, UrlPath.ModifyData, jsonObject, null, new HttpCallbackListener() {
+        sendOkHttpRequest(this, UrlPath.BindCard, jsonObject, null, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
-                ToastUtils.showShortToast("保存成功");
-                finish();
-//                JSONObject data = jsonObject.getJSONObject("data");
-//                String name = data.optString("username");
-//                String avatar = data.optString("avatar");
-
+                ToastUtils.showShortToast("保存成功~");
             }
 
             @Override
@@ -313,40 +415,5 @@ public class MySettingActivity extends BaseActivity {
 
             }
         });
-
-    }
-
-    /**
-     * 调用系统裁剪图片
-     *
-     * @param uri
-     */
-    private void crop(Uri uri) {
-        LogUtils.e("URI", uri.getPath());
-        LogUtils.e("URI", uri.toString());
-        // 裁剪图片意图
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");
-        // 裁剪框的比例，1：1
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        // 裁剪后输出图片的尺寸大小
-        intent.putExtra("outputX", 150);
-        intent.putExtra("outputY", 150);
-        intent.putExtra("scale", true);//黑边
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outputImage));
-        // 图片格式
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        intent.putExtra("noFaceDetection", true);// 取消人脸识别
-        intent.putExtra("return-data", true);// true:不返回uri，false：返回uri
-        startActivityForResult(intent, CROP);
-    }
-
-    public static void actionStart(Context context, String name, String avatar) {
-        Intent intent = new Intent(context, MySettingActivity.class);
-        intent.putExtra("name", name);
-        intent.putExtra("avatar", avatar);
-        context.startActivity(intent);
     }
 }

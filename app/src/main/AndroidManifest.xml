@@ -176,7 +176,12 @@
         <activity android:name=".ui.MySettingActivity" />
         <activity android:name=".ui.MyPraiseActivity" />
         <activity android:name=".ui.OpinionActivity" />
-        <activity android:name=".ui.TestActivity"></activity>
+        <activity android:name=".ui.TestActivity" />
+        <activity android:name=".ui.BindCardActivity" />
+        <activity android:name=".ui.AnswerActivity" />
+        <activity android:name=".ui.OfficialCourseActivity" />
+        <activity android:name=".ui.OfficialCourseDetailActivity" />
+        <activity android:name=".ui.ContactUsActivity"></activity>
     </application>
 
 </manifest>

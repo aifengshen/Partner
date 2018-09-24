@@ -223,6 +223,7 @@ public class PartnerActivity extends BaseActivity implements View.OnClickListene
         JSONObject jo = new JSONObject();
         try {
             jo.put("partnerId", getIntent().getStringExtra("userId"));
+            jo.put("token", MyApplication.getToken());
             jo.put("page", jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -362,6 +363,7 @@ public class PartnerActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onClick(View v) {
                 ToastUtils.showShortToast("复制成功");
+
                 loadingDialog.dismiss();
             }
         });

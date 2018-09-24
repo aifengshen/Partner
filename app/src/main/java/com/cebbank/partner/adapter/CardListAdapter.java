@@ -88,8 +88,7 @@ public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, Bas
 //                String htmlModify = IMAGE1.replaceAll("<br/>", "");
                     String htmlModify = item.getWebview_content();
                     String htmlcontent = cssLayout + "<body><div id='webview_content_wrapper'>" + htmlModify + "</div></body>";
-                    webview.clearCache(true);
-                    webview.clearHistory();
+
                     webview.loadDataWithBaseURL(null, htmlcontent, "text/html", "UTF-8", null);
                     helper.setText(R.id.tvTitle, item.getWebview_title());
                     helper.setText(R.id.tvName, item.getWebview_author());
