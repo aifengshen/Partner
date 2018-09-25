@@ -25,7 +25,7 @@
         android:paddingLeft="10dp"
         android:paddingTop="5dp"
         android:singleLine="true"
-        android:text="阿萨德飞我阿萨德解放军搜ID金佛吓我死嗲世纪东方就我没法我爱绝对是偶发就搜ID积分is阿丹姐佛爱上费时间大佛啊搜地我爱时代峻峰熬时间大佛啊搜地就爱减肥王我加入佛is饭来张口想买苍龙卡外" />
+        android:text="尊敬的用户：为防止诈骗风险，请您确保您看到的宣传中没有收费、免还、承诺额度、保证下卡等相关内容，不良用卡如逾期、恶意欠款等不良行为会影响您的征信，并承担相应法律责任，望您良性用卡。" />
 
 
     <android.support.v7.widget.RecyclerView

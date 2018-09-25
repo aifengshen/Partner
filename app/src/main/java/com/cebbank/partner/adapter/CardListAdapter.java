@@ -7,6 +7,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.cebbank.partner.GlideApp;
@@ -38,6 +39,7 @@ import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 
 public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, BaseViewHolder> {
     WebView webview;
+
     public CardListAdapter(List data) {
         super(data);
         addItemType(CardInfoBean.WebView, R.layout.activity_article_detail_webview_item);
@@ -49,7 +51,7 @@ public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, Bas
 
         switch (helper.getItemViewType()) {
             case CardInfoBean.WebView:
-                if (webview == null){
+                if (webview == null) {
                     ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     webview = new WebView(mContext);
                     webview.setLayoutParams(lp);
@@ -125,10 +127,15 @@ public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, Bas
                 break;
             case CardInfoBean.Card:
                 helper.setText(R.id.tvName, item.getName());
+                GlideApp.with(mContext)
+                        .load(item.getImage())
+//                        .placeholder(R.mipmap.loading)
+                        .centerCrop()
+                        .into((ImageView) helper.getView(R.id.img));
                 helper.getView(R.id.tvBtn).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        CardDetailActivity.actionStart(mContext, item.getId());
+                        CardDetailActivity.actionStart(mContext, item.getId(), item.getWebview_authorId());
                     }
                 });
                 break;

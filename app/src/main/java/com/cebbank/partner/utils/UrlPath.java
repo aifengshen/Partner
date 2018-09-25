@@ -30,7 +30,7 @@ public class UrlPath {
      */
     public static final String Article = "/app/home/article";
     /**
-     * 详情
+     * 文章详情
      */
     public static final String Detail = "/app/article/detail";
     /**

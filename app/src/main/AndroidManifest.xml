@@ -181,7 +181,8 @@
         <activity android:name=".ui.AnswerActivity" />
         <activity android:name=".ui.OfficialCourseActivity" />
         <activity android:name=".ui.OfficialCourseDetailActivity" />
-        <activity android:name=".ui.ContactUsActivity"></activity>
+        <activity android:name=".ui.ContactUsActivity" />
+        <activity android:name=".ui.WebviewActivity"></activity>
     </application>
 
 </manifest>
