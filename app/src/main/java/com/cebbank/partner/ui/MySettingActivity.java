@@ -42,7 +42,7 @@ import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequestUpLoad;
 /**
  * 我的设置页面
  */
-public class MySettingActivity extends BaseActivity {
+public class MySettingActivity extends CheckPermissionsActivity {
 
 
     private static final int TAKE_PHOTO = 1;
@@ -64,6 +64,8 @@ public class MySettingActivity extends BaseActivity {
     }
 
     private void initView() {
+        setTitle("设置");
+        setBackBtn();
         imgAvatar = findViewById(R.id.imgAvatar);
     }
 

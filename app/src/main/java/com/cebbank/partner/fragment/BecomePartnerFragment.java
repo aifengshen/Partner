@@ -1,6 +1,7 @@
 package com.cebbank.partner.fragment;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
@@ -187,16 +188,16 @@ public class BecomePartnerFragment extends Fragment implements View.OnClickListe
     }
 
     private void showdialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("温馨提示");
-        builder.setMessage("您已成为合伙人,重复提交需要重新审核!");
-        builder.setNegativeButton("确认", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.show();
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setTitle("温馨提示")
+                .setMessage("您已成为合伙人,重复提交需要重新审核!")
+                .setNegativeButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog.show();
     }
 
 

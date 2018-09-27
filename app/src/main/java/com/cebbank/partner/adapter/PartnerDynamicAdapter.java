@@ -1,10 +1,12 @@
 package com.cebbank.partner.adapter;
 
+import android.view.View;
 import android.widget.ImageView;
 
 import com.cebbank.partner.GlideApp;
 import com.cebbank.partner.R;
 import com.cebbank.partner.bean.PartnerDynamicBean;
+import com.cebbank.partner.ui.ArticleDetailActivity;
 import com.cebbank.partner.utils.DateTimeUtil;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -22,7 +24,7 @@ public class PartnerDynamicAdapter extends BaseMultiItemQuickAdapter<PartnerDyna
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, PartnerDynamicBean item) {
+    protected void convert(BaseViewHolder helper, final PartnerDynamicBean item) {
         switch (helper.getItemViewType()) {
             case PartnerDynamicBean.ImageText:
                 GlideApp.with(mContext)
@@ -79,6 +81,13 @@ public class PartnerDynamicAdapter extends BaseMultiItemQuickAdapter<PartnerDyna
                 helper.setText(R.id.tvDate, DateTimeUtil.stampToDate(item.getCreateDate()));
                 break;
         }
+
+        helper.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArticleDetailActivity.actionStart(mContext, item.getId());
+            }
+        });
 
     }
 

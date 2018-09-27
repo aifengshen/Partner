@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cebbank.partner.BaseFragment;
 import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.ArticleAdapter;
@@ -54,7 +55,7 @@ import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
  * @Author Pjw
  * @date 2018/7/31 15:25
  */
-public class HomeFragment extends Fragment implements View.OnClickListener, ViewPagerEx.OnPageChangeListener {
+public class HomeFragment extends BaseFragment implements View.OnClickListener, ViewPagerEx.OnPageChangeListener {
 
     private View view;
     private RecyclerView recyclerView;
