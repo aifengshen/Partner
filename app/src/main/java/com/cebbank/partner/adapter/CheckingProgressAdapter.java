@@ -9,6 +9,7 @@ import com.cebbank.partner.bean.ArticleBean;
 import com.cebbank.partner.bean.CheckingProgressBean;
 import com.cebbank.partner.bean.HomeFragmentBean;
 import com.cebbank.partner.ui.ArticleDetailActivity;
+import com.cebbank.partner.utils.DateTimeUtil;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -36,8 +37,12 @@ public class CheckingProgressAdapter extends BaseMultiItemQuickAdapter<CheckingP
         switch (helper.getItemViewType()) {
             case CheckingProgressBean.Fodder:
                 helper.setText(R.id.tvTitle, item.getTitle());
-                helper.setText(R.id.tvDate, "提交时间:"+item.getCreateDate());
-                switch (item.getStatus()){
+                helper.setText(R.id.tvDate, "提交时间: " + DateTimeUtil.stampToDateHour(item.getCreateDate()));
+                helper.getView(R.id.tvChecking).setVisibility(View.INVISIBLE);
+                helper.getView(R.id.tvPass).setVisibility(View.INVISIBLE);
+                helper.getView(R.id.tvRefuse).setVisibility(View.INVISIBLE);
+                helper.getView(R.id.tvReason).setVisibility(View.GONE);
+                switch (item.getStatus()) {
                     case "UNDER":
                         helper.getView(R.id.tvChecking).setVisibility(View.VISIBLE);
                         break;
@@ -52,24 +57,45 @@ public class CheckingProgressAdapter extends BaseMultiItemQuickAdapter<CheckingP
                 }
                 break;
             case CheckingProgressBean.Withdraw:
-                switch (item.getStatus()){
+                helper.getView(R.id.tvChecking).setVisibility(View.GONE);
+                helper.getView(R.id.tvUnpaid).setVisibility(View.GONE);
+                helper.getView(R.id.tvPaid).setVisibility(View.GONE);
+                helper.getView(R.id.tvRefuse).setVisibility(View.GONE);
+                helper.getView(R.id.tvReason).setVisibility(View.GONE);
+                switch (item.getStatus()) {
+
                     case "UNDER":
+                        /**
+                         * 审核中
+                         */
                         helper.getView(R.id.tvChecking).setVisibility(View.VISIBLE);
                         break;
-                    case "PASS":
-                        helper.getView(R.id.tvPass).setVisibility(View.VISIBLE);
+                    case "UNPAID":
+                        /**
+                         * 未付款
+                         */
+                        helper.getView(R.id.tvUnpaid).setVisibility(View.VISIBLE);
+                        break;
+                    case "PAID":
+                        /**
+                         * 已付款
+                         */
+                        helper.getView(R.id.tvPaid).setVisibility(View.VISIBLE);
                         break;
                     case "REFUSE":
+                        /**
+                         * 拒绝
+                         */
                         helper.getView(R.id.tvRefuse).setVisibility(View.VISIBLE);
                         helper.getView(R.id.tvReason).setVisibility(View.VISIBLE);
                         helper.setText(R.id.tvReason, item.getReason());
                         break;
                 }
-                helper.setText(R.id.tvMoney, item.getAmount()+"阳光币");
-//                helper.setText(R.id.tvUserName, item.getAuthor());
-                helper.setText(R.id.tvUserAccount, item.getWithdrawId());
-//                helper.setText(R.id.tvOpenAccountBank, item.getCreateDate());
-                helper.setText(R.id.tvSubmitDate, item.getCreateDate());
+                helper.setText(R.id.tvMoney, item.getAmount() + " 阳光币");
+                helper.setText(R.id.tvUserName, item.getOwner());
+                helper.setText(R.id.tvUserAccount, "提现账号：" + item.getNumber());
+                helper.setText(R.id.tvOpenAccountBank, item.getBank());
+                helper.setText(R.id.tvSubmitDate, "提交时间: " + DateTimeUtil.stampToDateHour(item.getCreateDate()));
 
                 break;
         }

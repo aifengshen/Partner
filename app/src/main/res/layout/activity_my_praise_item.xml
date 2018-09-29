@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="1dp"
     android:background="@color/text_color_white"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
     android:padding="10dp">
 
     <TextView
@@ -13,14 +11,14 @@
         style="@style/textViewSmallBlack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="10dp"
         android:text="张三" />
 
     <TextView
         style="@style/textViewSmallLightGray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
+        android:layout_toRightOf="@id/tvName"
         android:text="点赞了您的" />
 
     <TextView
@@ -28,6 +26,8 @@
         style="@style/textViewSmallBlack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/tvName"
+        android:layout_marginTop="5dp"
         android:text="标题标题" />
 
-</LinearLayout>
+</RelativeLayout>

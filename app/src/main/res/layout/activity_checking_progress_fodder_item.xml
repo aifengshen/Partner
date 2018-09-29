@@ -25,7 +25,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/tvTitle"
         android:layout_toLeftOf="@id/tvChecking"
-        android:text="提交时间：2018-62244555" />
+        android:text="提交时间:2018-62244555" />
 
     <TextView
         android:id="@+id/tvChecking"

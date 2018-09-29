@@ -173,16 +173,39 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".ui.MySettingActivity" />
-        <activity android:name=".ui.MyPraiseActivity" />
-        <activity android:name=".ui.OpinionActivity" />
-        <activity android:name=".ui.TestActivity" />
-        <activity android:name=".ui.BindCardActivity" />
-        <activity android:name=".ui.AnswerActivity" />
-        <activity android:name=".ui.OfficialCourseActivity" />
-        <activity android:name=".ui.OfficialCourseDetailActivity" />
-        <activity android:name=".ui.ContactUsActivity" />
-        <activity android:name=".ui.WebviewActivity"></activity>
+        <activity
+            android:name=".ui.MySettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.MyPraiseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.OpinionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.TestActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.BindCardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.AnswerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.OfficialCourseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.OfficialCourseDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.ContactUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.WebviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.RankingActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -47,6 +47,7 @@ public class MyPraiseActivity extends BaseActivity {
         initData();
         setClickListener();
     }
+
     private void initView() {
         setTitle("获赞");
         setBackBtn();
@@ -135,14 +136,27 @@ public class MyPraiseActivity extends BaseActivity {
         if (size < PAGE_SIZE) {
             //第一页如果不够一页，那么就不显示没有更多数据布局
             mAdapter.loadMoreEnd(isRefresh);
-            Toast.makeText(this, "没有更多数据了...", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "没有更多数据了...", Toast.LENGTH_SHORT).show();
         } else {
             mAdapter.loadMoreComplete();
         }
     }
 
     private void setClickListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                myPraise(false);
+            }
+        });
     }
 
     public static void actionStart(Context context) {

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.cebbank.partner.fragment.BecomePartnerFragment;
 import com.cebbank.partner.fragment.HomeFragment;
+import com.cebbank.partner.fragment.ImageFragment;
 import com.cebbank.partner.fragment.MineFragment;
 import com.cebbank.partner.fragment.MessageFragment;
 import com.cebbank.partner.fragment.AttentionFragment;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     check(3);
                     return true;
                 case R.id.navigation_partner:
-                    replaceFragment(new BecomePartnerFragment());
+                    check(4);
                     return true;
                 case R.id.navigation_mine:
                     replaceFragment(new MineFragment());
@@ -94,9 +95,17 @@ public class MainActivity extends AppCompatActivity {
                         case 3:
                             replaceFragment(new MessageFragment());
                             break;
+                        case 4:
+                            replaceFragment(new ImageFragment());
+                            break;
                     }
                 } else {
                     ToastUtils.showShortToast("您还不是合伙人");
+                    switch (index) {
+                        case 4:
+                            replaceFragment(new BecomePartnerFragment());
+                            break;
+                    }
                 }
 
             }

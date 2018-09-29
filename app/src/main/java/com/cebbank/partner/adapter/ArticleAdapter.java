@@ -100,7 +100,7 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<ArticleBean, BaseV
                     GlideApp.with(mContext)
                             .load(item.getThumbnailList().get(0).getImage())
 //                        .placeholder(R.mipmap.loading)
-                            .centerCrop()
+//                            .centerCrop()
                             .into((ImageView) helper.getView(R.id.img));
                 }
 

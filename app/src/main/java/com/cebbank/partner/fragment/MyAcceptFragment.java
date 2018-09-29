@@ -187,7 +187,7 @@ public class MyAcceptFragment extends Fragment {
         if (size < PAGE_SIZE) {
             //第一页如果不够一页，那么就不显示没有更多数据布局
             mAdapter.loadMoreEnd(isRefresh);
-            Toast.makeText(getActivity(), "没有更多数据了...", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), "没有更多数据了...", Toast.LENGTH_SHORT).show();
         } else {
             mAdapter.loadMoreComplete();
         }

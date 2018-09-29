@@ -1,5 +1,6 @@
 package com.cebbank.partner;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -115,7 +116,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void setbackgroundImage(boolean isImage) {
         if (isImage) {
-            rootLayout.setBackground(getResources().getDrawable(R.drawable.loading_background));
+            rootLayout.setBackground(getResources().getDrawable(R.drawable.welcome));
         } else {
             rootLayout.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }

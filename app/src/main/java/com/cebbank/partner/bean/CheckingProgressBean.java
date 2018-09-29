@@ -19,6 +19,9 @@ public class CheckingProgressBean implements MultiItemEntity {
 
     public String amount;
     public String withdrawId;
+    public String owner;
+    public String number;
+    public String bank;
 
 
 
@@ -95,5 +98,29 @@ public class CheckingProgressBean implements MultiItemEntity {
 
     public void setWithdrawId(String withdrawId) {
         this.withdrawId = withdrawId;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getBank() {
+        return bank;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
     }
 }

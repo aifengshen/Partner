@@ -142,9 +142,37 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/rlRanking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/text_color_white"
+                android:orientation="horizontal"
+                android:paddingBottom="15dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/help_center"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="排行榜" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrows_right" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/rlHelpCenter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
                 android:background="@color/text_color_white"
                 android:orientation="horizontal"
                 android:paddingBottom="15dp"

@@ -3,7 +3,6 @@ package com.cebbank.partner.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cebbank.partner.BaseFragment;
-import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.ArticleAdapter;
 import com.cebbank.partner.bean.ArticleBean;
@@ -55,7 +53,8 @@ import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
  * @Author Pjw
  * @date 2018/7/31 15:25
  */
-public class HomeFragment extends BaseFragment implements View.OnClickListener, ViewPagerEx.OnPageChangeListener {
+public class HomeFragment extends BaseFragment implements View.OnClickListener, ViewPagerEx.OnPageChangeListener
+         {
 
     private View view;
     private RecyclerView recyclerView;
@@ -65,7 +64,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private TextView tvLocateCity;
     private EditText edittextClientName;
     private SliderLayout mDemoSlider;
-    private MyApplication myApplication;
     private static final int PAGE_SIZE = 10;
     private int mNextRequestPage = 1;
     boolean isFirst = true;
@@ -81,8 +79,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     private void initView() {
-        myApplication = (MyApplication) getActivity().getApplication();
-        myApplication.setLocateListener(new LocateListener() {
+        setLocateListener(new LocateListener() {
             @Override
             public void OnLocate(String Latitude, String Longitude, String cityName, String adCode) {
                 if (isFirst) {
@@ -122,7 +119,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private void initData() {
         requestArticle(true, edittextClientName.getText().toString());
     }
-
 
     private void requestArticle(final boolean isRefresh, String keyword) {
         if (isRefresh) {
@@ -190,7 +186,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         if (size < PAGE_SIZE) {
             //第一页如果不够一页，那么就不显示没有更多数据布局
             mAdapter.loadMoreEnd(isRefresh);
-            Toast.makeText(getActivity(), "没有更多数据了...", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), "没有更多数据了...", Toast.LENGTH_SHORT).show();
         } else {
             mAdapter.loadMoreComplete();
         }
@@ -251,7 +247,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             }
         });
     }
-
 
     private void setListener() {
         view.findViewById(R.id.tvSearch).setOnClickListener(this);

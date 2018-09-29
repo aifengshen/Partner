@@ -23,6 +23,7 @@ import com.cebbank.partner.ui.OfficialCourseActivity;
 import com.cebbank.partner.ui.OpinionActivity;
 import com.cebbank.partner.ui.PartnerActivity;
 import com.cebbank.partner.ui.PersonalDataActivity;
+import com.cebbank.partner.ui.RankingActivity;
 import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
 
@@ -43,7 +44,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
     private CircleImageView profile_image;
     private TextView tvUserName, tvEditProfile, tvBecomePartner, tvPersonalData, tvMyMaterial, tvBindingCard, tvProgress_Audit, tvFeedback;
-    private RelativeLayout rlHelpCenter, rlOfficialTutorials, rlContactUs;
+    private RelativeLayout rlRanking, rlHelpCenter, rlOfficialTutorials, rlContactUs;
     private String userId = "", name = "", avatar = "";
 
 
@@ -71,6 +72,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         tvBindingCard = view.findViewById(R.id.tvBindingCard);
         tvProgress_Audit = view.findViewById(R.id.tvProgress_Audit);
         tvFeedback = view.findViewById(R.id.tvFeedback);
+        rlRanking = view.findViewById(R.id.rlRanking);
         rlHelpCenter = view.findViewById(R.id.rlHelpCenter);
         rlOfficialTutorials = view.findViewById(R.id.rlOfficialTutorials);
         rlContactUs = view.findViewById(R.id.rlContactUs);
@@ -90,6 +92,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         tvBindingCard.setOnClickListener(this);
         tvProgress_Audit.setOnClickListener(this);
         tvFeedback.setOnClickListener(this);
+        rlRanking.setOnClickListener(this);
         rlHelpCenter.setOnClickListener(this);
         rlOfficialTutorials.setOnClickListener(this);
         rlContactUs.setOnClickListener(this);
@@ -101,11 +104,6 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             case R.id.profile_image:
                 /**
                  * 头像
-                 */
-                break;
-            case R.id.tvUserName:
-                /**
-                 * 姓名
                  */
                 break;
             case R.id.tvEditProfile:
@@ -149,6 +147,12 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                  *意见反馈
                  */
                 startActivity(new Intent(getActivity(), OpinionActivity.class));
+                break;
+            case R.id.rlRanking:
+                /**
+                 * 排行榜
+                 */
+                startActivity(new Intent(getActivity(), RankingActivity.class));
                 break;
             case R.id.rlHelpCenter:
                 /**
@@ -223,7 +227,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                             /**
                              * 成为合伙人
                              */
-                            startActivity(new Intent(getActivity(), BecomePartnerActivity.class));
+//                            startActivity(new Intent(getActivity(), BecomePartnerActivity.class));
+                            PartnerActivity.actionStart(getActivity(), userId);
                             break;
                         case 2:
                             /**

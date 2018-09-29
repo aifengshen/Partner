@@ -7,26 +7,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
 
+import com.cebbank.partner.BaseActivity;
 import com.cebbank.partner.MyApplication;
 import com.cebbank.partner.R;
 import com.cebbank.partner.adapter.CardListAdapter;
 import com.cebbank.partner.bean.CardInfoBean;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
-import com.cebbank.partner.utils.LogUtils;
 import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
-import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.media.UMWeb;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +37,7 @@ import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
  * @Author Pjw
  * @date 2018/8/19 14:10
  */
-public class ArticleDetailActivity extends CheckPermissionsActivity implements View.OnClickListener {
+public class ArticleDetailActivity extends BaseActivity implements View.OnClickListener {
 
 
     private LinearLayout ll;

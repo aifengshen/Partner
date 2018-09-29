@@ -184,7 +184,7 @@ public class MyCommentActivity extends BaseActivity implements View.OnClickListe
         if (size < PAGE_SIZE) {
             //第一页如果不够一页，那么就不显示没有更多数据布局
             mAdapter.loadMoreEnd(isRefresh);
-            Toast.makeText(this, "没有更多数据了...", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "没有更多数据了...", Toast.LENGTH_SHORT).show();
         } else {
             mAdapter.loadMoreComplete();
         }
