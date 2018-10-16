@@ -47,7 +47,7 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     private void initData() {
-//        MyApplication.saveValue(SharedPreferencesKey.Token, "3aa20f00a4684884a8b872f9d04cd9af");
+        MyApplication.saveValue(SharedPreferencesKey.Token, "3aa20f00a4684884a8b872f9d04cd9af");
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 LogUtils.e(MyApplication.getToken());

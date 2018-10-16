@@ -3,9 +3,11 @@ package com.cebbank.partner.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -46,6 +48,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private TextView tvUserName, tvEditProfile, tvBecomePartner, tvPersonalData, tvMyMaterial, tvBindingCard, tvProgress_Audit, tvFeedback;
     private RelativeLayout rlRanking, rlHelpCenter, rlOfficialTutorials, rlContactUs;
     private String userId = "", name = "", avatar = "";
+    private ImageView img;
 
 
     @Override
@@ -76,6 +79,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         rlHelpCenter = view.findViewById(R.id.rlHelpCenter);
         rlOfficialTutorials = view.findViewById(R.id.rlOfficialTutorials);
         rlContactUs = view.findViewById(R.id.rlContactUs);
+        img = view.findViewById(R.id.img);
     }
 
     private void initData() {
@@ -192,6 +196,35 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 name = data.optString("username");
                 avatar = data.optString("avatar");
                 userId = data.optString("userId");
+                String type = data.optString("type");
+                if (!TextUtils.isEmpty(type)) {
+                    switch (type) {
+                        case "OFFICIAL":
+                            /**
+                             * 官方合伙人
+                             */
+                            img.setImageResource(R.drawable.vip_red);
+                            break;
+                        case "OFFICIAL_AUTH":
+                            /**
+                             * 官方认证合伙人
+                             */
+                            img.setImageResource(R.drawable.vip_yellow);
+                            break;
+                        case "PLATFORM_AUTH":
+                            /**
+                             * 平台认证合伙人
+                             */
+                            img.setImageResource(R.drawable.vip_blue);
+                            break;
+                        case "ADMIN":
+                            /**
+                             * 管理员
+                             */
+                            img.setImageResource(R.drawable.vip_gray);
+                            break;
+                    }
+                }
                 tvUserName.setText(name);
                 GlideApp.with(getActivity())
                         .load(avatar)
@@ -227,8 +260,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                             /**
                              * 成为合伙人
                              */
-//                            startActivity(new Intent(getActivity(), BecomePartnerActivity.class));
-                            PartnerActivity.actionStart(getActivity(), userId);
+                            startActivity(new Intent(getActivity(), BecomePartnerActivity.class));
+//                            PartnerActivity.actionStart(getActivity(), userId);
                             break;
                         case 2:
                             /**

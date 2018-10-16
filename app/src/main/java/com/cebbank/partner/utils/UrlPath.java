@@ -209,6 +209,14 @@ public class UrlPath {
      * 联系我们
      */
     public static final String ContactDetail = "/app/contact/detail";
+    /**
+     * 收益排行榜
+     */
+    public static final String LeaderboardIncome = "/app/leaderboard/income";
+    /**
+     * 阅读量排行榜
+     */
+    public static final String LeaderboardUv = "/app/leaderboard/uv";
 
 
 

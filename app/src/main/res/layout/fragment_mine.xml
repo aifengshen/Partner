@@ -29,6 +29,22 @@
                 app:civ_border_color="@color/color_bg_gray"
                 app:civ_border_width="1dp" />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/tvUserName"
+                android:layout_alignTop="@id/tvUserName"
+                android:layout_toRightOf="@id/tvUserName"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/vip_yellow" />
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/tvUserName"
                 style="@style/textViewMediumBlack"
@@ -40,6 +56,7 @@
                 android:paddingRight="10dp"
                 android:singleLine="true"
                 android:text="张三" />
+
 
             <TextView
                 android:id="@+id/tvEditProfile"

@@ -86,7 +86,7 @@ public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, Bas
 //                int fontSize = (int) mContext.getResources().getDimension(R.dimen.samll);
 //                webSettings.setTextZoom(fontSize);
 
-                    String cssLayout = "<style>*{padding: 0px;margin: 10px}#webview_content_wrapper{margin: 10px 10px 10px 10px;} p{color: #000000;line-height: 1.5em;font-size:45px;opacity: 1;} img {margin-top: 0px;margin-bottom: 60px;width: 100%;}</style>";
+                    String cssLayout = "<style>*{padding: 0px;margin: 10px}#webview_content_wrapper{margin: 10px 10px 10px 10px;} p{color: #000000;line-height: 1.5em;font-size:45px;opacity: 1;} img {margin-top: 0px;margin-bottom: 60px;width: 100%;} video { max-width: 100% !important; width: 100% !important;}</style>";
 //                String htmlModify = IMAGE1.replaceAll("<br/>", "");
                     String htmlModify = item.getWebview_content();
                     String htmlcontent = cssLayout + "<body><div id='webview_content_wrapper'>" + htmlModify + "</div></body>";

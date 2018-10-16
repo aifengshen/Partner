@@ -13,6 +13,8 @@
     <!--背景颜色-->
     <color name="color_bg_gray">#F0F0F0</color>
     <color name="color_bg_purple">#6C158A</color>
+    <color name="color_bg_purple_background">#6834d8</color>
+    <color name="color_bg_purple_tab">#7d3cd5</color>
     <color name="color_bg_red">#F64100</color>
     <color name="transparent">#ffffffff</color>
     <color name="transparent1">#005c5c5c</color>
