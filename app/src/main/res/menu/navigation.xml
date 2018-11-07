@@ -19,7 +19,7 @@
     <item
         android:id="@+id/navigation_partner"
         android:icon="@drawable/tab_partner"
-        android:title="合伙人" />
+        android:title="阳光日历" />
 
     <item
         android:id="@+id/navigation_mine"

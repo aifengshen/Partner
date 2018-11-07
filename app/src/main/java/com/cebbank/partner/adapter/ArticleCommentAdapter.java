@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import com.cebbank.partner.GlideApp;
 import com.cebbank.partner.R;
 import com.cebbank.partner.bean.CommentBean;
+import com.cebbank.partner.utils.DateTimeUtil;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -34,7 +35,7 @@ public class ArticleCommentAdapter extends BaseMultiItemQuickAdapter<CommentBean
         switch (helper.getItemViewType()) {
             case CommentBean.Comment:
                 helper.setText(R.id.tvName,item.getUsername());
-                helper.setText(R.id.tvDate,item.getCreateDate());
+                helper.setText(R.id.tvDate, DateTimeUtil.stampToDate(item.getCreateDate()));
                 helper.setText(R.id.tvContent,item.getContent());
                 GlideApp.with(mContext)
                         .load(item.getAvatar())

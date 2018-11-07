@@ -217,7 +217,14 @@ public class UrlPath {
      * 阅读量排行榜
      */
     public static final String LeaderboardUv = "/app/leaderboard/uv";
-
+    /**
+     * 素材标签列表
+     */
+    public static final String TabList = "/app/home/tabList";
+    /**
+     * 页卡tab第四个 阳光日历
+     */
+    public static final String PageCardindex = "/app/pageCard/index";
 
 
 
