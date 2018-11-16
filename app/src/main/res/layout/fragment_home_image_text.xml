@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/rlsingle"
+    android:layout_marginBottom="2dp"
     android:background="@color/text_color_white"
-    android:paddingBottom="15dp"
+    android:paddingBottom="5dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="15dp">
@@ -13,16 +14,15 @@
         android:id="@+id/img"
         android:layout_width="120dp"
         android:layout_height="70dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp" />
 
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/img"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/img"
+        android:layout_toRightOf="@id/img"
         android:gravity="center_vertical">
 
         <TextView
@@ -42,7 +42,7 @@
         style="@style/textViewMicroLightGray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ll"
+        android:layout_alignBottom="@id/rl"
         android:text="" />
 
 
@@ -51,7 +51,7 @@
         style="@style/textViewMicroLightGray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ll"
+        android:layout_alignBottom="@id/rl"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/tvFrom"
         android:text="" />
@@ -61,13 +61,60 @@
         style="@style/textViewMicroLightGray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ll"
+        android:layout_alignBottom="@id/rl"
         android:layout_marginLeft="5dp"
-        android:layout_toLeftOf="@id/img"
         android:layout_toRightOf="@id/tvDate"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="" />
+
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/img">
+
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_back" />
+
+        <TextView
+            android:id="@+id/tvText"
+            style="@style/textViewMicroWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:text="分享奖励"
+            android:textSize="10sp" />
+
+        <ImageView
+            android:id="@+id/imgGold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/tvText"
+            android:src="@drawable/gold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/imgGold"
+            android:layout_alignLeft="@id/imgGold"
+            android:layout_alignRight="@id/imgGold"
+            android:layout_alignTop="@id/imgGold"
+            android:gravity="center"
+            android:text="10"
+            android:textColor="@color/text_color_white"
+            android:textSize="8sp" />
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

@@ -3,11 +3,7 @@ package com.cebbank.partner.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,18 +17,15 @@ import android.widget.Toast;
 
 import com.cebbank.partner.BaseFragment;
 import com.cebbank.partner.R;
-import com.cebbank.partner.adapter.ArticleAdapter;
-import com.cebbank.partner.adapter.MyViewPagerAdapter;
-import com.cebbank.partner.bean.ArticleBean;
+import com.cebbank.partner.adapter.HomeNewAdapter;
+import com.cebbank.partner.bean.ArticleNewBean;
 import com.cebbank.partner.bean.BannerBean;
 import com.cebbank.partner.bean.Contact;
-import com.cebbank.partner.bean.TabIdBean;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.interfaces.LocateListener;
 import com.cebbank.partner.ui.ArticleDetailActivity;
 import com.cebbank.partner.ui.CityActivity;
 import com.cebbank.partner.utils.UrlPath;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -41,26 +34,23 @@ import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
 import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 
 /**
- * @ClassName: Omnipotent
+ * @ClassName: Partner
  * @Description:
  * @Author Pjw
- * @date 2018/7/31 15:25
+ * @date 2018/11/15 14:01
  */
-public class HomeFragment extends BaseFragment implements View.OnClickListener,ViewPagerEx.OnPageChangeListener  {
+public class HomeNewFragment extends BaseFragment implements View.OnClickListener, ViewPagerEx.OnPageChangeListener {
 
     private View view;
     boolean isFirst = true;
@@ -68,16 +58,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,V
     private EditText edittextClientName;
     private SliderLayout mDemoSlider;
 
-    private MyViewPagerAdapter mMyViewPagerAdapter;
-    private ViewPager mViewPager;
-    private TabLayout mTabLayout;
-    List<Fragment> fragmentList = new ArrayList<>();
-    List<String> titleList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private HomeNewAdapter mAdapter;
+    private List<ArticleNewBean> data;
+    private static final int PAGE_SIZE = 3;
+    private int mNextRequestPage = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home, container, false);
+        view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_home_new, container, false);
         initView();
         initData();
         setListener();
@@ -103,10 +94,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,V
         mDemoSlider.addOnPageChangeListener(this);
         edittextClientName = view.findViewById(R.id.edittextClientName);
         tvLocateCity = view.findViewById(R.id.tvLocateCity);
+
+        recyclerView = view.findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
+        data = new ArrayList<>();
+        mAdapter = new HomeNewAdapter(getActivity(), data);
+
+//        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        recyclerView.setAdapter(mAdapter);
     }
 
     private void initData() {
-        requestTabId();
+        requestArticle(edittextClientName.getText().toString(), "010e9dd75cd04172a45441bf3485fc48");
+
     }
 
     private void requestBanner(String cityName) {
@@ -165,39 +168,61 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,V
         });
     }
 
-    private void requestTabId() {
+    private void requestArticle(String keyword, final String tabId) {
+
         JSONObject jsonObject = new JSONObject();
-        sendOkHttpRequest(getActivity(), UrlPath.TabList, jsonObject, null, new HttpCallbackListener() {
+        try {
+            jsonObject.put("size", PAGE_SIZE);
+            jsonObject.put("current", mNextRequestPage);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONObject jo = new JSONObject();
+        try {
+            jo.put("tabId", tabId);
+            jo.put("keyword", keyword);
+            jo.put("page", jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        sendOkHttpRequest(getActivity(), UrlPath.Article, jo, mSwipeRefreshLayout, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) throws JSONException {
                 JSONObject jsonObject = new JSONObject(response);
                 String code = jsonObject.optString("code");
-                JSONArray jsonArray = jsonObject.getJSONArray("data");
+                JSONObject jodata = jsonObject.getJSONObject("data");
+                mSwipeRefreshLayout.setRefreshing(false);
+                JSONArray jsonArray = jodata.getJSONArray("records");
                 Gson gson = new Gson();
-                final List<TabIdBean> tabIdBeanList = gson.fromJson(jsonArray.toString(), new TypeToken<List<TabIdBean>>() {
-                }.getType());
-                bubbleSort(tabIdBeanList);
-                for (int i = 0; i < tabIdBeanList.size(); i++) {
-                    TabIdBean tabIdBean = tabIdBeanList.get(i);
-                    HomeTabFragment homeTabFragment = new HomeTabFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("id",tabIdBean.getId());
-                    bundle.putString("name",tabIdBean.getName());
-                    homeTabFragment.setArguments(bundle);
-                    fragmentList.add(homeTabFragment);
-                    titleList.add(tabIdBean.getName());
+                List<ArticleNewBean> articleBeanList =
+                        gson.fromJson(jsonArray.toString(), new TypeToken<List<ArticleNewBean>>() {
+                        }.getType());
+                if (tabId.equals("010e9dd75cd04172a45441bf3485fc48")) {
+                    data.removeAll(data);
+                    ArticleNewBean articleBean = new ArticleNewBean();
+                    articleBean.setType("HEADER");
+                    data.add(articleBean);
+                    ArticleNewBean articleBean1 = new ArticleNewBean();
+                    articleBean1.setType("TITLE");
+                    articleBean1.setTitle("热推活动");
+                    data.add(articleBean1);
+                    data.addAll(articleBeanList);
+                    ArticleNewBean articleBean2 = new ArticleNewBean();
+                    articleBean2.setType("TITLE");
+                    articleBean2.setTitle("猜你想推");
+                    data.add(articleBean2);
+                    requestArticle(edittextClientName.getText().toString(), "a6a71753262a478881d7eb3b7d96f890");
+                } else {
+                    data.addAll(articleBeanList);
+                    mAdapter.notifyDataSetChanged();
                 }
-                mMyViewPagerAdapter = new MyViewPagerAdapter(getActivity().getSupportFragmentManager(), fragmentList, titleList);
-                mViewPager = view.findViewById(R.id.pager);
-                mViewPager.setAdapter(mMyViewPagerAdapter);
-                mTabLayout = view.findViewById(R.id.tablayout);
-                mTabLayout.setupWithViewPager(mViewPager);
 
             }
 
             @Override
             public void onFailure() {
-
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
     }
@@ -205,13 +230,20 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,V
     private void setListener() {
         view.findViewById(R.id.tvSearch).setOnClickListener(this);
         tvLocateCity.setOnClickListener(this);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvSearch:
-//                requestArticle(true, edittextClientName.getText().toString());
+                requestBanner(edittextClientName.getText().toString());
                 break;
             case R.id.tvLocateCity:
                 Intent intent = new Intent(getActivity(), CityActivity.class);
@@ -229,23 +261,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,V
             tvLocateCity.setText(name);
 //            requestBanner(name);
         }
-    }
-
-
-
-    public void bubbleSort(List<TabIdBean> dataBatchBeans) {
-        Comparator<TabIdBean> comparator = new Comparator<TabIdBean>() {
-            public int compare(TabIdBean s1, TabIdBean s2) {
-                if (s1.getSort() > s2.getSort()) {
-                    return 1;
-                } else if (s1.getSort() == s2.getSort()) {
-                    return 0;
-                } else {
-                    return -1;
-                }
-            }
-        };
-        Collections.sort(dataBatchBeans, comparator);
     }
 
     @Override

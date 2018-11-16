@@ -1,12 +1,16 @@
 package com.cebbank.partner.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -84,7 +88,10 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
     private void initData() {
         index();
+
     }
+
+
 
     private void setClickListener() {
         profile_image.setOnClickListener(this);

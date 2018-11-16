@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.cebbank.partner.fragment.BecomePartnerFragment;
 import com.cebbank.partner.fragment.HomeFragment;
+import com.cebbank.partner.fragment.HomeNewFragment;
 import com.cebbank.partner.fragment.ImageFragment;
 import com.cebbank.partner.fragment.MineFragment;
 import com.cebbank.partner.fragment.MessageFragment;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    replaceFragment(new HomeFragment());
+                    replaceFragment(new HomeNewFragment());
                     return true;
                 case R.id.navigation_attention:
                     check(2);

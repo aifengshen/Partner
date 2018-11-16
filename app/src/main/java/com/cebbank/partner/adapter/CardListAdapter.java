@@ -19,6 +19,7 @@ import com.cebbank.partner.ui.ArticleDetailActivity;
 import com.cebbank.partner.ui.CardDetailActivity;
 import com.cebbank.partner.ui.PartnerActivity;
 import com.cebbank.partner.utils.DateTimeUtil;
+import com.cebbank.partner.utils.LogUtils;
 import com.cebbank.partner.utils.ToastUtils;
 import com.cebbank.partner.utils.UrlPath;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -39,9 +40,10 @@ import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 
 public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, BaseViewHolder> {
     WebView webview;
-
+    private List<CardInfoBean> data;
     public CardListAdapter(List data) {
         super(data);
+        this.data = data;
         addItemType(CardInfoBean.WebView, R.layout.activity_article_detail_webview_item);
         addItemType(CardInfoBean.Card, R.layout.activity_article_detail_cardlist_item);
     }
@@ -135,7 +137,7 @@ public class CardListAdapter extends BaseMultiItemQuickAdapter<CardInfoBean, Bas
                 helper.getView(R.id.tvBtn).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        CardDetailActivity.actionStart(mContext, item.getId(), item.getWebview_authorId());
+                        CardDetailActivity.actionStart(mContext, item.getId(), data.get(0).webview_authorId);
                     }
                 });
                 break;

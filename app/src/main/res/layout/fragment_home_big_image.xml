@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rlsingle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
     android:background="@color/text_color_white"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:paddingBottom="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
 
     <TextView
         android:id="@+id/tvTitle"
@@ -25,6 +30,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
@@ -49,6 +55,53 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="" />
+
+        <RelativeLayout
+            android:id="@+id/rl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp">
+
+            <ImageView
+                android:id="@+id/imgBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/home_back" />
+
+            <TextView
+                android:id="@+id/tvText"
+                style="@style/textViewMicroWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:text="分享奖励"
+                android:textSize="10sp" />
+
+            <ImageView
+                android:id="@+id/imgGold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/tvText"
+                android:src="@drawable/gold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/imgGold"
+                android:layout_alignLeft="@id/imgGold"
+                android:layout_alignRight="@id/imgGold"
+                android:layout_alignTop="@id/imgGold"
+                android:gravity="center"
+                android:text="10"
+                android:textColor="@color/text_color_white"
+                android:textSize="8sp" />
+
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>
