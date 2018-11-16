@@ -30,7 +30,7 @@ public class MyApplication extends Application {
         super.onCreate();
         context = this;
         init();
-//        getAndroiodScreenProperty();
+        getAndroiodScreenProperty();
     }
 
     private void init() {
