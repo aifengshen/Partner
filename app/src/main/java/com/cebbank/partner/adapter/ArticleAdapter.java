@@ -54,7 +54,7 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<ArticleBean, BaseV
 
                 helper.setText(R.id.tvTitle, item.getTitle());
                 helper.setText(R.id.tvFrom, item.getAuthor());
-                helper.setText(R.id.tvUV, "浏览量:" + item.getUv());
+                helper.setText(R.id.tvUV, "阅读数:" + item.getUv());
                 helper.setText(R.id.tvDate, DateTimeUtil.stampToDate(item.getCreateDate()));
                 break;
             case ArticleBean.BigImage:
@@ -68,7 +68,7 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<ArticleBean, BaseV
 
                 helper.setText(R.id.tvTitle, item.getTitle());
                 helper.setText(R.id.tvFrom, item.getAuthor());
-                helper.setText(R.id.tvUV, "浏览量:" + item.getUv());
+                helper.setText(R.id.tvUV, "阅读数:" + item.getUv());
                 helper.setText(R.id.tvDate, DateTimeUtil.stampToDate(item.getCreateDate()));
                 break;
             case ArticleBean.ThreeImage:
@@ -92,7 +92,7 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<ArticleBean, BaseV
 
                 helper.setText(R.id.tvTitle, item.getTitle());
                 helper.setText(R.id.tvFrom, item.getAuthor());
-                helper.setText(R.id.tvUV, "浏览量:" + item.getUv());
+                helper.setText(R.id.tvUV, "阅读数:" + item.getUv());
                 helper.setText(R.id.tvDate, DateTimeUtil.stampToDate(item.getCreateDate()));
                 break;
             case ArticleBean.Video:
@@ -106,7 +106,7 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<ArticleBean, BaseV
 
                 helper.setText(R.id.tvTitle, item.getTitle());
                 helper.setText(R.id.tvFrom, item.getAuthor());
-                helper.setText(R.id.tvUV, "浏览量:" + item.getUv());
+                helper.setText(R.id.tvUV, "阅读数:" + item.getUv());
                 helper.setText(R.id.tvDate, DateTimeUtil.stampToDate(item.getCreateDate()));
                 break;
         }

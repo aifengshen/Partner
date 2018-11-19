@@ -6,12 +6,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.cebbank.partner.R;
 
@@ -22,7 +18,7 @@ public class CustomDialog extends Dialog {
     private ImageView img;
 
     public CustomDialog(@NonNull Context context) {
-        super(context);
+        super(context, R.style.MyDialog);
         this.context = context;
     }
 
@@ -39,15 +35,17 @@ public class CustomDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = View.inflate(context, R.layout.purchase_items, null);
-        img = view.findViewById(R.id.img);
-        initView();
-        Window win = getWindow();
-        WindowManager.LayoutParams lp = win.getAttributes();
-        lp.height = LinearLayout.LayoutParams.MATCH_PARENT;
-        lp.width = LinearLayout.LayoutParams.MATCH_PARENT;
-        win.setAttributes(lp);
-        setContentView(view);
+        setCanceledOnTouchOutside(false);//点击外侧不关闭Dialog
+        setContentView(R.layout.loading_dialog);//加载布局
+//        View view = View.inflate(context, R.layout.purchase_items, null);
+//        img = view.findViewById(R.id.img);
+//        initView();
+//        Window win = getWindow();
+//        WindowManager.LayoutParams lp = win.getAttributes();
+//        lp.height = LinearLayout.LayoutParams.MATCH_PARENT;
+//        lp.width = LinearLayout.LayoutParams.MATCH_PARENT;
+//        win.setAttributes(lp);
+//        setContentView(view);
     }
 
     private void initView(){

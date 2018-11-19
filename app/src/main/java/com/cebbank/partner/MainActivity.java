@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    replaceFragment(new HomeNewFragment());
+                    replaceFragment(new HomeFragment());
                     return true;
                 case R.id.navigation_attention:
                     check(2);

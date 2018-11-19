@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_bg_gray"
+    android:background="@color/text_color_white"
     android:scrollbars="none">
 
     <LinearLayout
@@ -14,27 +14,40 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/text_color_white"
+            android:background="@drawable/fragment_mine_bg"
             android:paddingBottom="20dp"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="20dp">
+            android:paddingRight="20dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_alignParentRight="true"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="26dp"
                 android:src="@color/color_bg_gray"
                 app:civ_border_color="@color/color_bg_gray"
                 app:civ_border_width="1dp" />
+
+
+            <TextView
+                android:id="@+id/tvUserName"
+                style="@style/textViewSmallWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="102dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="张三" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/tvUserName"
                 android:layout_alignTop="@id/tvUserName"
-                android:layout_toRightOf="@id/tvUserName"
+                android:layout_marginRight="6dp"
+                android:layout_toLeftOf="@id/tvUserName"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -45,37 +58,19 @@
                     android:src="@drawable/vip_yellow" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tvUserName"
-                style="@style/textViewMediumBlack"
+            <ImageView
+                android:id="@+id/imgEditProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginTop="10dp"
-                android:ellipsize="end"
-                android:paddingRight="10dp"
-                android:singleLine="true"
-                android:text="张三" />
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/setting" />
 
-
-            <TextView
-                android:id="@+id/tvEditProfile"
-                style="@style/textViewSmallBlack"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/profile_image"
-                android:layout_alignParentLeft="true"
-                android:layout_marginBottom="10dp"
-                android:drawableLeft="@drawable/setting"
-                android:drawablePadding="2dp"
-                android:text="编辑资料" />
         </RelativeLayout>
 
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:background="@color/text_color_white">
 
             <TableRow
@@ -111,7 +106,6 @@
                     android:drawableTop="@drawable/my_material"
                     android:gravity="center"
                     android:text="我的素材" />
-
 
             </TableRow>
 
@@ -156,7 +150,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="1dp"
             android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_bg_gray" />
 
             <RelativeLayout
                 android:id="@+id/rlRanking"
@@ -185,11 +185,17 @@
                     android:src="@drawable/arrows_right" />
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/color_bg_gray" />
+
             <RelativeLayout
                 android:id="@+id/rlHelpCenter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
                 android:background="@color/text_color_white"
                 android:orientation="horizontal"
                 android:paddingBottom="15dp"
@@ -213,11 +219,17 @@
                     android:src="@drawable/arrows_right" />
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/color_bg_gray" />
+
             <RelativeLayout
                 android:id="@+id/rlOfficialTutorials"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
                 android:background="@color/text_color_white"
                 android:orientation="horizontal"
                 android:paddingBottom="15dp"
@@ -241,11 +253,17 @@
                     android:src="@drawable/arrows_right" />
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/color_bg_gray" />
+
             <RelativeLayout
                 android:id="@+id/rlContactUs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
                 android:background="@color/text_color_white"
                 android:orientation="horizontal"
                 android:paddingBottom="15dp"
@@ -268,6 +286,11 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/arrows_right" />
             </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/color_bg_gray" />
 
         </LinearLayout>
     </LinearLayout>

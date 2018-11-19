@@ -43,7 +43,8 @@ public class HttpUtil {
     public static void sendOkHttpRequest(final Activity mActivity, final String address, final JSONObject jo,
                                          final SwipeRefreshLayout swipeLayout,
                                          final HttpCallbackListener httpCallbackListener) {
-        final CustomDialog customDialog = new CustomDialog(mActivity, true, null);
+//        final CustomDialog customDialog = new CustomDialog(mActivity, true, null);
+        final CustomDialog customDialog = new CustomDialog(mActivity);
         new Thread(new Runnable() {
             @Override
             public void run() {

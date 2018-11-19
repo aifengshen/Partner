@@ -1,5 +1,6 @@
 package com.cebbank.partner.fragment;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,10 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.cebbank.partner.GlideApp;
 import com.cebbank.partner.R;
 import com.cebbank.partner.bean.ImageBean;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
+import com.cebbank.partner.utils.LogUtils;
+import com.cebbank.partner.utils.ScreenUtils;
 import com.cebbank.partner.utils.UrlPath;
 
 import org.json.JSONException;
@@ -58,13 +63,29 @@ public class ImageFragment extends Fragment {
                 ImageBean imageBean = new ImageBean();
                 imageBean.setDate(jo.optString("date"));
                 imageBean.setImage(jo.optString("image"));
-                GlideApp.with(getActivity())
-                        .load(imageBean.getImage())
-//                        .placeholder(R.mipmap.loading)
-                        .centerCrop()
-                        .into(img);
-
-
+                if (getActivity() != null){
+//                    GlideApp.with(getActivity())
+//                            .load(imageBean.getImage())
+////                        .placeholder(R.mipmap.loading)
+//                            .centerCrop()
+//                            .into(img);
+                    //获取图片真正的宽高
+                    GlideApp.with(getActivity()).asBitmap().load(imageBean.getImage()).fitCenter().into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                            int width = bitmap.getWidth();
+                            int height = bitmap.getHeight();
+                            LogUtils.e("width " + width); //900px
+                            LogUtils.e("height " + height); //500px
+                            ScreenUtils.getOther();
+                            int height1 = ScreenUtils.getScreenWidth() * height / width;
+                            ViewGroup.LayoutParams para = img.getLayoutParams();
+                            para.height = height1;
+                            para.width = ScreenUtils.getScreenWidth();
+                            img.setImageBitmap(bitmap);
+                        }
+                    });
+                }
             }
 
             @Override

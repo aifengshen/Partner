@@ -49,10 +49,10 @@ import static com.cebbank.partner.utils.HttpUtil.sendOkHttpRequest;
 public class MineFragment extends Fragment implements View.OnClickListener {
 
     private CircleImageView profile_image;
-    private TextView tvUserName, tvEditProfile, tvBecomePartner, tvPersonalData, tvMyMaterial, tvBindingCard, tvProgress_Audit, tvFeedback;
+    private TextView tvUserName, tvBecomePartner, tvPersonalData, tvMyMaterial, tvBindingCard, tvProgress_Audit, tvFeedback;
     private RelativeLayout rlRanking, rlHelpCenter, rlOfficialTutorials, rlContactUs;
     private String userId = "", name = "", avatar = "";
-    private ImageView img;
+    private ImageView img,imgEditProfile;
 
 
     @Override
@@ -72,7 +72,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private void initView(View view) {
         profile_image = view.findViewById(R.id.profile_image);
         tvUserName = view.findViewById(R.id.tvUserName);
-        tvEditProfile = view.findViewById(R.id.tvEditProfile);
+        imgEditProfile = view.findViewById(R.id.imgEditProfile);
         tvBecomePartner = view.findViewById(R.id.tvBecomePartner);
         tvPersonalData = view.findViewById(R.id.tvPersonalData);
         tvMyMaterial = view.findViewById(R.id.tvMyMaterial);
@@ -96,7 +96,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private void setClickListener() {
         profile_image.setOnClickListener(this);
         tvUserName.setOnClickListener(this);
-        tvEditProfile.setOnClickListener(this);
+        imgEditProfile.setOnClickListener(this);
         tvBecomePartner.setOnClickListener(this);
         tvPersonalData.setOnClickListener(this);
         tvMyMaterial.setOnClickListener(this);
@@ -117,7 +117,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                  * 头像
                  */
                 break;
-            case R.id.tvEditProfile:
+            case R.id.imgEditProfile:
                 /**
                  * 编辑资料
                  */
@@ -233,11 +233,14 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                     }
                 }
                 tvUserName.setText(name);
-                GlideApp.with(getActivity())
-                        .load(avatar)
+                if (getActivity() != null){
+                    GlideApp.with(getActivity())
+                            .load(avatar)
 //                        .placeholder(R.mipmap.loading)
-                        .centerCrop()
-                        .into(profile_image);
+                            .centerCrop()
+                            .into(profile_image);
+                }
+
             }
 
             @Override
