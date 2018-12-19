@@ -18,6 +18,7 @@ import com.cebbank.partner.bean.MyCommentBean;
 import com.cebbank.partner.bean.RankingBean;
 import com.cebbank.partner.interfaces.HttpCallbackListener;
 import com.cebbank.partner.utils.UrlPath;
+import com.cebbank.partner.view.CustomLoadMoreView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -66,7 +67,7 @@ public class RankingActivity extends BaseActivity implements View.OnClickListene
         mAdapter = new RankingAdapter(R.layout.activity_ranking_item, data);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
 //        mAdapter.setPreLoadNumber(3);
-//        mAdapter.setLoadMoreView(new CustomLoadMoreView());
+        mAdapter.setLoadMoreView(new CustomLoadMoreView());
         recyclerView.setAdapter(mAdapter);
     }
 

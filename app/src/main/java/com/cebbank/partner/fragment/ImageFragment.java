@@ -88,6 +88,7 @@ public class ImageFragment extends Fragment {
                 }
             }
 
+
             @Override
             public void onFailure() {
 
